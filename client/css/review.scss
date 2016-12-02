@@ -1,0 +1,221 @@
+#mediaContainer {
+  display: flex;
+  width:100%;
+  height: 100%;
+
+  #tools {
+    flex: 0 1 200px;
+  }
+  #mediaWrapper {
+    //flex: 1 0 auto;
+    position: relative;
+    //width: 640px;
+    //height: 360px;
+    #video-controls {
+      position:absolute;
+      bottom:0;
+      width:100%;
+      height:50px;
+    }
+  }
+  #commentWindow {
+    flex: 0 1 200px;
+    padding: 5px;
+    border-left: #eee 1px solid;
+    #title {
+      text-align: center;
+    }
+    .commentItem {
+      display: flex;
+      flex-direction: row;
+      font-size: 0.9em;
+      cursor: pointer;
+      &:hover {
+        font-weight: bold;
+        & > .commentTime {
+          color: #0078a0;
+        }
+      }
+      .commentTime {
+        padding:0 10px;
+        font-weight: bold;
+        color: #008cba;
+      }
+    }
+  }
+
+  #commentList {
+    padding-top: 5px;
+  }
+
+  .commentWrapper {
+    position: relative;
+    &:hover {
+      background-color:rgba(250, 37, 0, 0.2);
+      cursor: pointer; cursor: hand;
+    }
+    .commentClose {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 15px;
+      color: #555;
+      z-index: 99;
+      padding: 5px;
+      &:hover {
+        color: red;
+      }
+    }
+  }
+
+  .comment {
+    padding-left: 30px;
+    position: relative;
+    border-top: 1px solid #ddd;
+    footer {
+      padding: 5px 0;
+      color: #aaa;
+    }
+  }
+
+  .commentChip {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
+
+  .frameNumber {
+    background-color: #d2d2d2;
+    border-radius: 5px;
+    padding: 2px;
+    margin: 3.5px 2px 3px 0px;
+    color: #2628a7;
+    display: inline-block;
+  }
+
+  /*
+   * Flash animation
+  */
+  @-webkit-keyframes flash {
+    0% { background-color: none; }
+    50% { background-color: rgba(54, 144, 210, 0.38); }
+    100% { background-color: none; }
+  }
+  @keyframes flash {
+    0% { background-color: none; }
+    50% { background-color: rgba(54, 144, 210, 0.38); }
+    100% { background-color: none; }
+  }
+  .flash {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+
+    -moz-animation: flash 1s ease-in-out;
+    -moz-animation-iteration-count: 1;
+
+    -webkit-animation: flash 1s ease-in-out;
+    -webkit-animation-iteration-count: 1;
+
+    -ms-animation: flash 1s ease-in-out;
+    -ms-animation-iteration-count: 1;
+  }
+
+  #paint {
+    position:absolute;
+    z-index: 9999;
+  }
+
+  .material-icons.brush {
+    font-size: 14px;
+  }
+
+  #markers {
+    width: 100%;
+    height: 10px;
+    padding-left: 107px;
+    padding-right: 52px;
+    #annotations {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      margin-top: -20px;
+      li {
+        cursor: pointer; cursor: hand;
+        position:absolute;
+        //background-color: #008cba;
+        width: 20px;
+        height: 20px;
+        margin-left: -10px;
+        background-color:grey;
+        border-radius: 50%;
+        padding:5px;
+        background-clip: content-box;
+        opacity: 0.5;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.versionInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chevron {
+  line-height: 32px;
+  i {
+    margin: -3px -7px 0 -7px;
+    vertical-align: middle;
+    &:first-child {
+      margin-right: -15px;
+    }
+  }
+}
+
+.currentVersion {
+  padding: 5px;
+}
+
+.nextVersion, .prevVersion {
+  color: #777;
+  cursor: pointer;
+  padding: 5px;
+  &:hover {
+    background-color: rgba(250, 37, 0, 0.2);
+  }
+}
+
+#paint {
+  //cursor: none;
+}
+
+#canvasVid {
+  width:100%;
+  height: 100%;
+  background-color:red;
+}
+
+#brush {
+  display: none;
+  position:absolute;
+  .fa-circle {
+    position:absolute;
+    padding:0px;
+    font-size: 6px;
+    margin-left: -3px;
+    margin-top: -3px;
+    color:hsl(100, 100%, 50%);  // green
+  }
+}
+
+.commentInput {
+  display: none;
+  position:absolute;
+  cursor: grab !important;
+  z-index: 99999;
+}

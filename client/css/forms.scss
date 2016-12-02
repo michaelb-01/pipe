@@ -1,0 +1,80 @@
+#entity-form-container {
+  position: fixed;
+  top: 50px;
+  right: 0;
+  height: 100%;
+  width: 250px;
+  background-color: white;
+  z-index: 999;
+  box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  &.closed {
+    right: -295px;
+  }
+}
+
+.formWrapper {
+  overflow: hidden;
+}
+
+.formContent {
+  margin: 0 10%;
+}
+
+.formCarousel {
+  position: relative;
+  margin-left: 0;
+  width: 100%;
+  -webkit-transition: margin-left 0.5s; /* Safari */
+  transition: margin-left 0.5s;
+  &.slide {
+    margin-left: -100%;
+  }
+}
+
+.page2 {
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  margin-left: 100%;
+}
+
+.pager {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+}
+
+.search-box {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  padding: 2px;
+  //margin: 10px 20% 0 20%;
+  background: none;
+
+  input {
+    border: 0;
+    line-height: 25px;
+  }
+
+  i {
+    float: left;
+    line-height: 27px;
+    color: #CCC;
+  }
+}
+
+.search-result-item {
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background-color: white;
+  padding: 6px;
+  &.selected {
+    //background-color: 
+    color: #ff0d0d;
+  }
+}

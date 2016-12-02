@@ -1,0 +1,362 @@
+sidebar-left {
+  //position: relative;
+  height: 100%;
+  //width: 70%;
+}
+
+.sidebarWrapper {
+  position: relative;
+  width: 250px;
+  height: 100%;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  &.closed {
+    margin-left: -250px;
+  }
+}
+
+$sidebarWidth: 250px;
+.sidebar {
+  position: relative;
+  width: $sidebarWidth;
+  height:100%;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  //background-color: #ddd;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.12);
+  white-space: nowrap;
+  overflow-y: scroll;
+  overflow-x: visible;
+  &.right {
+    position: absolute;
+    width: 250px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    background-color: white;
+    z-index: 9999;
+  }
+  &.closed {
+    box-shadow: 0 0 0 0;
+    &.left {
+      //margin-left: -$sidebarWidth;
+    }
+    &.right {
+      margin-right: -$sidebarWidth;
+    }
+  }
+  ul {
+    li {
+      .taskMenu {
+        display: flex;
+	      display: -webkit-flex;
+        position: relative;
+        height: 80px;
+        text-align: center;
+        .thumb, .taskDetails, .taskTimeLeft {
+          width: 50%;
+          height: 100%;
+          //white-space: normal;
+          font-size: 14px;
+          flex-shrink: 0;
+          -webkit-flex-shrink: 0;
+          background-color: white;
+          overflow: hidden;
+        }
+        .taskDetails, .taskTimeLeft {
+          display: flex;
+	        display: -webkit-flex;
+          flex-direction: column;
+          -webkit-flex-direction: column;
+          justify-content: center;
+          -webkit-justify-content: center;
+        }
+        .taskTimeLeft {
+          border-style: solid;
+          border-width: 0 0 0 1px;
+          border-color: #ddd;
+        }
+        .taskTimeLeft, img {
+          -webkit-transition: all 0.3s ease;
+          -moz-transition: all 0.3s ease;
+          -o-transition: all 0.3s ease;
+          transition: all 0.3s ease;
+
+          //-webkit-transition-delay: 0.25s; /* Safari */
+          //transition-delay: 0.25s;
+        }
+      } 
+      .taskMenuExtra {
+        display: flex;
+	      display: -webkit-flex;
+        //justify-content: space-around;
+        flex-wrap: wrap;
+        max-height: 0px;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+
+        //-webkit-transition-delay: 0.25s; /* Safari */
+        //transition-delay: 0.25s;
+
+        overflow: hidden;
+        * {
+          font-size: 12px;
+          padding: 0.2em;
+          margin:0;
+          flex: 1;
+          border-style: solid;
+          border-width: 0 1px 0 0;
+          border-color: #ddd;
+        }
+        & :last-child {
+          border-style: none;
+        }
+      }       
+    }
+  }
+}
+
+.taskMenuWrapper {
+  position:relative;
+  overflow: hidden;
+  &:hover {
+    .taskTimeLeft {
+      margin-left: -50%;
+    }
+    .thumb img {
+      transform: scale(1.1);
+    }
+    .taskMenuExtra {
+      max-height: 100px !important;
+    }
+  }
+}
+
+.taskExtraItem {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+
+  //-webkit-transition-delay: 0.25s; /* Safari */
+  //transition-delay: 0.25s;
+
+  &.fx:hover {
+    background: rgba(255,0,0,0.1);
+  }
+  &.light:hover {
+    background: rgba(255,255,0,0.1);
+  }
+  &.render:hover {
+    background: rgba(0,0,255,0.1);
+  }
+  &.model:hover {
+    background: rgba(0,255,0,0.1);
+  }
+  &.texture:hover {
+    background: rgba(0,255,255,0.1);
+  }
+  &.lookdev:hover {
+    background: rgba(255,0,255,0.1);
+  }
+}
+
+.scrollbar .li {
+  border-style: solid;
+  border-width: 0 0 1px 0;
+  border-color: #ddd;
+}
+
+.input-half {
+  margin-left: -4%;
+  md-input {
+    width:42%;
+    margin: 0 4%;
+  }
+}
+
+.pageNum {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+}
+
+// INPUT
+md-input {
+  width: 100%;
+}
+// BURGER MENU
+
+$burgerSize: 28px;
+$lineWidth: 1px;
+
+.burger {
+  display: block;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  z-index:999;
+  width: $burgerSize;
+  height: $burgerSize;
+  background: rgba(0,0,0,0); 
+  font-size: 0;
+  text-indent: -9999px;
+  appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  border: none;
+  transition: background 0.3s;
+  -webkit-transition: all 0.7s ease;
+  -moz-transition: all 0.7s ease;
+  -o-transition: all 0.7s ease;
+  transition: all 0.7s ease;
+  &.right {
+    right: 0; 
+    margin-right: -$burgerSize;
+  }
+  &.left {
+    left: 0;
+    margin-left: -$burgerSize;
+  }
+}
+
+.burger:focus {
+  outline: none;
+}
+
+.burger span {
+  display: block;
+  position: absolute;
+  top: 50%;
+  margin-top: -$lineWidth/2;
+  left: $lineWidth;
+  right: $lineWidth;
+  height: $lineWidth;
+}
+
+.burger span::before,
+.burger span::after {
+  position: absolute;
+  display: block;
+  left: 0;
+  width: 100%;
+  height: $lineWidth;
+  content: "";
+}
+
+.burger.right span,
+.burger.right span::before,
+.burger.right span::after {
+  background-color: black;
+}
+
+.burger span::before {
+  top: -$burgerSize / 4;
+}
+
+.burger span::after {
+  bottom: -$burgerSize / 4;
+}
+
+.burger--htx span {
+  transition: background 0s 0.3s;
+}
+
+.burger--htx span::before,
+.burger--htx span::after {
+  transition-duration: 0.3s, 0.3s;
+  transition-delay: 0.3s, 0s;
+}
+
+.burger--htx span::before {
+  transition-property: top, transform;
+}
+
+.burger--htx span::after {
+  transition-property: bottom, transform;
+}
+
+/* active state, i.e. menu open */
+.burger.right.active {
+  background-color: black;
+}
+
+.burger--htx.active span {
+  background: none; 
+  //background-color: white;
+}
+
+.burger--htx.active span::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.burger--htx.active span::after {
+  bottom: 0;
+  transform: rotate(-45deg);
+}
+
+.burger.right.active span::before,
+.burger.right.active span::after {
+  background-color: white;
+}
+
+.burger.left.active span::before,
+.burger.left.active span::after {
+  background-color: black;
+}
+
+.burger--htx.active span::before,
+.burger--htx.active span::after {
+  transition-delay: 0s, 0.3s;
+}
+
+/* iPhone 6 landscape */
+@media only screen and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (orientation: landscape)
+  and (-webkit-min-device-pixel-ratio: 2) 
+{ 
+  .sidebar-left {
+    width: 150px;
+  }
+  .taskMenu .thumb,.taskDetails {
+    position: absolute;
+    width:100%;
+    background-color: rgba(0,0,0,0.3);
+    color: white;
+  }
+  .taskTimeLeft {
+    margin-left: 100%;
+  }
+}
+
+/* iPhone 6 portrait */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (orientation: portrait)
+  and (-webkit-min-device-pixel-ratio: 2) 
+{ 
+  .sidebar.left {
+    width: 150px;
+  }
+  .taskMenu .thumb,.taskDetails {
+    position: absolute;
+    width:100% !important;
+    background-color: rgba(0,0,0,0.3) !important;
+    color: white;
+  }
+  .taskTimeLeft {
+    margin-left: 100%;
+  }
+}

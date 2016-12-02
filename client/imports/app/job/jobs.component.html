@@ -1,0 +1,17 @@
+<button (click)="readTextFile()">Read Text File</button>
+<button (click)="readImageFile()">Read Image File</button>
+<button (click)="writeTextFile()">Write Text File</button>
+
+<div class="contentSafe">
+  <div *ngFor="let job of jobs | async; let idx=index" class="card card-big">
+    <a [routerLink]="['/job', job._id._str]">
+      <div class="card-image">
+        <img [src]="images[idx]">
+        <div class="banner fadeOut">
+          <h2 class="cardTitle">{{job.client}}</h2>
+          <h5 class="cardTag">{{job.name}}</h5>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>

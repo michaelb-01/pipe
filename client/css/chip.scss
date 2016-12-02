@@ -1,0 +1,38 @@
+.chips {
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 10px 0;
+}
+
+.chip {
+  background-color: #d6d6d6;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 15px;
+  margin:2px;
+}
+
+.chips-small {
+  float: right;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  clear: both;
+  .chip {
+    padding:0;
+    width:20px;
+    line-height:20px;
+    text-align: center;
+  }
+}
+
+.chips.users {
+  .chip {
+    background-color: #c9d6ef;
+  }
+}
+
+.chip-delete i {
+  font-size: 16px; 
+  vertical-align: bottom;
+}

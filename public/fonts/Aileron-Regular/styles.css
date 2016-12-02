@@ -1,0 +1,8 @@
+
+@font-face {
+  font-family: 'Aileron-Regular';
+  src: url('Aileron-Regular.eot?#iefix') format('embedded-opentype'),  url('Aileron-Regular.otf')  format('opentype'),
+	     url('Aileron-Regular.woff') format('woff'), url('Aileron-Regular.ttf')  format('truetype'), url('Aileron-Regular.svg#Aileron-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

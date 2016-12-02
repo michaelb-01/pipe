@@ -1,0 +1,112 @@
+<search-box (update)="term = $event"></search-box>
+
+<i class="material-icons" (click)="showTaskDetails()" 
+    style="position: absolute;
+    top: 15px;
+    left: 10px;
+    color: #595f67">list</i>
+
+<h5>Assets ({{assets.length}})</h5>
+
+<span class='tooltipUser' [style.top]="top" [style.left]="left"
+      [ngClass]="{hidden: tooltipName==''}">
+      {{tooltipName}} 
+</span>
+
+looking for assets
+
+<div *ngFor="let asset2 of assets2 | async">
+  <div>{{asset2.name}}</div>
+</div>
+
+<div class="cards assets">
+  <div *ngFor="let asset of assets | filter:term; let assetId = index;" class="card card-mid">
+    <div class="card-details" [ngClass]="{show: showDetails}">
+      <div class="card-details-title bold">{{asset.name}}</div>
+      <ul class="task-list">
+        <li *ngFor="let task of asset.tasks | filter:term; let taskId = index;" 
+           (click)="select(asset,task,assetId,taskId)" 
+           class="task-item"
+           [ngClass]="{selected: task.selected}">
+          <span class="type">
+            {{task.type}} 
+          </span>
+          <div class="chips chips-small">
+            <div *ngFor="let taskUser of task.users | filter:term" class="chip" 
+                 (mouseover)="showTooltip($event, taskUser.name)" 
+                 (mouseout)="showTooltip($event, '')">
+              {{taskUser.name | firstLetter}}
+            </div>
+          </div>
+          <hr class="hr-thin">
+        </li>
+      </ul>
+    </div>
+    <div class="card-thumb">
+      <img src="{{asset?.thumbUrl}}" onerror="this.src='/img/default.jpg'">
+      <div class="banner fadeOut">
+        <a [routerLink]="['/entity', asset._id._str]">
+          <h2 class="cardTitle">{{asset?.name}}</h2>
+          <h5 class="cardTag">{{asset?.type}}</h5>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h5>Shots ({{shots.length}})</h5>
+
+<div class="cards shots">
+  <div *ngFor="let shot of shots | filter:term; let shotId = index;" class="card card-mid">
+    <div class="card-details" [ngClass]="{show: showDetails}">
+      <div class="card-details-title bold">{{shot.name}}</div>
+      <ul class="task-list">
+        <li *ngFor="let task of shot.tasks | filter:term; let taskId = index;" 
+           (click)="select(shot,task,shotId,taskId)" 
+           class="task-item"
+           [ngClass]="{selected: task.selected}">
+          <span class="type">
+            {{task.type}} 
+          </span>
+          <div class="chips chips-small">
+            <div *ngFor="let taskUser of task.users | filter:term" class="chip">
+              {{taskUser.name | firstLetter}}
+            </div>
+          </div>
+          <hr class="hr-thin">
+        </li>
+      </ul>
+    </div>
+    <div class="card-thumb">
+      <img src="{{shot?.thumbUrl}}" onerror="this.src='/img/default.jpg'">
+      <div class="banner fadeOut">
+        <a [routerLink]="['/entity', shot._id._str]">
+          <h2 class="cardTitle">{{shot?.name}}</h2>
+          <h5 class="cardTag">{{shot?.type}}</h5>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+<div style="position: absolute; bottom: 0; right: 0;">
+  <div class="fab entity edit" (click)="editSelected()">
+    <div>
+      <div class="numSelected">{{selected.length}}</div>
+      <i class="material-icons">mode_edit</i>
+    </div>
+  </div>
+</div>
+-->
+
+<!--<entity-form [sel]="selected" (onAssign)="onAssign($event)"></entity-form>-->
+<div id="entity-form-container" [ngClass]="{closed: selected.length==0}">
+
+
+  <button (click)="toggleSidebarRight(!showSidebarRight)" [ngClass]="{active: selected.length>0}" class="burger left burger--htx">
+    <span></span>
+    <span></span>
+  </button>
+</div>
+

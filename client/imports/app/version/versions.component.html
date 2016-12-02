@@ -1,0 +1,88 @@
+<!--
+<div class="contentSafe">
+  <div *ngFor="let version of versions" class="card">
+    <a>
+      <div class="card-image">
+        <img src="/img/{{version.thumbUrl}}">
+        <div class="banner fadeOut">
+          <h2 class="cardTitle">{{version.version}}</h2>
+          <h5 class="cardTag">{{versions.author}}</h5>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+-->
+
+<div *ngFor="let version of versions | async;" class="card card-mid extra" 
+            [ngClass]="{selected: version.selected}">
+  <div class="card-header flexLeftRight" (click)="select(version)">
+    <div class="flex">
+      <!--<img class="card-avatar" src="img/jobs/bmw.jpg">-->
+      <div class="card-avatar-initials">
+        MB
+      </div>
+      <div class="card-title-group">
+        <div class="card-title">{{version?.author}}</div>
+          <a [routerLink]="['/review', version._id._str]">
+          <div class="card-subtitle">v{{version?.version}}</div>
+        </a>
+      </div>
+    </div>
+
+    <!--<action-window [version]=version></action-window>-->
+
+  </div>
+
+  <div class="card-image">
+    <img *ngIf="version?.contentType == 'still'" class="card-image" src="{{version?.content}}">
+
+    <!--<video *ngIf="version?.type == 'video'" class="card-image" src="{{version?.content}}">-->
+
+    <div *ngIf="version?.contentType == 'video'" class="pipe-video">
+      <i class="material-icons playButton">chevron_right</i>
+      <video loop #videoEl 
+        (mouseenter)=play(videoEl) 
+        (mouseleave)=pause(videoEl)>
+
+        <source src={{version?.content}} type="video/mp4">
+
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!--
+    <div class="banner fadeOut">
+      <h2 class="title">SH0040</h2>
+      <h5 class="subtitle">shot</h5>
+    </div>
+    -->
+  </div>
+
+
+    <div class="card-content-wrapper">
+      <div class="carousel" [ngClass]="{open: version.showNotes}">
+        <!--<h4>{{version?.name}}</h4>-->
+        <div class="description card-content">
+          {{version?.description}}
+        </div>
+
+        <div class="notes card-content">
+          <!--<span>{{version?.notes[0].author.name | slice:0:1}}</span>-->
+          <!--{{version?.notes[0]?.body}}-->
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <h6 class="date">{{version?.date | date: 'dd/MM/yyyy'}}</h6>
+      <h6 class="notes_num" (click)="toggleNotes(version)">
+        {{version?.notes?.length}} notes
+      </h6>
+    </div>
+
+
+  </div>
+
+
+<button *ngIf="selected.length>0" style="background-color:red;" (click)="editSelected()"></button>

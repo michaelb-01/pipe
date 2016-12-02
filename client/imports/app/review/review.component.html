@@ -1,0 +1,126 @@
+<div id="mediaContainer">
+  <div id="tools">
+    <input type="color" [(ngModel)]="strokeColour" value="#ff0000" style="width:85%;">
+    {{strokeColour}}
+  </div>
+
+  <div id="mediaWrapper">
+      <div class="versionInfo">
+  <!--       <div class="prevVersion">
+          Previous Version:
+            <div (click)="goToVersion(prevVersion)">
+            {{prevVersion?.version}}
+          </div>
+        </div> -->
+        <div class="prevVersion" (click)="goToVersion(prevVersion)">
+          <span class="chevron">
+            <i class="material-icons">navigate_before</i>
+            <i class="material-icons">navigate_before</i>
+          </span>
+          v{{prevVersion?.version | zeroPad:3}}
+        </div>
+
+        <div class="currentVersion">
+          <div class="reviewTitle">
+            Entity: {{version?.entity.entityName}}
+          </div>
+          <div class="reviewVersion">
+            Version Number:
+            {{version?.version}}
+          </div>
+        </div>
+
+        <div class="nextVersion" (click)="goToVersion(nextVersion)">
+          v{{nextVersion?.version | zeroPad:3}}
+          <span class="chevron">
+            <i class="material-icons">navigate_next</i>
+            <i class="material-icons">navigate_next</i>
+          </span>
+        </div>
+      </div>
+      
+      <canvas #canvasEl id="paint" (mousedown)="canvasMouseDown($event)"
+                                   (mouseup)="endPaint($event)"
+                                   (mouseout)="mouseOffCanvas($event)"></canvas>
+
+      <video #video id="vid" 
+              width="100%" 
+              height="100%" 
+              src="{{version?.content}}" 
+              type="video/mp4" 
+              controls
+              loop>
+        <track #track src="chapters.vtt" kind="chapters" default>
+      </video>
+
+      <div id="brush">
+        <i class="fa fa-circle"></i>
+      </div>
+
+      <div id="markers">
+        <ul id="annotations">
+          <li *ngFor="let review of version?.review" 
+                        [style.left]="review.frame/frames*100+'%'" 
+                        [style.background-color]="review.paint.col" 
+                        (click)="goToReview(review)">
+
+          </li>
+        </ul>
+      </div>
+
+      <div class="frame">  
+        <span id="currentFrame">{{frame}}</span>
+      </div>
+  </div>
+
+  <div id="commentWindow">
+    <div id="title">
+      Comments
+    </div>
+
+    <form (submit)="submitReview(0)" autocomplete="off">
+      <input id="commentInput" [(ngModel)]="comment" name="comment" autocomplete="off"/>
+
+      <md-input placeholder="Comment" dividerColor="#F00" [(ngModel)]="comment" name="comment" autocompete="off"></md-input>
+    </form>
+
+    <i class="material-icons" (click)="goToPreviousNote()" 
+        style="color: #595f67">skip_previous</i>
+
+    <i class="material-icons" (click)="goToNextNote()" 
+        style="color: #595f67">skip_next</i>
+
+    <ul id="commentList">
+      <li *ngFor="let review of version?.review | sort : 'date' " class="commentWrapper" (click)="goToReview(review)">
+        <i class="material-icons commentClose" (click)="deleteReview(review)">close</i>
+
+        <div class="" [ngClass]="{flash: review.flash}"></div>
+
+        <div class="comment">
+          <span class="frameNumber">{{review.frame}}</span>
+
+          <div class="commentChip chips-small">
+            <div class="chip">
+              {{review.user | firstLetter}}
+            </div>
+          </div>
+
+          <div class="commentContent">
+            <span *ngIf="review.type == 0">
+              {{review.comment}}
+            </span>
+            <span *ngIf="review.type == 1">
+              <i class="material-icons brush" [style.color]="review.paint.col" >brush</i>
+            </span>
+          </div>
+          <footer>
+            <span class="date">{{review.date | timeAgo}}</span>
+          </footer>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+</div>
+

@@ -1,0 +1,72 @@
+#detailsPanel {
+  //margin: 0 20px;
+  margin: 0 1%;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px;
+  border-bottom-color: #d2d2d2;
+  border-bottom-style: dotted;
+
+  #breadcrumbs {
+    font-size: 90%;
+    line-height: 28px;
+    height: 28px;
+    li {
+      display: inline-block;
+    }
+    li+li:before {
+      content: "  \003e   ";
+    }
+  }
+
+  .header {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
+  .block {
+    display: inline-block;
+    vertical-align:top;
+    margin-right: 50px;
+    max-width: 150px;
+    .bold {
+      margin: 0.6em 0;
+    }
+
+  }
+  .box {
+        width: 200px;
+    height: 200px;
+    background-color: red;
+  }
+}
+
+
+/* iPhone 6 landscape */
+@media only screen and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (orientation: landscape)
+  and (-webkit-min-device-pixel-ratio: 2) { 
+
+}
+
+/* iPhone 6 portrait */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (orientation: portrait)
+  and (-webkit-min-device-pixel-ratio: 2) 
+{ 
+
+  #breadcrumbs {
+    margin-left: 30px;
+  }
+
+  #details .block {
+    width: 32.7%;
+    margin: 0;
+  }
+}
+
+    
+
