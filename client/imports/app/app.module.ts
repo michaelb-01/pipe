@@ -6,7 +6,6 @@ import { AccountsModule } from 'angular2-meteor-accounts-ui';
 
 import { AppComponent } from './app.component';
 import { routes, ROUTES_PROVIDERS } from './app.routes';
-import { PARTIES_DECLARATIONS } from './parties';
 
 import { SHARED_DECLARATIONS } from './shared';
 import { JOBS_DECLARATIONS } from './job';
@@ -15,6 +14,7 @@ import { VERSIONS_DECLARATIONS } from './version';
 import { REVIEW_DECLARATIONS } from './review';
 
 import { MaterialModule } from '@angular/material';
+import 'hammerjs';
 
 @NgModule({
   imports: [

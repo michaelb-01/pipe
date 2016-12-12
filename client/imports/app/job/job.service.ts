@@ -20,7 +20,7 @@ export class JobService {
     return this.jobs;
   }
 
-  public getJobById(jobId) : Observable<Job> {
+  public getJobById(jobId) : Job {
     return Jobs.findOne({"_id": new Mongo.ObjectID(jobId)});
   }
 }

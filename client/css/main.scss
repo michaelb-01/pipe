@@ -127,7 +127,7 @@ app {
   height: 100%;
 }
 
-job {
+jobs, job {
   width:100%;
 }
 
@@ -144,6 +144,7 @@ users {
 entities {
   display: block;
   position: relative;
+  width:100%;
 }
 
 entity {
@@ -191,6 +192,8 @@ entity {
 .title {
   text-align: center;
 }
+
+
 
 .searchBoxWrapper {
   position: relative;

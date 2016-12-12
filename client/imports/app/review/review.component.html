@@ -1,23 +1,33 @@
+<div id="detailsPanel">
+  <ul id="breadcrumbs" class="light">
+    <!--<li [routerLink]="['Job', {jobId:id}]">{{entity?.job.jobName}}</li>-->
+    <li [routerLink]="['/job', version?.job.jobId]">{{version?.job.jobName}}</li>
+    <i class="material-icons">navigate_next</i>
+    <li [routerLink]="['/entity', version?.entity.entityId]">{{version?.entity.entityName}}</li>
+    <i class="material-icons">navigate_next</i>
+    <li [routerLink]="['/version', version?._id]">{{version?.version}}</li>
+  </ul>
+</div>
+
 <div id="mediaContainer">
   <div id="tools">
-    <input type="color" [(ngModel)]="strokeColour" value="#ff0000" style="width:85%;">
+    <input type="color" [(ngModel)]="strokeColour" value="rgab(255,0,0,0.5)" style="width:85%;">
     {{strokeColour}}
+    <input type="range" [(ngModel)]="strokeWidth" value="2" min="1" max="30">
+    {{strokeWidth}}
+    <input type="range" [(ngModel)]="strokeOpacity" value="1" min="0" max="1" step="0.01">
   </div>
 
   <div id="mediaWrapper">
       <div class="versionInfo">
-  <!--       <div class="prevVersion">
-          Previous Version:
-            <div (click)="goToVersion(prevVersion)">
-            {{prevVersion?.version}}
+        <div>
+          <div *ngIf="prevVersion" class="prevVersion" (click)="goToVersion(prevVersion)">
+            <span class="chevron">
+              <i class="material-icons">navigate_before</i>
+              <i class="material-icons">navigate_before</i>
+            </span>
+            v{{prevVersion?.version | zeroPad:3}}
           </div>
-        </div> -->
-        <div class="prevVersion" (click)="goToVersion(prevVersion)">
-          <span class="chevron">
-            <i class="material-icons">navigate_before</i>
-            <i class="material-icons">navigate_before</i>
-          </span>
-          v{{prevVersion?.version | zeroPad:3}}
         </div>
 
         <div class="currentVersion">
@@ -30,48 +40,66 @@
           </div>
         </div>
 
-        <div class="nextVersion" (click)="goToVersion(nextVersion)">
-          v{{nextVersion?.version | zeroPad:3}}
-          <span class="chevron">
-            <i class="material-icons">navigate_next</i>
-            <i class="material-icons">navigate_next</i>
-          </span>
+        <div>
+          <div *ngIf="nextVersion" class="nextVersion" (click)="goToVersion(nextVersion)">
+            v{{nextVersion?.version | zeroPad:3}}
+            <span class="chevron">
+              <i class="material-icons">navigate_next</i>
+              <i class="material-icons">navigate_next</i>
+            </span>
+          </div>
         </div>
       </div>
-      
-      <canvas #canvasEl id="paint" (mousedown)="canvasMouseDown($event)"
-                                   (mouseup)="endPaint($event)"
-                                   (mouseout)="mouseOffCanvas($event)"></canvas>
 
-      <video #video id="vid" 
-              width="100%" 
-              height="100%" 
-              src="{{version?.content}}" 
-              type="video/mp4" 
-              controls
-              loop>
-        <track #track src="chapters.vtt" kind="chapters" default>
-      </video>
+      <canvas #canvasEl id="paint" 
+              (mousedown)="canvasMouseDown($event)"
+              (mouseup)="endPaint($event)"
+              (mouseout)="mouseOffCanvas($event)"></canvas>
 
-      <div id="brush">
-        <i class="fa fa-circle"></i>
+      <div *ngIf="version?.contentType == 'video'">
+        <video #media id="vid" 
+                (onplay)="test()" 
+                width="100%" 
+                height="100%" 
+                src="{{version?.content}}" 
+                type="video/mp4" 
+                controls
+                loop>
+        </video>
+
+        <div id="brush">
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div id="markers">
+          <ul id="annotations">
+            <li class="marker" *ngFor="let review of version?.review" 
+                          [style.left]="review.frame/frames*100+'%'"
+                          (click)="goToReview(review)">
+              <div class="markerBg" [style.background-color]="review.paint.col"
+                                    [style.border-color]="review.paint.col"></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="frame">  
+          <br>
+          <span id="currentFrame">{{frame}}</span>
+        </div>
       </div>
 
-      <div id="markers">
-        <ul id="annotations">
-          <li *ngFor="let review of version?.review" 
-                        [style.left]="review.frame/frames*100+'%'" 
-                        [style.background-color]="review.paint.col" 
-                        (click)="goToReview(review)">
-
-          </li>
-        </ul>
+      <div *ngIf="version?.contentType == 'still'">
+        <img #media src="{{version?.content}}">
       </div>
 
-      <div class="frame">  
-        <span id="currentFrame">{{frame}}</span>
+    <div class="mediaInfo">
+      <div class="bold">By: 
+        <span>{{version?.author}}</span>
       </div>
+      <div class="light">{{version?.date | timeAgo}}</div>
+    </div>
   </div>
+
 
   <div id="commentWindow">
     <div id="title">
@@ -80,8 +108,6 @@
 
     <form (submit)="submitReview(0)" autocomplete="off">
       <input id="commentInput" [(ngModel)]="comment" name="comment" autocomplete="off"/>
-
-      <md-input placeholder="Comment" dividerColor="#F00" [(ngModel)]="comment" name="comment" autocompete="off"></md-input>
     </form>
 
     <i class="material-icons" (click)="goToPreviousNote()" 
@@ -92,7 +118,7 @@
 
     <ul id="commentList">
       <li *ngFor="let review of version?.review | sort : 'date' " class="commentWrapper" (click)="goToReview(review)">
-        <i class="material-icons commentClose" (click)="deleteReview(review)">close</i>
+        <i class="material-icons commentClose" (click)="deleteReview($event,review)">close</i>
 
         <div class="" [ngClass]="{flash: review.flash}"></div>
 

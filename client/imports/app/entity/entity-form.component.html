@@ -1,0 +1,77 @@
+<!--<form #form="ngForm" (submit)="onSubmit(form.value)" id="form" autocomplete="off">-->
+
+  <p class="title">ASSIGN TASKS</p>
+
+  <div class="formContent">
+
+    <div class="chips tasks">
+      <div *ngFor="let obj of sel" class="chipWrapper">
+        <div class="chip">
+          {{obj.name}} - {{obj.type}}
+          <span class="chip-delete" (click)="removeTask()">
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--
+  <md-input placeholder="Artists" 
+            [(ngModel)]="query" 
+            (ngModelChange)=filterUsers() 
+            (keydown.tab)=handleTab($event) 
+            name="users" 
+            autocomplete="off">
+  </md-input>
+-->
+
+  <div class="search-box">
+    <i class="material-icons">search</i>
+    <input type="text" id="search-box-input"
+                      placeholder="Search"
+                      [(ngModel)]="query" 
+                      (ngModelChange)=filterUsers() 
+                      (keydown.tab)=handleTab($event) 
+                      (keydown)="handleArrow($event.keyCode)"
+                      name="users"
+                      autocomplete="off">
+  </div>
+
+  <div class="formContent">
+
+    <div>
+      <ul class="search-results">
+        <li *ngFor="let user of filteredUsers; let i = index" 
+            class="search-result-item" 
+            [ngClass]="{selected: i == selectedItem}"
+            (mouseover)="hoverUser(i)"
+            (click)="clickUser(i)">
+          <span>{{user.name}}</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="chips users">
+      <div *ngFor="let user of selectedUsers; let i = index" class="chipWrapper">
+        <div class="chip">
+          {{user.name}}
+          <span class="chip-delete" (click)="removeUser(i)">
+            <i class="material-icons">close</i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pageNum light">
+    1/1
+    </div>
+
+    <!--<button type="submit">Submit</button>-->
+    <button class="assignBtn" (click)="assign()">Assign</button>
+    <button class="unassignBtn" (click)="unassign()">Unassign</button>
+
+  </div>
+
+<!--</form>-->

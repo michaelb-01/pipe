@@ -8,6 +8,7 @@ import { createJobs } from './imports/fixtures/initialise_DB.ts';
 import './imports/publications/jobs';  
 import './imports/publications/entities';  
 import './imports/publications/versions';  
+import './imports/publications/users';  
 
 import * as fs from "fs";
 

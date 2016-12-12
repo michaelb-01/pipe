@@ -1,0 +1,37 @@
+<div class="contentSafe">
+  <div *ngFor="let user of users" class="card">
+
+    <a [routerLink]="['/user', user?._id]">
+      <div class="user-image">
+        <img class="round" src="/img/bmw.jpg" onerror="this.src='/img/default.jpg'">
+      </div>
+    </a>
+
+    <div class="card-title bold">
+      {{user?.name}}
+    </div>
+
+    <hr>
+
+    <div class="card-content">
+      <ul class="roles">
+        <li *ngFor="let role of user.roles" class="card-title bold light">
+          {{role}}
+        </li>
+      </ul>
+
+      <div class="email">
+        <span class="light">@: </span>
+          <a href="mailto:{{user?.email}}"> 
+            {{user?.email}}
+          </a>
+        </div>
+      <div class="phone"><span class="light"># : </span>{{user?.phone}}</div>
+    </div>
+
+
+  </div>
+
+</div>
+
+

@@ -2,6 +2,7 @@
   <ul id="breadcrumbs" class="light">
     <!--<li [routerLink]="['Job', {jobId:id}]">{{entity?.job.jobName}}</li>-->
     <li [routerLink]="['/job', entity?.job?.jobId]">{{entity?.job?.jobName}}</li>
+    <i class="material-icons">navigate_next</i>
     <li [routerLink]="['/entity', entity?._id]">{{entity?.name}}</li>
   </ul>
 

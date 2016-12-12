@@ -31,6 +31,9 @@
   border-width: 1px;
   border-bottom-width: 2px;
   overflow: hidden;
+  > a {
+    height: 100%;
+  }
   &:hover {
     border-bottom-color: #ff0d0d;
   }
@@ -102,6 +105,7 @@
   }
   .card-image {
     position: relative;
+    //height: 100%;
   }
   .user-image {
     position: relative;
@@ -156,6 +160,13 @@
     .card-table-cell:last-child {
       border: none;
     }
+  }
+}
+
+.card-big {
+  height:200px;
+  .card-image {
+    height: 100%;
   }
 }
 

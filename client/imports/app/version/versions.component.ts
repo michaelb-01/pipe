@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { Observable } from 'rxjs/Observable';
+
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import { MeteorObservable } from 'meteor-rxjs';
@@ -22,7 +24,7 @@ export class VersionsComponent implements OnInit, OnDestroy {
 
   versionsSub: Subscription;
   entityId: string;
-  versions: Version[];
+  versions: Observable<Version[]>;
 
   constructor( private route: ActivatedRoute,
                private _versionService: VersionService ) {}

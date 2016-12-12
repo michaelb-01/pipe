@@ -22,13 +22,12 @@ export class EntityService {
     return Entities.find({ "job.jobId":jobId });
   }
 
-  public getEntityById(entityId) : Observable<Entity> {
-    console.log('get entity with id: ' + entityId);
+  public getEntityById(entityId) : Entity {
     return Entities.findOne({"_id": new Mongo.ObjectID(entityId)});
   }
 
-  public findMyTasks(user) {
-    Entities.find({ "tasks.users.name": user });
+  public findMyTasks(user) : Observable<Entity[]> {
+    return Entities.find({ "tasks.users.name": user });
   }
 
   public assignUser(entityId, taskNum, userName) {

@@ -1,9 +1,0 @@
-REVIEW MODEL
-
-type: string (comment/annotation)
-user: string
-text: string
-date: string/date
-time (frame): string/number
-replies: []
-status (unread, read, completed)

@@ -5,18 +5,20 @@ import {Pipe} from '@angular/core';
 })
 export class TimeAgoPipe
 {
-    value:Date;
-
     constructor() {}
 
     transform(value:any, args?:any[]):any
     {
       var result:string;
+
+      // instantiate date string as a date object
+      var date = new Date(value);
+
       // current time
       let now = new Date().getTime();
 
       // time since message was sent in seconds
-      let delta = (now - value.getTime()) / 1000;
+      let delta = (now - date.getTime()) / 1000;
 
       // format string
       if (delta < 10)

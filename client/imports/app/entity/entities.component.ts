@@ -67,7 +67,7 @@ export class EntitiesComponent implements OnInit, OnDestroy {
 
             if (!this.entities) return;
 
-            this.entities.forEach((item, index) => {
+            this.entities.forEach((item:Entity[]) => {
               // sort into assets and shots
               if (item.type === 'asset') {
                 this.assets.push(item);

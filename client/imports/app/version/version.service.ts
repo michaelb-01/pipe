@@ -21,7 +21,7 @@ export class VersionService {
     return Versions.find({"entity.entityId": entityId});
   }
 
-  public getVersionById(versionId) : Observable<Version> {
+  public getVersionById(versionId) : Version {
     console.log('get version with id: ' + versionId);
     return Versions.findOne({"_id": new Mongo.ObjectID(versionId)});
   }

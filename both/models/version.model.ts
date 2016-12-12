@@ -13,7 +13,7 @@ export interface Version extends CollectionObject {
   version: number;
   //frames: number;
   notes?: [any];
-  review?: [any];
+  review: [any];
   contentType: string;
   taskType: {
     type: string,

@@ -1,22 +1,25 @@
 #detailsPanel {
   //margin: 0 20px;
   margin: 0 1%;
-  padding-bottom: 10px;
+  padding: 5px 0;
   margin-bottom: 10px;
   border-bottom: 1px;
   border-bottom-color: #d2d2d2;
   border-bottom-style: dotted;
 
   #breadcrumbs {
-    font-size: 90%;
+    //font-size: 90%;
     line-height: 28px;
     height: 28px;
     li {
       display: inline-block;
     }
-    li+li:before {
-      content: "  \003e   ";
+    i {
+      vertical-align: middle;
     }
+    //li+li:before {
+    //  content: "  \003e   ";
+    //}
   }
 
   .header {
