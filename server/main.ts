@@ -2,19 +2,25 @@ import { Meteor } from 'meteor/meteor';
 
 //import { loadParties } from './imports/fixtures/parties';
 
-import { createJobs } from './imports/fixtures/initialise_DB.ts';
+import { createJobs } from './imports/fixtures/initialise_DB';
+import { createUsers } from './imports/fixtures/initialise_DB';
 
 //import './imports/publications/parties';
 import './imports/publications/jobs';  
 import './imports/publications/entities';  
 import './imports/publications/versions';  
 import './imports/publications/users';  
+import './imports/publications/activity';  
 
 import * as fs from "fs";
 
 Meteor.startup(() => {
   createJobs();
-  //createUsers();
+  createUsers();
+
+  Accounts.onLogin(function(user){
+    console.log('logged in!!');
+  });
 
   Meteor.methods({    
     readTextFile: function(url) {

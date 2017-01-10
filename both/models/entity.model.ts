@@ -7,7 +7,7 @@ export interface Entity extends CollectionObject {
   };
   name: string;
   type: string;
-  tasks: [any];
+  tasks: any[];
   status: string;
   thumbUrl?: string;
   description?: string;

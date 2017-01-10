@@ -1,8 +1,6 @@
 import {Pipe} from '@angular/core';
 
-@Pipe({
-    name: 'timeAgo'
-})
+@Pipe({ name: 'timeAgo' })
 export class TimeAgoPipe
 {
     constructor() {}
@@ -20,27 +18,44 @@ export class TimeAgoPipe
       // time since message was sent in seconds
       let delta = (now - date.getTime()) / 1000;
 
+      var plural = '';
+
+      var num:number;
+      var unit:string = '';
+
       // format string
-      if (delta < 10)
-      {
-          result = 'now';
-      }
-      else if (delta < 60)
+      if (delta < 60)
       { // sent in last minute
-          result = Math.floor(delta) + ' Seconds ago';
+          num = Math.floor(delta);
+          unit = 'Second';
       }
       else if (delta < 3600)
       { // sent in last hour
-          result = Math.floor(delta / 60) + ' Minutes ago';
+          num = Math.floor(delta / 60);
+          unit = 'Minute';
       }
       else if (delta < 86400)
       { // sent on last day
-          result = Math.floor(delta / 3600) + ' Hours ago';
+          num = Math.floor(delta / 3600);
+          unit = 'Hour';
       }
       else
       { // sent more than one day ago
-          result = Math.floor(delta / 86400) + ' Weeks ago';
+          num = Math.floor(delta / 86400);
+          unit = 'Weel';
       }
+
+      if (delta < 10) {
+          result = 'now';
+      }
+      else {
+        if (num > 1) {
+          plural = 's';
+        }
+
+        result = num + ' ' + unit + plural + ' Ago';
+      }
+
       return result;
     }
 }

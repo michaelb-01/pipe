@@ -131,12 +131,6 @@ jobs, job {
   width:100%;
 }
 
-versions {
-  display: flex;
-	display: -webkit-flex;
-  flex-wrap: wrap;
-}
-
 users {
   width:100%;
 }
@@ -149,6 +143,13 @@ entities {
 
 entity {
   width: 100%;
+}
+
+#login-container {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  line-height: 50px;
 }
 
 #wrapper {
@@ -193,13 +194,113 @@ entity {
   text-align: center;
 }
 
-
-
 .searchBoxWrapper {
   position: relative;
   width: 200px;
   left: 50%;
   margin: 5px 0 5px -100px;
+}
+
+.highlight {
+  color: #ff0d0d;
+}
+
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+  margin-right: -30px;
+  margin-top: 6px;
+  padding: 5px 30px 5px 0;
+  cursor: pointer;
+}
+input[type=range]:focus {
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: #DEDEDE;
+}
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 1px 1px 4px #8A8A8A;
+  border: 1px solid #E3E3E3;
+  height: 12px;
+  width: 12px;
+  border-radius: 9px;
+  background: #FCFCFC;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -5.5px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #DEDEDE;
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 1px #DCE7F2;
+  background: #DEDEDE;
+  border-radius: 0px;
+  border: 0px solid #B8B8B8;
+}
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 4px #8A8A8A;
+  border: 0px solid #E3E3E3;
+  height: 12px;
+  width: 12px;
+  border-radius: 9px;
+  background: #FCFCFC;
+  cursor: pointer;
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 1px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #DEDEDE;
+  border: 0px solid #B8B8B8;
+  border-radius: 0px;
+  box-shadow: 0px 0px 1px #DCE7F2;
+}
+input[type=range]::-ms-fill-upper {
+  background: #DEDEDE;
+  border: 0px solid #B8B8B8;
+  border-radius: 0px;
+  box-shadow: 0px 0px 1px #DCE7F2;
+}
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 4px #8A8A8A;
+  border: 0px solid #E3E3E3;
+  height: 12px;
+  width: 12px;
+  border-radius: 9px;
+  background: #FCFCFC;
+  cursor: pointer;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #DEDEDE;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #DEDEDE;
 }
 
 /* iPhone 6 landscape */

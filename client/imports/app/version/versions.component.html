@@ -14,50 +14,78 @@
 </div>
 -->
 
-<div *ngFor="let version of versions | async;" class="card card-mid extra" 
-            [ngClass]="{selected: version.selected}">
-  <div class="card-header flexLeftRight" (click)="select(version)">
-    <div class="flex">
-      <!--<img class="card-avatar" src="img/jobs/bmw.jpg">-->
-      <div class="card-avatar-initials">
-        MB
-      </div>
-      <div class="card-title-group">
-        <div class="card-title">{{version?.author}}</div>
-          <a [routerLink]="['/review', version._id._str]">
-          <div class="card-subtitle">v{{version?.version}}</div>
-        </a>
-      </div>
+<div class="filters">
+  Filters:  
+  <div class="menu 2d unselectable">
+    <div class="menuTitle" (click)="toggle2dFunc()">
+      <span class="menuStatus" [ngStyle]="{'background-color':status2d, 'box-shadow': '0 0 0 1px ' + toggle2d}"></span>
+      2D <i class="material-icons" style="vertical-align: middle; margin-top: -2px;">arrow_drop_down</i>
     </div>
-
-    <!--<action-window [version]=version></action-window>-->
-
+    <ul class="menuList">
+      <li *ngFor="let type of types2d" class="menuItem" [ngClass]="{active: type.active}" (click)="toggleActive2d(type)">
+        {{type.value}}
+      </li>
+    </ul>
   </div>
 
-  <div class="card-image">
-    <img *ngIf="version?.contentType == 'still'" class="card-image" src="{{version?.content}}">
-
-    <!--<video *ngIf="version?.type == 'video'" class="card-image" src="{{version?.content}}">-->
-
-    <div *ngIf="version?.contentType == 'video'" class="pipe-video">
-      <i class="material-icons playButton">chevron_right</i>
-      <video loop #videoEl 
-        (mouseenter)=play(videoEl) 
-        (mouseleave)=pause(videoEl)>
-
-        <source src={{version?.content}} type="video/mp4">
-
-        Your browser does not support the video tag.
-      </video>
+  <div class="menu 3d unselectable">
+    <div class="menuTitle" (click)="toggle3dFunc()">
+      <span class="menuStatus" [ngStyle]="{'background-color':status3d, 'box-shadow': '0 0 0 1px ' + toggle3d}"></span>
+      3D <i class="material-icons" style="vertical-align: middle; margin-top: -2px;">arrow_drop_down</i>
     </div>
-
-    <!--
-    <div class="banner fadeOut">
-      <h2 class="title">SH0040</h2>
-      <h5 class="subtitle">shot</h5>
-    </div>
-    -->
+    <ul class="menuList">
+      <li *ngFor="let type of types3d" class="menuItem" [ngClass]="{active: type.active}" (click)="toggleActive3d(type)">
+        {{type.value}}
+      </li>
+    </ul>
   </div>
+</div>
+
+<div id="versionsContainer">
+  <div *ngFor="let version of versions | async | typeFilter:types;" class="card card-mid extra" 
+              [ngClass]="{selected: version.selected}">
+    <div class="card-header flexLeftRight" (click)="select(version)">
+      <div class="flex">
+        <!--<img class="card-avatar" src="img/jobs/bmw.jpg">-->
+        <div class="card-avatar-initials">
+          MB
+        </div>
+        <div class="card-title-group">
+          <div class="card-title">{{version?.taskType?.type | uppercase}}</div>
+            <a [routerLink]="['/review', version._id._str]">
+            <div class="card-subtitle">v{{version?.version}}</div>
+          </a>
+        </div>
+      </div>
+
+      <!--<action-window [version]=version></action-window>-->
+
+    </div>
+
+    <div class="card-image">
+      <img *ngIf="version?.contentType == 'still'" class="card-image" src="{{version?.content}}">
+
+      <!--<video *ngIf="version?.type == 'video'" class="card-image" src="{{version?.content}}">-->
+
+      <div *ngIf="version?.contentType == 'video'" class="pipe-video">
+        <i class="material-icons playButton">chevron_right</i>
+        <video loop #videoEl 
+          (mouseenter)=play(videoEl) 
+          (mouseleave)=pause(videoEl)>
+
+          <source src={{version?.content}} type="video/mp4">
+
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <!--
+      <div class="banner fadeOut">
+        <h2 class="title">SH0040</h2>
+        <h5 class="subtitle">shot</h5>
+      </div>
+      -->
+    </div>
 
 
     <div class="card-content-wrapper">
@@ -68,8 +96,8 @@
         </div>
 
         <div class="notes card-content">
-          <!--<span>{{version?.notes[0].author.name | slice:0:1}}</span>-->
-          <!--{{version?.notes[0]?.body}}-->
+          <span>{{version?.notes[0]?.author.name | slice:0:1}}</span>
+          {{version?.notes[0]?.body}}
         </div>
       </div>
     </div>
@@ -80,9 +108,14 @@
         {{version?.notes?.length}} notes
       </h6>
     </div>
-
-
   </div>
+</div>
 
+<div id="entity-form-container" [ngClass]="{closed: sidebarClosed}">
+  <entity-form [sel]="selected" (onAssign)="onAssign($event)"></entity-form>
 
-<button *ngIf="selected.length>0" style="background-color:red;" (click)="editSelected()"></button>
+  <button (click)="toggleSidebarRight(!showSidebarRight)" [ngClass]="{active: !sidebarClosed}" class="burger left burger--htx">
+    <span></span>
+    <span></span>
+  </button>
+</div>

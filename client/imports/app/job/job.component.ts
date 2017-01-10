@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import { MeteorObservable } from 'meteor-rxjs';
 
 import { Job } from "../../../../both/models/job.model";
+import { Action } from "../../../../both/models/action.model";
 
 import { JobService } from './job.service';
 
@@ -27,6 +28,9 @@ export class JobComponent implements OnInit, OnDestroy {
   jobId: string;
   job: Job;
 
+  activitySub: Subscription;
+  activity: Observable<Action[]>;
+
   constructor( private route: ActivatedRoute,
                private _jobService: JobService ) {}
 
@@ -39,12 +43,22 @@ export class JobComponent implements OnInit, OnDestroy {
         if (this.jobSub) {
           this.jobSub.unsubscribe();
         }
+        if (this.activitySub) {
+          this.activitySub.unsubscribe();
+        }
 
-        this.jobSub = MeteorObservable.subscribe('jobs', this.jobId).subscribe(() => {
+        this.jobSub = MeteorObservable.subscribe('job', this.jobId).subscribe(() => {
           MeteorObservable.autorun().subscribe(() => {
             this.job = this._jobService.getJobById(jobId);
           });
         });
+
+        this.activitySub = MeteorObservable.subscribe('activity').subscribe(() => {
+          MeteorObservable.autorun().subscribe(() => {
+            this.activity = this._jobService.getJobActivity(jobId);
+          });
+        });
+
       });
   }
 

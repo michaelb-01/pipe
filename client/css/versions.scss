@@ -1,3 +1,10 @@
+#versionsContainer {
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .pipe-video {
   .playButton {
     position:absolute;
@@ -11,5 +18,55 @@
   }
   &:hover > .playButton {
     opacity: 0;
+  }
+}
+
+.filters {
+  border-bottom: 1px;
+  border-bottom-color: #d2d2d2;
+  border-bottom-style: dotted;
+  margin: -5px 7px 7px 7px;
+}
+
+.menu {
+  cursor: pointer;
+  display: inline-block;
+  &:hover .menuList {
+    max-height: 200px;
+    box-shadow: -1px 1px 7px 0px rgba(0,0,0,0.2);
+  }
+  .menuList {
+    position: absolute;
+    z-index: 999;
+    overflow:hidden;
+    max-height: 0px;
+    //border: 1px solid #eee;
+    transition: max-height 0.2s;
+  }
+  .menuTitle {
+    text-align: center;
+    padding: 5px;
+  }
+  .menuStatus {
+    width: 10px;
+    height: 10px;
+    border: 1px solid white;
+    display: inline-block;
+    margin-bottom: -1px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #ff0d0d;
+  }
+}
+
+.menuItem {
+  padding: 4px 7px;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  &:hover {
+    background-color: rgb(255, 200, 200);
+  }
+  &.active {
+    background-color:#ff0d0d;
+    color:white;
   }
 }

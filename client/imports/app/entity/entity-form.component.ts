@@ -85,7 +85,7 @@ export class EntityFormComponent extends MeteorComponent {
     });
 
     if (allowed) {
-      this.selectedUsers.push(user);
+      this.selectedUsers.push(user.name);
     }
   }
 
@@ -102,7 +102,6 @@ export class EntityFormComponent extends MeteorComponent {
   }
 
   clickUser(i) {
-    console.log('add user');
     if (this.filteredUsers.length > 0) {
       this.addUser(this.filteredUsers[i]);
       this.selectedItem = 0;
@@ -140,12 +139,10 @@ export class EntityFormComponent extends MeteorComponent {
   }
 
   assign() {
-    console.log('assign');
     this.onAssign.emit({mode:true, users:this.selectedUsers});
   }
 
   unassign() {
-    console.log('unassign');
     this.onAssign.emit({mode:false, users:this.selectedUsers});
   }
 }

@@ -26,32 +26,35 @@ export class VersionService {
     return Versions.findOne({"_id": new Mongo.ObjectID(versionId)});
   }
 
-  public getNextVersion(entityId, versionNum) {
+  public getNextVersion(entityId, versionNum, taskType) {
     return Versions.findOne({
       $and : [
         { "entity.entityId":entityId},
-        { "version":{$gt:versionNum}}
+        { "version":{$gt:versionNum}},
+        { "taskType.type":taskType}
       ]
     }, {sort: {"version":1}});
   }
 
-  public getPrevVersion(entityId, versionNum) {
+  public getPrevVersion(entityId, versionNum, taskType) {
     return Versions.findOne({
       $and : [
-        { "entity.entityId":entityId},
-        { "version":{$lt:versionNum}}
+        { "entity.entityId":entityId },
+        { "version":{$lt:versionNum }},
+        { "taskType.type":taskType }
       ]
     }, {sort: {"version":-1}});
   }
 
-  addReview(versionId, review) {
-    console.log(new Mongo.ObjectID(versionId));
-    console.log(review);
-
+  public addReview(versionId, review) {
     Versions.update({"_id":new Mongo.ObjectID(versionId) },{$push : {"review":review}});
   }
 
-  addStroke(versionId, frame, stroke, idx) {
+  public addNote(versionId, note) {
+    Versions.update({"_id":new Mongo.ObjectID(versionId) },{$push : {"notes":note}});
+  }
+
+  public addStroke(versionId, frame, stroke, idx) {
     console.log('add stroke');
 
     if (idx > -1) {
@@ -73,7 +76,7 @@ export class VersionService {
     }
   }
 
-  addComment(versionId, frame, comment, idx) {
+  public addComment(versionId, frame, comment, idx) {
     if (idx > -1) {
       //Versions.update({"_id" :versionId },{$push : {"review":note}});
 
@@ -92,12 +95,17 @@ export class VersionService {
     }
   }
 
-  deleteReview(versionId, date) {
-    console.log(versionId);
-    console.log(date);
+  public deleteReview(versionId, date) {
     Versions.update(
       { "_id": new Mongo.ObjectID(versionId) },
       { $pull: { 'review': { date: new Date(date) } } }
+    );
+  }
+
+  public deleteNote(versionId, date) {
+    Versions.update(
+      { "_id": new Mongo.ObjectID(versionId) },
+      { $pull: { 'notes': { date: new Date(date) } } }
     );
   }
 }

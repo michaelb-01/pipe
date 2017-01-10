@@ -5,17 +5,41 @@
     <i class="material-icons">navigate_next</i>
     <li [routerLink]="['/entity', version?.entity.entityId]">{{version?.entity.entityName}}</li>
     <i class="material-icons">navigate_next</i>
-    <li [routerLink]="['/version', version?._id]">{{version?.version}}</li>
+    <li [routerLink]="['/version', version?._id]">v{{version?.version | zeroPad:3}}</li>
   </ul>
 </div>
 
 <div id="mediaContainer">
   <div id="tools">
-    <input type="color" [(ngModel)]="strokeColour" value="rgab(255,0,0,0.5)" style="width:85%;">
+    <div class="bold toolTitle">Tool Palette</div>
+    <div class="toolType">
+      <div class="tool" (click)="tool = 1">
+        <i class="material-icons brushTool">brush</i>
+      </div>
+      <div class="tool" (click)="tool = 2">
+        <span class="lineTool"></span>
+      </div>
+      <div class="tool" (click)="tool = 3">
+        <span class="rectTool"></span>
+      </div>
+      <div class="tool" (click)="tool = 4">
+        <span class="circleTool"></span>
+      </div>
+    </div>
+
+    <button (click)="checkTool()">Check Tool</button>
+
+    <div>Colour</div>
+    <label class="colourPicker" [style.background-color]="strokeColour">
+      <input class="colourPickerInput" type="color" [(ngModel)]="strokeColour" value="rgba(255,0,0,0.5)" style="width:85%;">
+    </label>
     {{strokeColour}}
+    <div> Brush Size </div>
     <input type="range" [(ngModel)]="strokeWidth" value="2" min="1" max="30">
-    {{strokeWidth}}
+    <span class="light">{{strokeWidth}}</span>
+    <div> Opacity </div>
     <input type="range" [(ngModel)]="strokeOpacity" value="1" min="0" max="1" step="0.01">
+    <span class="light">{{strokeOpacity}}</span>
   </div>
 
   <div id="mediaWrapper">
@@ -32,12 +56,14 @@
 
         <div class="currentVersion">
           <div class="reviewTitle">
-            Entity: {{version?.entity.entityName}}
+            {{version?.entity.entityName}}
           </div>
-          <div class="reviewVersion">
-            Version Number:
-            {{version?.version}}
-          </div>
+          <span class="light">
+            {{version?.taskType.type}}
+          </span>
+          <span class="reviewVersion">
+            v{{version?.version | zeroPad:3}}
+          </span>
         </div>
 
         <div>
@@ -93,11 +119,30 @@
       </div>
 
     <div class="mediaInfo">
-      <div class="bold">By: 
-        <span>{{version?.author}}</span>
+      <div class="mediaDescription">
+        {{version?.description}}
       </div>
-      <div class="light">{{version?.date | timeAgo}}</div>
+      <div class="mediaFooter light">
+        <div>{{version?.author}}</div>
+        <div class="mediaDate">Published: {{version?.date | timeAgo}}</div>
+      </div>
     </div>
+
+    <ul class="reviewNotes">
+      <form (submit)="submitNote()" autocomplete="off">
+        <input id="commentInput" [(ngModel)]="note" name="note" autocomplete="off"/>
+      </form>
+      <li class="note" *ngFor="let note of version?.notes | sort : 'date' ">
+        <span class="noteAuthor highlight">
+          {{note.author.name}}
+        </span>
+          {{note.body}}
+        <i class="material-icons commentClose" (click)="deleteNote($event,note)">close</i>
+        <div class="noteFooter light">
+          {{note.date | timeAgo}}
+        </div>
+      </li>
+    </ul>
   </div>
 
 

@@ -1,5 +1,5 @@
 import { Component, Renderer, ViewChild, ViewChildren, QueryList, ElementRef, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Version } from "../../../../both/models/version.model";
 
@@ -34,6 +34,7 @@ export class ReviewComponent {
   prevVersion:Version;
 
   comment:string = '';
+  note:string = '';
 
   // media (video/image) variables
   @ViewChildren('media') mediaQuery:QueryList<ElementRef>;
@@ -58,7 +59,9 @@ export class ReviewComponent {
   canvasWidth: any = 20;
   canvasHeight: any = 10;
 
-  strokeColour: any = "#ff0000";
+  tool: number = 1;
+
+  strokeColour: any = "#fb3e49";
   strokeWidth: number = 2;
   strokeOpacity: number = 1;
 
@@ -77,11 +80,12 @@ export class ReviewComponent {
 
   constructor(private route: ActivatedRoute,
               private _versionService: VersionService,
-              private renderer: Renderer ) {
+              private renderer: Renderer,
+              private router: Router ) {
 
     Observable.fromEvent(window, 'resize')
               .debounceTime(20)
-              .subscribe((event) => {
+              .subscribe((event:Event) => {
                 this.resizeCanvas(event);
               });
   }
@@ -101,8 +105,8 @@ export class ReviewComponent {
           MeteorObservable.autorun().subscribe(() => {
             this.version = this._versionService.getVersionById(versionId);
 
-            this.nextVersion = this._versionService.getNextVersion(this.version.entity.entityId, this.version.version);
-            this.prevVersion = this._versionService.getPrevVersion(this.version.entity.entityId, this.version.version);
+            this.nextVersion = this._versionService.getNextVersion(this.version.entity.entityId, this.version.version, this.version.taskType.type);
+            this.prevVersion = this._versionService.getPrevVersion(this.version.entity.entityId, this.version.version, this.version.taskType.type);
           });
         });
       });
@@ -137,9 +141,11 @@ export class ReviewComponent {
           if (this.version.contentType == "video") {
             this.frames = this.media.duration * this.fps;
 
+            /*
             this.videoOnSeeking = this.renderer.listen(this.media, 'seeking', (event) => {
               this.videoSeeking();
             });
+            */
 
             this.updateFrame(); // update video frame
 
@@ -210,8 +216,10 @@ export class ReviewComponent {
 
   goToReview(review) {
     console.log('go to review');
-    this.media.pause();
-    this.media.currentTime = review.frame / this.fps;
+    if (this.version.contentType == "video") {
+      this.media.pause();
+      this.media.currentTime = review.frame / this.fps;
+    }
     this.flashFrame(review.frame);
     this.drawOldStrokes();
   }
@@ -272,6 +280,10 @@ export class ReviewComponent {
       //this.pauseVideo();
       this.flashFrame(seekFrame);
     }
+  }
+
+  goToVersion(version) {
+    this.router.navigate(['/review', version._id._str]);
   }
 
   flashFrame(seekFrame) {
@@ -446,10 +458,15 @@ export class ReviewComponent {
   // UTILITY FUNCTIONS
   submitReview(type) {
     console.log('submitReview()');
+
+
     var paint = {};
     var comment = '';
 
     if (type == 0) {    // comment
+      if (this.comment == '') {
+        return;
+      }
       comment = this.comment;
     }
     else {              // annotation
@@ -478,6 +495,19 @@ export class ReviewComponent {
     this.comment = '';
   }
 
+  submitNote() {
+    var note = {
+      'author': {
+        'id':'',
+        'name':'Mike Battcock'
+      },
+      'body':this.note,
+      'date':new Date()
+    }
+
+    this._versionService.addNote(this.versionId, note);
+  }
+
   deleteReview(e,review) {
     console.log('deleteReview()');
     e.stopPropagation();
@@ -492,6 +522,12 @@ export class ReviewComponent {
     }
 
     this.drawOldStrokes();
+  }
+
+  deleteNote(e,note) {
+    console.log('deleteNote()');
+
+    this._versionService.deleteNote(this.versionId, note.date);
   }
 
   getMousePos(canvas, e) {
@@ -553,6 +589,10 @@ export class ReviewComponent {
       var rgba = "rgba(" + r + "," + g + "," + b + "," + this.strokeOpacity + ")";
 
       return result ? rgba : null;
+  }
+
+  checkTool() {
+    console.log(this.tool);
   }
 
   ngOnDestroy() {

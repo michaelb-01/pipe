@@ -1,22 +1,31 @@
 import { Jobs } from '../../../both/collections/jobs.collection';
 import { Meteor } from 'meteor/meteor';
 
-Meteor.publish("jobs", function() {
-  // return if job is public or current user is the owner
-  const selector = {
+Meteor.publish('jobs', function() {
+  return Jobs.find(buildQuery.call(this));
+});
+
+Meteor.publish('job', function(jobId: string) {
+  return Jobs.find(buildQuery.call(this, jobId));
+});
+
+function buildQuery(jobId?: string): Object {
+  const isAvailable = {
     $or: [{
       public: true
-    },
-    { 
-      $and: [{
-        owner: this.userId 
-      }, {
-        owner: {
-          $exists: true
-        }
-      }]
     }]
   };
  
-  return Jobs.find(selector);
-});
+  if (jobId) {
+    return {
+      // only single party
+      $and: [{
+          _id: jobId
+        },
+        isAvailable
+      ]
+    };
+  }
+ 
+  return isAvailable;
+}

@@ -3,6 +3,8 @@ import { Job } from "../../../both/models/job.model";
 import { Jobs } from '../../../both/collections/jobs.collection';
 import { Entities } from '../../../both/collections/entities.collection';
 import { Versions } from '../../../both/collections/versions.collection';
+import { PipeUsers } from '../../../both/collections/users.collection';
+import { Activity } from '../../../both/collections/activity.collection';
 
 import { Mongo } from 'meteor/mongo';
 
@@ -10,6 +12,41 @@ var users = ['Mike Battcock', 'Mike Skrgatic', 'Ben Cantor', 'Sam Osbourne'];
 var types = ['asset','shot'];
 var images = ['/img/bmw.jpg','/img/clothes.jpg','/img/interior.jpg','/img/wallSmash.jpg','/img/warAndPeace.jpg','/img/willYoung.jpg'];
 var videos = ['/video/dust_01.mov','/video/test.mov'];
+
+function numberGen()
+{
+  var text = "0";
+  
+  var charset = "0123456789";
+  
+  for( var i=0; i < 4; i++ ) {
+      text += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+
+  text += ' ';
+
+  for( var i=0; i < 5; i++ ) {
+      text += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+
+  return text;
+}
+
+
+export function createUsers() {
+  if (PipeUsers.find().cursor.count() === 0) {
+    console.log('load default users');
+    for (var i = 0; i < users.length; i++) {
+      var user = {
+        'name': users[i],
+        'email':'email@gmail.com',
+        'phone':numberGen(),
+        'public':true
+      }
+      PipeUsers.insert(user);
+    }
+  }
+}
 
 function createVersion(jobId, jobName, entityId, entityName) {
   var maxNotes = 10;
@@ -21,7 +58,8 @@ function createVersion(jobId, jobName, entityId, entityName) {
         "id":'',
         "name":'Mike Battcock'
       },
-      "body": Fake.sentence(Math.floor(Math.random() * 8))
+      "body": Fake.sentence(Math.floor(Math.random() * 8)),
+      "date": new Date()
     });
   }
 
@@ -45,6 +83,8 @@ function createVersion(jobId, jobName, entityId, entityName) {
 
   console.log('version task: ' + versionId);
 
+  var versionNum = Math.floor((Math.random() * 100) + 1)
+
   var version = {
     'job': {
       'jobId': jobId,
@@ -55,7 +95,7 @@ function createVersion(jobId, jobName, entityId, entityName) {
       'entityName': entityName
     },
     'author': 'Mike Battcock',
-    'version': Math.floor((Math.random() * 100) + 1),
+    'version': versionNum,
     'notes': notes,
     'review': [],
     'contentType': contentType,
@@ -70,7 +110,24 @@ function createVersion(jobId, jobName, entityId, entityName) {
   }
 
   Versions.insert(version);
+
+  var action = {
+    'author':{
+      'id':'',
+      'name':'Mike Battcock'
+    },
+    'meta':{
+      'name':versionNum.toString(),
+      'type':'version',
+      'jobId':jobId
+    },
+    'date': new Date,
+    'public': true
+  };
+
+  Activity.insert(action);
 }
+
 
 function createEntity(jobId, jobName) {
   console.log('create entity in ' + jobId);
@@ -82,7 +139,7 @@ function createEntity(jobId, jobName) {
     var taskUsers = [];
     for (var j=0;j<Math.floor(users.length);j++) {
       if (Math.random() > 0.5) {
-        taskUsers.push({"name":users[j]}); 
+        taskUsers.push(users[j]); 
       }
     }
     tasks.push({
@@ -95,13 +152,15 @@ function createEntity(jobId, jobName) {
 
   var entityId = new Mongo.ObjectID();
 
+  var name = Fake.sentence(1);
+
   var entity = {
     '_id': entityId,
     'job': {
       'jobId': jobId,
       'jobName': jobName
     },
-    'name': Fake.sentence(1),
+    'name': name,
     'type': types[Math.floor((Math.random() * types.length))],
     'tasks': tasks,
     'status': 'active',
@@ -111,6 +170,22 @@ function createEntity(jobId, jobName) {
   }
 
   Entities.insert(entity);
+
+  var action = {
+    'author':{
+      'id':'',
+      'name':'Mike Battcock'
+    },
+    'meta':{
+      'name':name,
+      'type':'entity',
+      'jobId':jobId
+    },
+    'date': new Date,
+    'public': true
+  };
+
+  Activity.insert(action);
 
   // random integer between 1 and 10
   var numVersions = Math.floor((Math.random() * 10) + 1);
@@ -169,8 +244,6 @@ export function createJobs() {
       jobs[i]._id = objectId; // remove _str for mongo style id generation
 
       this.jobId = Jobs.insert(jobs[i]);
-
-      console.log(objectId);
 
       // random integer between 1 and 10
       numEntities = Math.floor((Math.random() * 10) + 1);

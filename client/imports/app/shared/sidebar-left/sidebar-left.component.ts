@@ -22,11 +22,13 @@ export class SidebarLeftComponent {
   myTasks: Observable<Entity[]>;
 
   constructor(private _entityService: EntityService) {
-    this.myTasksSub = MeteorObservable.subscribe('entities').subscribe(() => {
-      MeteorObservable.autorun().subscribe(() => {
-        this.myTasks = this._entityService.findMyTasks('Mike Battcock');
+    if (Meteor.userId()) {
+      this.myTasksSub = MeteorObservable.subscribe('entities').subscribe(() => {
+        MeteorObservable.autorun().subscribe(() => {
+          this.myTasks = this._entityService.findMyTasks('Mike Battcock');
+        });
       });
-    });
+    }
   }
 
   showSidebarLeft = false;

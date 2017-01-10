@@ -13,9 +13,11 @@
     height: 28px;
     li {
       display: inline-block;
+      cursor: pointer;
     }
     i {
       vertical-align: middle;
+      cursor: default;
     }
     //li+li:before {
     //  content: "  \003e   ";

@@ -3,9 +3,8 @@
     <!--<li [routerLink]="['Job', {jobId:id}]">{{entity?.job.jobName}}</li>-->
     <li [routerLink]="['/job', entity?.job?.jobId]">{{entity?.job?.jobName}}</li>
     <i class="material-icons">navigate_next</i>
-    <li [routerLink]="['/entity', entity?._id]">{{entity?.name}}</li>
+    <li [routerLink]="['/entity', entity?._id._str]">{{entity?.name}}</li>
   </ul>
-
 
   <!--
   <div id="detailsToggle" (click)="toggleDetails(!showDetails)">
@@ -16,6 +15,7 @@
     </div>
   </div>
   -->
+
   <div id="details">
 
     <ul class="block jobInfo">
@@ -46,8 +46,6 @@
     </ul>
   </div>
 </div>
-
-<button (click)="readImageTest()">Read Image Test</button>
 
 <versions>Loading Versions..</versions>
 

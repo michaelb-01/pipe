@@ -12,41 +12,41 @@
       </li>
 
       <li *ngFor="let myTask of myTasks | async">
-        <a href="#">
-          <div class="taskMenuWrapper">
-            <div class="taskMenu">
-              <div class="thumb">
-                <img src="{{myTask.thumbUrl}}">
-              </div>
-              <div class="taskDetails">
-                <div class="taskName">
-                  {{myTask.name}}
-                </div>
-                <div class="taskType">
-                  <a *ngIf="myTask.tasks.length <= 1" href="#" class="taskType">{{myTask.tasks[0].type}}</a>
-                  <div *ngIf="myTask.tasks.length > 1">&#9662;</div>
-                </div>
-                <div class="taskSubType">
-              
-                </div>
-              </div>
-              <div class="taskTimeLeft">
-                <div class="taskDueDate">21/03/16</div>
-                <div class="taskTimer">20 days left</div>
-              </div>
-              <div class="menuSelect"></div>
-
+        
+        <div class="taskMenuWrapper">
+          <a class="taskMenu" [routerLink]="['/entity', myTask._id._str]">
+            <div class="thumb">
+              <img src="{{myTask.thumbUrl}}">
             </div>
-            <div *ngIf="myTask.tasks.length > 1" class="taskMenuExtra">
-              <a *ngFor="let task of myTask.tasks" href="#" class="taskExtraItem {{task.type | lowercase}}">{{task.type}}
-              </a>
-            </div>
-
-              <div *ngIf="myTask.status != 'active'" class="banner {{myTask.status | lowercase}}">
-                <div>{{myTask.status}}</div>
+            <div class="taskDetails">
+              <div class="taskName">
+                {{myTask.name}}
               </div>
+              <div class="taskType">
+                <a *ngIf="myTask.tasks.length <= 1" [routerLink]="['/entity', myTask._id._str]" class="taskType">{{myTask.tasks[0].type}}</a>
+                <div *ngIf="myTask.tasks.length > 1">&#9662;</div>
+              </div>
+              <div class="taskSubType">
+            
+              </div>
+            </div>
+            <div class="taskTimeLeft">
+              <div class="taskDueDate">21/03/16</div>
+              <div class="taskTimer">20 days left</div>
+            </div>
+            <div class="menuSelect"></div>
+          </a>
+
+          <div *ngIf="myTask.tasks.length > 1" class="taskMenuExtra">
+            <a *ngFor="let task of myTask.tasks" [routerLink]="['/entity', myTask._id._str, task.type]" class="taskExtraItem {{task.type | lowercase}}">{{task.type}}
+            </a>
           </div>
-        </a>
+
+            <div *ngIf="myTask.status != 'active'" class="banner {{myTask.status | lowercase}}">
+              <div>{{myTask.status}}</div>
+            </div>
+        </div>
+        
       </li>
 
     </ul>

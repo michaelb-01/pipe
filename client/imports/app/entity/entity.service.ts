@@ -23,25 +23,36 @@ export class EntityService {
   }
 
   public getEntityById(entityId) : Entity {
+    console.log(new Mongo.ObjectID(entityId.toString()));
+
     return Entities.findOne({"_id": new Mongo.ObjectID(entityId)});
   }
 
   public findMyTasks(user) : Observable<Entity[]> {
-    return Entities.find({ "tasks.users.name": user });
-  }
-
-  public assignUser(entityId, taskNum, userName) {
-    var modifier = { $push: {} };
-    modifier.$push['tasks.' + taskNum + '.users'] = { "name":userName };
-
-    Entities.update( { "_id": entityId}, modifier );
+    return Entities.find({ "tasks.users": user });
   }
 
   public unassignUser(entityId, taskNum, userName) {
     var modifier = { $pull: {} };
-    modifier.$pull['tasks.' + taskNum + '.users'] = { "name":userName };
+    modifier.$pull['tasks.' + taskNum + '.users'] = userName;
 
-    Entities.update( { "_id": entityId}, modifier );
+    Entities.update( { "_id": new Mongo.ObjectID(entityId)}, modifier );
+  }
+
+  public assignUser(entityId, taskNum, users) {
+    var modifier = { $addToSet: {} };
+    modifier.$addToSet['tasks.' + taskNum + '.users'] = { $each: users };
+
+    Entities.update( { "_id": new Mongo.ObjectID(entityId)}, modifier );
+  }
+
+  public addTask(entitiyId, taskName) {
+    var task = {
+      'type': taskName,
+      'users':[]
+    }
+
+    Entities.update({"_id":new Mongo.ObjectID(entitiyId) },{$push : {"tasks":task}});
   }
 }
 

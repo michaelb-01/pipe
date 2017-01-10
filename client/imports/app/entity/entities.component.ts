@@ -25,6 +25,7 @@ export class EntitiesComponent implements OnInit, OnDestroy {
 
   entitiesSub: Subscription;
   entities: Observable<Entity[]>;
+  hotEntities: Observable<Entity[]>;
 
   jobId: string;
 
@@ -37,6 +38,8 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   shots2: Observable<Entity[]>;
 
   selected = [];
+
+  sidebarClosed = true;
 
   constructor(private route: ActivatedRoute,
               private _entityService: EntityService) { 
@@ -55,29 +58,45 @@ export class EntitiesComponent implements OnInit, OnDestroy {
         this.entitiesSub = MeteorObservable.subscribe('entities', this.jobId).subscribe(() => {
           MeteorObservable.autorun().subscribe(() => {
             //this.entities = this._entityService.getJobEntities(jobId);
-            this.entities = Entities.find({"job.jobId":jobId });//.filter(entity => entity.name == "test");
+            this.assets2 = Entities.find({$and:[{"job.jobId":jobId},{"type":"asset"}]});//.filter(entity => entity.name == "test");
 
-            this.assets2 = this.entities
-                                  .map(function(entity) {
-                                    return entity.filter(function(e) {
-                                      return e.type == "asset";
-                                    })
-                                  });
-            //console.log(x);
+            this.shots2 = Entities.find({$and:[{"job.jobId":jobId},{"type":"shot"}]});
+
+            // this.assets2 = this.hotEntities
+            //                     .filter(function(e) {
+            //                         console.log(e);
+            //                         return e.type == "asset";
+            //                       })
+            //                     });
 
             if (!this.entities) return;
 
-            this.entities.forEach((item:Entity[]) => {
-              // sort into assets and shots
-              if (item.type === 'asset') {
-                this.assets.push(item);
-              } else if (item.type === 'shot') {
-                this.shots.push(item);
-              }
-            });
+            // this.entities.forEach((item:Entity[]) => {
+            //   // sort into assets and shots
+            //   if (item.type === 'asset') {
+            //     this.assets.push(item);
+            //   } else if (item.type === 'shot') {
+            //     this.shots.push(item);
+            //   }
+            // });
           });
         });
       });
+  }
+
+  trackByIndex(index: number, obj: any): any {
+    return index;
+  }
+
+  addTask(entityId, taskName) {
+    console.log(entityId);
+    console.log(taskName);
+    this._entityService.addTask(entityId,taskName);
+  }
+
+  filterTest(obj) {
+    console.log('filter entities');
+    console.log(obj);
   }
 
   ngOnDestroy() {
@@ -101,12 +120,15 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   }
 
   select(entity,task,entityId,taskId) {
+    this.sidebarClosed = false;
+
     var obj = { "id":entity._id, 
                 "type":task.type, 
                 "name":entity.name, 
                 "entityType":entity.type, 
                 "entityId":entityId, 
-                "taskId":taskId };
+                "taskId":taskId,
+                "task":entity.tasks[taskId] };
 
     if (this.shiftDown == false) {
 
@@ -153,7 +175,6 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   }
 
   editSelected() {
-
     console.log('edit selected');
   }
 
@@ -162,7 +183,72 @@ export class EntitiesComponent implements OnInit, OnDestroy {
     this.showDetails = !this.showDetails;
   }
 
+  onAssignOld2(event) {
+
+    if (event.mode == false) {
+      for (var i = 0; i < this.selected.length; i++) {
+        for (var j = 0; j < event.users.length; j++) {
+          this._entityService.unassignUser2(this.selected[i].id._str, this.selected[i].taskId, event.users[j].name);
+          //this.reselect();
+        }
+      }
+    }
+    else {
+
+      for (var i = 0; i < this.selected.length; i++) {
+        for (var j = 0; j < event.users.length; j++) {
+          var found = 0;
+
+          for (var k = 0; k < this.selected[i].task.users.length; k++) {
+            if (event.users[j].name == this.selected[i].task.users[k].name) {
+              found = 1;
+            }
+          }
+
+          if (found == 0) {
+            this._entityService.assignUser2(this.selected[i].id._str, this.selected[i].taskId, event.users[j].name);
+            this.selected[i].task.users.push({"name":event.users[j].name});
+            this.reselect();
+          }
+        }
+      }
+    }
+  }
+
   onAssign(event) {
+    if (event.mode == false) {
+      for (var i = 0; i < this.selected.length; i++) {
+        for (var j = 0; j < event.users.length; j++) {
+          this._entityService.unassignUser(this.selected[i].id._str, this.selected[i].taskId, event.users[j]);
+          this.reselect();
+        }
+      }
+    }
+    else {
+      for (var i = 0; i < this.selected.length; i++) {
+        this._entityService.assignUser(this.selected[i].id._str, this.selected[i].taskId, event.users);
+        //this.selected[i].task.users.push({"name":event.users[j].name});
+        this.reselect();
+      }
+    }
+  }
+
+  reselect() {
+    this.selected.forEach(sel => {
+      this.assets2._data.forEach(asset => {
+         if (asset._id._str == sel.id._str) {
+           asset.tasks[sel.taskId].selected = true;
+         }
+      });
+      this.shots2._data.forEach(shot => {
+         if (shot._id._str == sel.id._str) {
+           shot.tasks[sel.taskId].selected = true;
+         }
+      })
+    });
+  }
+
+  onAssignOld(event) {
     //this.assets[0].tasks.splice(1,1);
 
     if (this.selected.length < 1) {
@@ -174,96 +260,99 @@ export class EntitiesComponent implements OnInit, OnDestroy {
       return;
     }
 
-      // iterate over selected users
-      event.users.forEach((selUser) => {
+    // iterate over selected users
+    event.users.forEach((selUser) => {
+      // iterate over selected tasks
 
-        for (var i = 0; i < this.selected.length; i++) {
-          if (this.selected[i].entityType == 'asset') {
-            // iterate over selected tasks
-            var assetId = this.selected[i].entityId;
-            var taskId = this.selected[i].taskId;
+      console.log('check user:');
+      console.log(selUser);
 
-            var found = false;
+      for (var i = 0; i < this.selected.length; i++) {
+        if (this.selected[i].entityType == 'asset') {
+          var assetId = this.selected[i].entityId;
+          var taskId = this.selected[i].taskId;
 
-            var j;
-            for (j = 0; j < this.assets[assetId].tasks[taskId].users.length; j++) {
-               if (this.assets[assetId].tasks[taskId].users[j].name == selUser.name) {
-                found = true;
-                console.log('found: ' + selUser + ' in ' + this.assets[assetId]);
-                break;
-              }
+          var found = false;
+
+          var j;
+          for (j = 0; j < this.assets[assetId].tasks[taskId].users.length; j++) {
+             if (this.assets[assetId].tasks[taskId].users[j].name == selUser.name) {
+              found = true;
+              console.log('found: ' + selUser + ' in ' + this.assets[assetId]);
+              break;
             }
+          }
 
-            if (found == false) {
-              if (event.mode == true) {
-                this.assets[assetId].tasks[taskId].users.push({"name":selUser.name});
-                this._entityService.assignUser(this.assets[assetId]._id, taskId, selUser.name);
-              }
-            }
-            else {
-              if (event.mode == false) {
-                this.assets[assetId].tasks[taskId].users.splice(j,1);
-                this._entityService.unassignUser(this.assets[assetId]._id, taskId, selUser.name);
-              }
+          if (found == false) {
+            if (event.mode == true) {
+              this.assets[assetId].tasks[taskId].users.push({"name":selUser.name});
+              this._entityService.assignUser(this.assets[assetId]._id, taskId, selUser.name);
             }
           }
           else {
-            // iterate over selected tasks
-            var shotId = this.selected[i].entityId;
-            var taskId = this.selected[i].taskId;
-
-            var found = false;
-
-            console.log(this.shots[shotId]);
-
-            var j;
-            for (j = 0; j < this.shots[shotId].tasks[taskId].users.length; j++) {
-               if (this.shots[shotId].tasks[taskId].users[j].name == selUser.name) {
-                found = true;
-                console.log('found: ' + selUser + ' in ' + this.assets[shotId]);
-                break;
-              }
-            }
-
-            if (found == false) {
-              if (event.mode == true) {
-                this.shots[shotId].tasks[taskId].users.push({"name":selUser.name});
-                this._entityService.assignUser(this.shots[shotId]._id, taskId, selUser.name);
-              }
-            }
-            else {
-              if (event.mode == false) {
-                this.shots[shotId].tasks[taskId].users.splice(j,1);
-                this._entityService.unassignUser(this.shots[shotId]._id, taskId, selUser.name);
-              }
+            if (event.mode == false) {
+              this.assets[assetId].tasks[taskId].users.splice(j,1);
+              this._entityService.unassignUser(this.assets[assetId]._id, taskId, selUser.name);
             }
           }
         }
-      });
+        else {
+          // iterate over selected tasks
+          var shotId = this.selected[i].entityId;
+          var taskId = this.selected[i].taskId;
 
-      //this.assets = [];
+          var found = false;
+
+          console.log(this.shots[shotId]);
+
+          var j;
+          for (j = 0; j < this.shots[shotId].tasks[taskId].users.length; j++) {
+             if (this.shots[shotId].tasks[taskId].users[j].name == selUser.name) {
+              found = true;
+              console.log('found: ' + selUser + ' in ' + this.assets[shotId]);
+              break;
+            }
+          }
+
+          if (found == false) {
+            if (event.mode == true) {
+              this.shots[shotId].tasks[taskId].users.push({"name":selUser.name});
+              this._entityService.assignUser(this.shots[shotId]._id, taskId, selUser.name);
+            }
+          }
+          else {
+            if (event.mode == false) {
+              this.shots[shotId].tasks[taskId].users.splice(j,1);
+              this._entityService.unassignUser(this.shots[shotId]._id, taskId, selUser.name);
+            }
+          }
+        }
+      }
+    });
+
+    //this.assets = [];
     
   }
 
   deselectAssets() {
-    this.assets.forEach((asset) => {
-        asset.tasks.forEach((task) => {
-          task.selected = false;
-        });
+    console.log('deslect assets');
+    this.assets2._data.forEach(asset => {
+      asset.tasks.forEach(task => {
+        task.selected = false;
       });
+    });
   }
 
   deselectShots() {
-    this.shots.forEach((shot) => {
+    this.shots2._data.forEach((shot) => {
       shot.tasks.forEach((task) => {
         task.selected = false;
       });
     });
   }
 
-  showSidebarRight = false;
   toggleSidebarRight(newState) {
-    this.showSidebarRight = newState;
+    this.sidebarClosed = true;
     this.selected.length = 0;
 
     this.deselectAssets();

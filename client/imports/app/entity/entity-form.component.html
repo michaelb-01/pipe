@@ -56,7 +56,7 @@
     <div class="chips users">
       <div *ngFor="let user of selectedUsers; let i = index" class="chipWrapper">
         <div class="chip">
-          {{user.name}}
+          {{user}}
           <span class="chip-delete" (click)="removeUser(i)">
             <i class="material-icons">close</i>
           </span>

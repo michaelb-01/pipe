@@ -132,6 +132,7 @@
     }
     .notes_num {
       float:right;
+      cursor: pointer;
     }
   }
   .notes {
@@ -163,6 +164,27 @@
   }
 }
 
+.addTask {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
+  padding:3px;
+  background-color: #f7f7f7;
+  &:hover {
+    background-color:#e6e6e6;
+  }
+  & > md-input {
+    text-align: center !important;
+  }
+  .md-input-wrapper {
+    margin: 6px 0 1px 0 !important;
+  }
+  .md-focused {
+    transform: translateY(-70%) scale(.75) !important;
+  }
+}
+
 .card-big {
   height:200px;
   .card-image {
@@ -175,13 +197,14 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  z-index: 101;
+  z-index: 1001;
   transition: bottom 0.4s;
   bottom: 100%;
   &.show {
     bottom: 0;
   }
   .card-details-title {
+    display: block;
     text-align: center;
     font-weight: bold;
     margin:3px 0;

@@ -28,6 +28,8 @@ export class EntityComponent extends MeteorComponent implements OnInit, OnDestro
   entityId: string;
   entity: Entity;
 
+  taskType: string;
+
   constructor(private route: ActivatedRoute,
               private _entityService: EntityService ) {
     super();
@@ -35,15 +37,17 @@ export class EntityComponent extends MeteorComponent implements OnInit, OnDestro
 
   ngOnInit() {
     this.paramsSub = this.route.params
-      .map(params => params['entityId'])
-      .subscribe(entityId => {
+      .subscribe(params => {
+        this.entityId = params['entityId'];
+        this.taskType = params['taskType'];
+
         if (this.entitySub) {
           this.entitySub.unsubscribe();
         }
 
-        this.entitySub = MeteorObservable.subscribe('entities', this.entityId).zone().subscribe(() => {
+        this.entitySub = MeteorObservable.subscribe('entity', this.entityId).zone().subscribe(() => {
           MeteorObservable.autorun().subscribe(() => {
-            this.entity = this._entityService.getEntityById(entityId);
+            this.entity = this._entityService.getEntityById(this.entityId);
           });
         });
       });

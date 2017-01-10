@@ -48,6 +48,13 @@
   </div>
 </div>
 
+<div class="activity">
+  Activity
+  <div *ngFor="let action of activity | async">
+    {{action.author.name}} created {{action.meta.name}} on {{action.date | date}}
+  </div>
+</div>
+
 <entities></entities>
 
 <div style="position: fixed; bottom: 0; right: 0;">

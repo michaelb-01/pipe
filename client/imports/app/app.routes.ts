@@ -12,12 +12,16 @@ import { ReviewComponent } from './review/review.component';
 //import { PartyDetailsComponent } from './parties/party-details.component';
 
 export const routes: Route[] = [
-  { path: '', component: JobsComponent },
-  { path: 'job/:jobId', component: JobComponent },
+  { path: '', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
 
-  { path: 'entity/:entityId', component: EntityComponent},
+  { path: 'jobs', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
 
-  { path: 'review/:versionId', component: ReviewComponent }
+  { path: 'job/:jobId', component: JobComponent, canActivate: ['canActivateForLoggedIn'] },
+
+  { path: 'entity/:entityId', component: EntityComponent, canActivate: ['canActivateForLoggedIn']},
+  { path: 'entity/:entityId/:taskType', component: EntityComponent, canActivate: ['canActivateForLoggedIn']},
+
+  { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] }
 ];
 
 export const ROUTES_PROVIDERS = [{

@@ -1,8 +1,6 @@
 import { Pipe } from '@angular/core';
 
-@Pipe({
-  name: "sort"
-})
+@Pipe({ name: "sort" })
 export class SortPipe {
   transform(array: Array<any>, args: string): Array<any> {
     if (array == null) {
