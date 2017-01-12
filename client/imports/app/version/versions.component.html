@@ -111,7 +111,7 @@
   </div>
 </div>
 
-<div id="entity-form-container" [ngClass]="{closed: sidebarClosed}">
+<div id="form-container" [ngClass]="{closed: sidebarClosed}">
   <entity-form [sel]="selected" (onAssign)="onAssign($event)"></entity-form>
 
   <button (click)="toggleSidebarRight(!showSidebarRight)" [ngClass]="{active: !sidebarClosed}" class="burger left burger--htx">

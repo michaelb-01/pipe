@@ -13,6 +13,8 @@ import { ENTITIES_DECLARATIONS } from './entity';
 import { VERSIONS_DECLARATIONS } from './version';
 import { REVIEW_DECLARATIONS } from './review';
 
+import { APP_BASE_HREF } from '@angular/common';
+
 import { MaterialModule } from '@angular/material';
 import 'hammerjs';
 
@@ -34,7 +36,8 @@ import 'hammerjs';
     ...REVIEW_DECLARATIONS
   ],
   providers: [
-    ...ROUTES_PROVIDERS
+    ...ROUTES_PROVIDERS,
+    { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [
     AppComponent

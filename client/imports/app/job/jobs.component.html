@@ -3,15 +3,27 @@
 <button (click)="writeTextFile()">Write Text File</button>
  -->
 <div class="contentSafe">
-  <div *ngFor="let job of jobs | async; let idx=index" class="card card-big">
-    <a [routerLink]="['/job', job._id._str]">
-      <div class="card-image">
-        <img [src]="images[idx]" onError="this.src='img/default.jpg'">
+  <div *ngFor="let job of jobs | async; let idx=index" class="card card-big" (click)="editJob(job)">
+    <div class="card-image">
+      <img [src]="images[idx]" onError="this.src='img/default.jpg'">
         <div class="banner fadeOut">
-          <h2 class="cardTitle">{{job.client}}</h2>
-          <h5 class="cardTag">{{job.name}}</h5>
+          <a [routerLink]="['/job', job._id._str]">
+            <h2 class="cardTitle">{{job.client}}</h2>
+            <h5 class="cardTag">{{job.name}}</h5>
+          </a>
         </div>
-      </div>
-    </a>
+    </div>
   </div>
+</div>
+
+<button (click)="addJob()">Add Job</button>
+
+<div id="form-container" [ngClass]="{closed: sidebarClosed}">
+
+  <job-form [method]="method" [job]="job"></job-form>
+
+  <button (click)="toggleSidebarRight(!showSidebarRight)" [ngClass]="{active: !sidebarClosed}" class="burger left burger--htx">
+    <span></span>
+    <span></span>
+  </button>
 </div>

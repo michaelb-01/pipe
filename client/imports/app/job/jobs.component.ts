@@ -23,14 +23,28 @@ import template from './jobs.component.html';
   template
 })
 
+
+
 export class JobsComponent extends MeteorComponent {
   images = [];
 
   jobs: Observable<Job[]>;
 
+  job: Job = {
+    "name":"",
+    "client":"",
+    "agency":"",
+    "public": true
+  };
+
   jobsSub: Subscription;
 
+  sidebarClosed = true;
+
+  method: string = 'create';
+
   constructor (private zone: NgZone) {
+
     super();
   }
 
@@ -51,6 +65,27 @@ export class JobsComponent extends MeteorComponent {
       return jobs;
     });
     this.jobsSub = MeteorObservable.subscribe('jobs').subscribe();
+  }
+
+  addJob() {
+    this.method = 'Create';
+    this.job = {
+      "name":"",
+      "client":"",
+      "agency":"",
+      "public": true
+    };
+    this.sidebarClosed = false;
+  }
+
+  editJob(job) {
+    this.method = 'Edit';
+    this.job = job;
+    this.sidebarClosed = false;
+  }
+
+  toggleSidebarRight(newState) {
+    this.sidebarClosed = true;
   }
 
   readTextFile() {
