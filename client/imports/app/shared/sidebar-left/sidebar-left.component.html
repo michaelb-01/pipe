@@ -38,7 +38,7 @@
           </a>
 
           <div *ngIf="myTask.tasks.length > 1" class="taskMenuExtra">
-            <a *ngFor="let task of myTask.tasks" [routerLink]="['/entity', myTask._id._str, task.type]" class="taskExtraItem {{task.type | lowercase}}">{{task.type}}
+            <a *ngFor="let task of myTask.tasks | myTasksFilter:user" [routerLink]="['/entity', myTask._id._str, task.type]" class="taskExtraItem {{task.type | lowercase}}">{{task.type}}
             </a>
           </div>
 

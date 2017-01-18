@@ -4,6 +4,7 @@ import { SearchBoxComponent } from './search-box/search-box.component';
 
 import { FilterPipe } from './pipes/filter.pipe';
 import { FirstLetterPipe } from './pipes/first-letter.pipe';
+import { MyTasksFilterPipe } from './pipes/myTask-filter.pipe';
 import { TimeAgoPipe } from '../shared/pipes/time-ago.pipe';
 import { TypeFilterPipe } from '../shared/pipes/type-filter.pipe';
 import { SortPipe } from '../shared/pipes/sort.pipe';
@@ -15,6 +16,7 @@ export const SHARED_DECLARATIONS = [
   SearchBoxComponent,
   FilterPipe,
   FirstLetterPipe,
+  MyTasksFilterPipe,
   TimeAgoPipe,
   TypeFilterPipe,
   SortPipe,

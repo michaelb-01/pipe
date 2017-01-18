@@ -1,0 +1,10 @@
+WEBVTT
+
+00:00.100 --> 00:00.300
+<v Roger Bingham>We are in New York City
+
+00:00.600 --> 00:00.900
+<v Roger Bingham>We’re actually at the Lucern Hotel, just down the street
+
+00:01.000 --> 00:01.800
+<v Roger Bingham>from the American Museum of Natural History

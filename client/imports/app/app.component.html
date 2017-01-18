@@ -1,4 +1,13 @@
-<pipe-top-nav></pipe-top-nav>
+<!-- <video autoplay loop style="width:300px; height:200px">
+  <source src="/local-filesystem//Users/michaelbattcock/Documents/dev/apps/pipe/public/video/dust_01.mov">
+</video> -->
+
+<video #vid autoplay loop style="width:300px; height:200px">
+  <source src="/video/dust_01.mov">
+  <track #chapters kind="subtitles" src="/video/chapters3.vtt" label="Chapters" srclang="en">
+</video>
+
+<!-- <pipe-top-nav></pipe-top-nav>
 
 <div id="wrapper">
   <sidebar-left></sidebar-left>
@@ -8,9 +17,7 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-
-  <!--<sidebar-right></sidebar-right>-->
   
 </div>
 
-<footer></footer>
+<footer></footer> -->

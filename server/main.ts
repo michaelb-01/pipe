@@ -5,6 +5,9 @@ import { Meteor } from 'meteor/meteor';
 import { createJobs } from './imports/fixtures/initialise_DB';
 import { createUsers } from './imports/fixtures/initialise_DB';
 
+import { Entities } from "../both/collections/entities.collection";
+import { Versions } from "../both/collections/versions.collection";
+
 //import './imports/publications/parties';
 import './imports/publications/jobs';  
 import './imports/publications/entities';  
@@ -60,8 +63,12 @@ Meteor.startup(() => {
     writeTextFile: function (url, text) {
       console.log('wrote ' + text + ' to ' + url);
       fs.writeFileSync(String(url), text);
-    }
+    },
 
+    deleteJob: function (id) {
+      Entities.remove({"job.jobId":id});
+      Versions.remove({"job.jobId":id});
+    }
   });
 
 });

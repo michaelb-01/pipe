@@ -1,7 +1,7 @@
 {
-    "name": "My Meteor App",
+    "name": "Pipe",
     "version": "0.0.1",
-    "projectName": "MyMeteorApp",
+    "projectName": "Pipe",
     "devTools": true,
     "devtron": true,
     "desktopHCP": true,
@@ -11,7 +11,7 @@
     "autoUpdateCheckOnStart": true,
     "rebuildNativeNodeModules": false,
     "webAppStartupTimeout": 60000,
-    "exposeLocalFilesystem": false,
+    "exposeLocalFilesystem": true,
     "window": {
         "icon": "@assets/meteor.png",
         "_windows": {

@@ -42,7 +42,7 @@ export class TimeAgoPipe
       else
       { // sent more than one day ago
           num = Math.floor(delta / 86400);
-          unit = 'Weel';
+          unit = 'Week';
       }
 
       if (delta < 10) {

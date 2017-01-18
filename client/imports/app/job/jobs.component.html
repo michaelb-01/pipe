@@ -5,7 +5,7 @@
 <div class="contentSafe">
   <div *ngFor="let job of jobs | async; let idx=index" class="card card-big" (click)="editJob(job)">
     <div class="card-image">
-      <img [src]="images[idx]" onError="this.src='img/default.jpg'">
+      <img [src]="job.thumbUrl" onError="this.src='img/default.jpg'">
         <div class="banner fadeOut">
           <a [routerLink]="['/job', job._id._str]">
             <h2 class="cardTitle">{{job.client}}</h2>
@@ -16,7 +16,13 @@
   </div>
 </div>
 
-<button (click)="addJob()">Add Job</button>
+<div style="position: fixed; bottom: 0; right: 0;">
+  <div class="fab entity edit" (click)="addJob()">
+    <div>
+      <i class="material-icons">create</i>
+    </div>
+  </div>
+</div>
 
 <div id="form-container" [ngClass]="{closed: sidebarClosed}">
 

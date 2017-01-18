@@ -6,6 +6,8 @@ import { Job } from "../../../../both/models/job.model";
 
 import { JobService } from './job.service';
 
+import { MeteorComponent } from 'angular2-meteor';
+
 import template from './job-form.component.html';
 
 @Component({
@@ -13,9 +15,10 @@ import template from './job-form.component.html';
   providers: [JobService],
   template
 })
-export class JobFormComponent { 
+export class JobFormComponent extends MeteorComponent  { 
 
   constructor(private _jobService: JobService) {
+    super();
   }
 
   @Input() method: string;
@@ -40,5 +43,15 @@ export class JobFormComponent {
 
   deleteJob() {
     this._jobService.deleteJob(this.job._id);
+
+    this.call('deleteJob', this.job._id._str, function (err,res) {
+      if (err) {
+        console.log('ERROR:');
+        console.log(err);
+      }
+      else {
+        console.log(res);
+      }  
+    });
   }
 }

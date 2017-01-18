@@ -12,8 +12,6 @@ import { ReviewComponent } from './review/review.component';
 //import { PartyDetailsComponent } from './parties/party-details.component';
 
 export const routes: Route[] = [
-  { path: '', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
-
   { path: 'jobs', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
 
   { path: 'job/:jobId', component: JobComponent, canActivate: ['canActivateForLoggedIn'] },
@@ -21,7 +19,10 @@ export const routes: Route[] = [
   { path: 'entity/:entityId', component: EntityComponent, canActivate: ['canActivateForLoggedIn']},
   { path: 'entity/:entityId/:taskType', component: EntityComponent, canActivate: ['canActivateForLoggedIn']},
 
-  { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] }
+  { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] },
+
+  //{ path: '', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
+  //{ path: '**', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] }
 ];
 
 export const ROUTES_PROVIDERS = [{

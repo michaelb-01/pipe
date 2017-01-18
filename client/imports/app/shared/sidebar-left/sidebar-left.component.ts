@@ -21,11 +21,13 @@ export class SidebarLeftComponent {
   myTasksSub: Subscription;
   myTasks: Observable<Entity[]>;
 
+  user: string = 'Mike Battcock'
+
   constructor(private _entityService: EntityService) {
     if (Meteor.userId()) {
       this.myTasksSub = MeteorObservable.subscribe('entities').subscribe(() => {
         MeteorObservable.autorun().subscribe(() => {
-          this.myTasks = this._entityService.findMyTasks('Mike Battcock');
+          this.myTasks = this._entityService.findMyTasks(this.user);
         });
       });
     }

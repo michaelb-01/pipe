@@ -185,6 +185,23 @@
   }
 }
 
+.assignView {
+  position: absolute;
+  top: 15px;
+  width: 20px;
+  height: 20px;
+  overflow: hidden;
+  .assignViewIcon {
+    position: relative;
+    margin-top: -22px;
+    margin-left: -2px;
+    transition: margin-top 0.4s;
+  }
+  .showAssign {
+      margin-top: 0px !important;
+  }
+}
+
 .card-big {
   height:200px;
   .card-image {

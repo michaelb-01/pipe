@@ -141,11 +141,9 @@ export class ReviewComponent {
           if (this.version.contentType == "video") {
             this.frames = this.media.duration * this.fps;
 
-            /*
             this.videoOnSeeking = this.renderer.listen(this.media, 'seeking', (event) => {
               this.videoSeeking();
             });
-            */
 
             this.updateFrame(); // update video frame
 

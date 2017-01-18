@@ -49,6 +49,7 @@ export class JobsComponent extends MeteorComponent {
   }
 
   ngOnInit() {
+    /*
     this.jobs = Jobs.find({}).zone().map((jobs: Array<any>) => {
       if (jobs) {
         var job,idx:any;
@@ -64,6 +65,10 @@ export class JobsComponent extends MeteorComponent {
 
       return jobs;
     });
+    */
+
+    this.jobs = Jobs.find({}).zone();
+
     this.jobsSub = MeteorObservable.subscribe('jobs').subscribe();
   }
 

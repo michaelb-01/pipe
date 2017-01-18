@@ -1,16 +1,17 @@
 <search-box (update)="term = $event"></search-box>
 
-<i class="material-icons" (click)="showTaskDetails()" 
-    style="position: absolute;
-    top: 15px;
-    left: 10px;
-    color: #595f67">list</i>
+<div class="assignView" (click)="showTaskDetails()">
+  <div class="assignViewIcon" [ngClass]="{showAssign: showDetails}">
+    <i class="material-icons" 
+        style="position: absolute;
+        color: #595f67">people</i>
 
-<i class="material-icons"
-   style="position: absolute;
-      top: 15px;
-      left: 35px;
-      color: #595f67">dashboard</i>
+    <i class="material-icons"
+       style="position: absolute;
+          top: 20px;
+          color: #595f67">dashboard</i>
+  </div>
+</div>
 
 <h5>Assets ({{assets2?._data.length}})</h5>
 
@@ -54,7 +55,6 @@
             </md-input>
           </form>
         </div>
-
       </div>
     </div>
     <div class="card-thumb">

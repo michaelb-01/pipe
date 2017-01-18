@@ -221,14 +221,14 @@ export function createJobs() {
         'name': 'War and Peace',
         'client': 'BBC',
         'agency': 'Someone',
-        'thumbUrl': '/Users/michaelbattcock/Desktop/test.jpg',
+        'thumbUrl': images[Math.floor((Math.random() * images.length))],
         'public': true
       },
       {
         'name': 'Test Name',
         'client': 'Test Client',
         'agency': 'Test Agency',
-        'thumbUrl': '/Users/michaelbattcock/Desktop/test_low.jpg',
+        'thumbUrl': images[Math.floor((Math.random() * images.length))],
         'public': true
       }
     ];
