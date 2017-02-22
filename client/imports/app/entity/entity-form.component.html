@@ -18,13 +18,14 @@
 
 
 <!--
-  <md-input placeholder="Artists" 
+  <md-input-container>
+    <input md-input placeholder="Artists" 
             [(ngModel)]="query" 
             (ngModelChange)=filterUsers() 
             (keydown.tab)=handleTab($event) 
             name="users" 
             autocomplete="off">
-  </md-input>
+  </md-input-container>
 -->
 
   <div class="search-box">

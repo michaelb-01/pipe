@@ -6,50 +6,63 @@
   </button>
 
   <nav class="sidebar left" [ngClass]="{closed: !showSidebarLeft}">
-    <ul class="scrollbar">
-      <li>
+    <ul class="sidebarLeftTitle">
+
+      <li class="tabTitle" (click)="selectTab(0)" [ngClass]="{inactive: selectedTab==1}">
         <p class="title">My Tasks</p>
       </li>
-
-      <li *ngFor="let myTask of myTasks | async">
-        
-        <div class="taskMenuWrapper">
-          <a class="taskMenu" [routerLink]="['/entity', myTask._id._str]">
-            <div class="thumb">
-              <img src="{{myTask.thumbUrl}}">
-            </div>
-            <div class="taskDetails">
-              <div class="taskName">
-                {{myTask.name}}
-              </div>
-              <div class="taskType">
-                <a *ngIf="myTask.tasks.length <= 1" [routerLink]="['/entity', myTask._id._str]" class="taskType">{{myTask.tasks[0].type}}</a>
-                <div *ngIf="myTask.tasks.length > 1">&#9662;</div>
-              </div>
-              <div class="taskSubType">
-            
-              </div>
-            </div>
-            <div class="taskTimeLeft">
-              <div class="taskDueDate">21/03/16</div>
-              <div class="taskTimer">20 days left</div>
-            </div>
-            <div class="menuSelect"></div>
-          </a>
-
-          <div *ngIf="myTask.tasks.length > 1" class="taskMenuExtra">
-            <a *ngFor="let task of myTask.tasks | myTasksFilter:user" [routerLink]="['/entity', myTask._id._str, task.type]" class="taskExtraItem {{task.type | lowercase}}">{{task.type}}
-            </a>
-          </div>
-
-            <div *ngIf="myTask.status != 'active'" class="banner {{myTask.status | lowercase}}">
-              <div>{{myTask.status}}</div>
-            </div>
-        </div>
-        
+      <li class="tabTitle" (click)="selectTab(1)" [ngClass]="{inactive: selectedTab==0}">
+        <p class="title">My To-Do</p>
       </li>
+      <div class="tabSlider"></div>
+    </ul>
 
+    <ul class="scrollbar">
+      <div class="tabContent content1" *ngIf="selectedTab==0">
+        <li *ngFor="let myTask of myTasks">
+          <div class="taskMenuWrapper">
+            <a class="taskMenu" [routerLink]="['/entity', myTask._id._str]">
+              <div class="thumb">
+                <img src="{{myTask.thumbUrl}}">
+              </div>
+              <div class="taskDetails">
+                <div class="taskName">
+                  {{myTask.name}}
+                </div>
+                <div class="taskType">
+                  <a *ngIf="myTask.tasks.length <= 1" [routerLink]="['/entity', myTask._id._str]" class="taskType">{{myTask.tasks[0].type}}</a>
+                  <div *ngIf="myTask.tasks.length > 1">&#9662;</div>
+                </div>
+                <div class="taskSubType">
+              
+                </div>
+              </div>
+              <div class="taskTimeLeft">
+                <div class="taskDueDate">21/03/16</div>
+                <div class="taskTimer">20 days left</div>
+              </div>
+              <div class="menuSelect"></div>
+            </a>
+
+            <div *ngIf="myTask.tasks.length > 1" class="taskMenuExtra">
+              <a *ngFor="let task of myTask.tasks | myTasksFilter:user" [routerLink]="['/entity', myTask._id._str, task.type]" class="taskExtraItem {{task.type | lowercase}}">{{task.type}}
+              </a>
+            </div>
+
+              <div *ngIf="myTask.status != 'active'" class="banner {{myTask.status | lowercase}}">
+                <div>{{myTask.status}}</div>
+              </div>
+          </div>
+          
+        </li>
+      </div>
+
+      <div class="tabContent todoWrapper" *ngIf="selectedTab==1">
+        <md-card *ngFor="let myTask of myTasks">
+          <todo-list [todos]="myTask.todos" [todosTitle]="myTask.name" [entityId]="myTask._id"></todo-list>
+        </md-card>
+      </div>
     </ul>
   </nav>
 
-</div>
+</div> 

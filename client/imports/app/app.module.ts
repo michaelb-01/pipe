@@ -12,10 +12,12 @@ import { JOBS_DECLARATIONS } from './job';
 import { ENTITIES_DECLARATIONS } from './entity';
 import { VERSIONS_DECLARATIONS } from './version';
 import { REVIEW_DECLARATIONS } from './review';
+import { TODO_DECLARATIONS } from './todo';
 
 import { APP_BASE_HREF } from '@angular/common';
 
 import { MaterialModule } from '@angular/material';
+
 import 'hammerjs';
 
 @NgModule({
@@ -33,7 +35,8 @@ import 'hammerjs';
     ...JOBS_DECLARATIONS,
     ...ENTITIES_DECLARATIONS,
     ...VERSIONS_DECLARATIONS,
-    ...REVIEW_DECLARATIONS
+    ...REVIEW_DECLARATIONS,
+    ...TODO_DECLARATIONS
   ],
   providers: [
     ...ROUTES_PROVIDERS,

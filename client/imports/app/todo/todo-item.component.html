@@ -1,0 +1,20 @@
+<div class="todoItemWrapper">
+  <md-checkbox #todoToggle [(ngModel)]="todo.done" (ngModelChange)="onToggle($event)"></md-checkbox>
+
+  <div class="todoTextWrapper" #todoText>
+
+    <div *ngIf="!editMode" class="todoText" [ngClass]="{'todoDone':todo.done}">
+      {{todo.text}}
+    </div>
+
+    <div [hidden]="!editMode">
+      <md-input-container class="edit-input">
+          <input #todoInput mdInput [(ngModel)]="todo.text" (keyup)="onKeyUp($event)" autocomplete="off">
+      </md-input-container>
+    </div>
+
+  </div>
+
+  <i *ngIf="editMode" class="material-icons todo-close" (click)="deleteButtonClicked()">close</i>
+
+</div>

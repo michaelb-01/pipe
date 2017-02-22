@@ -68,6 +68,25 @@ Meteor.startup(() => {
     deleteJob: function (id) {
       Entities.remove({"job.jobId":id});
       Versions.remove({"job.jobId":id});
+    },
+
+    addTodo(entityId,user,todo) {
+      console.log(entityId);
+      console.log(user);
+      console.log(todo);
+
+      Entities.update(
+        { "_id": entityId, "todos.user": user},
+        { $push: { "todos.$.todo": todo }}
+      );
+    },
+
+    updateTodo(entityId,oldText,todo) {
+      console.log('update todo');
+      Entities.update({"_id":entityId,
+                 "todos.text":oldText},
+                 {$set:{"todos.$.text":todo.text,
+                        "todos.$.done":todo.done}});
     }
   });
 

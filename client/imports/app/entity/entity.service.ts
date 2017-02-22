@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 
 import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
 
 import { MeteorObservable } from 'meteor-rxjs';
 
@@ -23,8 +24,6 @@ export class EntityService {
   }
 
   public getEntityById(entityId) : Entity {
-    console.log(new Mongo.ObjectID(entityId.toString()));
-
     return Entities.findOne({"_id": new Mongo.ObjectID(entityId)});
   }
 
@@ -53,6 +52,26 @@ export class EntityService {
     }
 
     Entities.update({"_id":new Mongo.ObjectID(entitiyId) },{$push : {"tasks":task}});
+  }
+
+  public addTodo(entityId, todo) {
+    Entities.update( { "_id": entityId},   
+      { "$push": {"todos": todo } }
+    );
+  }
+
+  public updateTodo(entityId,oldText,todo) {
+    Meteor.call('updateTodo', entityId, oldText, todo);
+
+    //db.entities.update({"name":"I.","todos.text":"Mike's first todo"},{$set:{"todos.$.text":"Mike's updated todo"}});
+  }
+
+  public deleteTodo(entityId, todo) {
+    Entities.update( { "_id": entityId},   
+      { "pull": 
+        {"todo": todo }
+      }
+    );
   }
 }
 

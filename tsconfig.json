@@ -14,7 +14,9 @@
     ]
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "client/imports/app/test",
+    "docs"
   ],
   "compileOnSave": false
 }

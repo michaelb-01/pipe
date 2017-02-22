@@ -11,5 +11,6 @@ export interface Entity extends CollectionObject {
   status: string;
   thumbUrl?: string;
   description?: string;
+  todos?: any[];  
   public: boolean;
 }

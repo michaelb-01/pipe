@@ -1,0 +1,31 @@
+<div class="todoListWrapper">
+  <h3 class="todoListTitle">
+    {{todosTitle}} 
+    <i class="material-icons todoFilter" 
+      (click)="filterTodos($event)" 
+      [ngStyle]="{'color':filterColour}">filter_list</i>
+  </h3>
+
+  <div class="todoListProgress">
+    <div class="todoListCounter">
+      {{numCompleted}}/{{todos.length}}
+    </div>
+
+    <md-progress-bar class="todoListProgressBar"
+        [color]="color"
+        [value]=numCompleted/todos.length*100>
+    </md-progress-bar>
+  </div>
+
+  <todo-item *ngFor="let todo of todos | todoFilter:filter" [todo]="todo" [entityId]="entityId"
+    (deleteTodo)="deleteTodo($event)" 
+    (updateProgress)="updateProgress()">
+  </todo-item> 
+
+  <form (submit)="addNewTodo()">
+    <md-input-container>
+      <input mdInput placeholder="Add Todo" [(ngModel)]="newTodo.text" name="text" autocomplete="off">
+    </md-input-container>
+  </form>
+
+</div>

@@ -1,0 +1,28 @@
+<!-- <video autoplay loop style="width:300px; height:200px">
+  <source src="/local-filesystem//Users/michaelbattcock/Documents/dev/apps/pipe/public/video/dust_01.mov">
+</video> -->
+
+<video #vid onload="videoLoaded()" controls preload="metadata" crossorigin="anonymous" style="width:300px; height:200px">
+  <source src="/video/dust_01.mov" type="video/mp4">
+  <track #chapters kind='subtitles' src='/video/pale-blue-dot.vtt' srclang='en' label='English' default=""/>
+  <!-- <track #chapters kind="chapters" label="English" src="/video/chapters.vtt" srclang="en" default> -->
+</video>
+
+<div *ngFor="let chapter of chapters?.track.cues">
+  {{chapter.text}}
+</div>
+
+<!-- <pipe-top-nav></pipe-top-nav>
+
+<div id="wrapper">
+  <sidebar-left></sidebar-left>
+
+  <div id="contentWrapper">
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+</div>
+
+<footer></footer> -->

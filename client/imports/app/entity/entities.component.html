@@ -48,11 +48,12 @@
       <div class="cardDetailsFooter">
         <div class="addTask">
           <form (ngSubmit)="addTask(asset._id._str, asset[assetId])">
-            <md-input placeholder="Add Task" 
-              [(ngModel)]="asset[assetId]" 
-              name="addTask" 
-              autocomplete="off">
-            </md-input>
+            <md-input-container>
+              <input md-input placeholder="Add Task" 
+                [(ngModel)]="asset[assetId]" 
+                name="addTask" 
+                autocomplete="off">
+            </md-input-container>
           </form>
         </div>
       </div>

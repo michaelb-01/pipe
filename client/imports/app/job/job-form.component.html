@@ -2,25 +2,28 @@
 
 <div class="formContent">
   <form (ngSubmit)="onSubmit()" #jobForm="ngForm">
-    <md-input placeholder="Client" 
+    <md-input-container>
+      <input md-input placeholder="Client" 
               name="client" 
               required
               [(ngModel)]="job.client"
               autocomplete="off">
-    </md-input>
+    </md-input-container>
 
-    <md-input placeholder="Agency" 
+    <md-input-container>
+      <input md-input placeholder="Agency" 
               name="agency" 
               [(ngModel)]="job.agency"
               autocomplete="off">
-    </md-input>
+    </md-input-container>
 
-    <md-input placeholder="Name" 
+    <md-input-container>
+      <input md-input placeholder="Name" 
               name="name" 
               required
               [(ngModel)]="job.name"
               autocomplete="off">
-    </md-input>
+    </md-input-container>
 
     <input type="checkbox" [(ngModel)]="job.public"
               name="public">

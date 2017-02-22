@@ -4,20 +4,29 @@ sidebar-left {
   //width: 70%;
 }
 
+$sidebarWidth: 250px;
 .sidebarWrapper {
   position: relative;
-  width: 250px;
+  width: $sidebarWidth;
   height: 100%;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
   &.closed {
-    margin-left: -250px;
+    margin-left: -$sidebarWidth;
   }
 }
 
-$sidebarWidth: 250px;
+.tabTitle {
+  width: 125px;
+  display: inline-block;
+  cursor: pointer;
+  &.inactive {
+    box-shadow: inset 0 -2px 4px 0 #ddd;
+  }
+}
+
 .sidebar {
   position: relative;
   width: $sidebarWidth;
@@ -33,7 +42,7 @@ $sidebarWidth: 250px;
   overflow-x: visible;
   &.right {
     position: absolute;
-    width: 250px;
+    width: $sidebarWidth;
     height: 100%;
     top: 0;
     right: 0;

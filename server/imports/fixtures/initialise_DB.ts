@@ -164,6 +164,7 @@ function createEntity(jobId, jobName) {
     'type': types[Math.floor((Math.random() * types.length))],
     'tasks': tasks,
     'status': 'active',
+    'todos':[],
     'thumbUrl': images[Math.floor((Math.random() * images.length))],
     'description': Fake.sentence(7),
     'public': true
@@ -216,18 +217,18 @@ export function createJobs() {
         'thumbUrl': 'willYoung.jpg',
         'public': true
       },
+      {
+        'name': 'Test Name',
+        'client': 'Test Client',
+        'agency': 'Test Agency',
+        'thumbUrl': images[Math.floor((Math.random() * images.length))],
+        'public': true
+      },
       */
       {
         'name': 'War and Peace',
         'client': 'BBC',
         'agency': 'Someone',
-        'thumbUrl': images[Math.floor((Math.random() * images.length))],
-        'public': true
-      },
-      {
-        'name': 'Test Name',
-        'client': 'Test Client',
-        'agency': 'Test Agency',
         'thumbUrl': images[Math.floor((Math.random() * images.length))],
         'public': true
       }
@@ -246,7 +247,7 @@ export function createJobs() {
       this.jobId = Jobs.insert(jobs[i]);
 
       // random integer between 1 and 10
-      numEntities = Math.floor((Math.random() * 10) + 1);
+      numEntities = 2;//Math.floor((Math.random() * 10) + 1);
 
       // create entities in job
       for (var j = 0; j < numEntities; j++) {
