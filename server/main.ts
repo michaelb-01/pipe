@@ -74,7 +74,6 @@ Meteor.startup(() => {
 
     findMyTodos(user) {
       console.log('main.ts - find my todos');
-      //return Todos.find({'user':user});
       return Todos.aggregate(
           { $match:{ "user":user } },
           { $group:{ _id:"$entity.name", todos:{ $push:"$$ROOT" } } },

@@ -66,7 +66,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   updateTodo() {
-    this._entityService.updateTodo(this.entityId,this.originalText,this.todo);
+    this._todoService.updateTodoText(this.todo._id,this.todo.text);
   }
 
   deleteButtonClicked() {
@@ -75,7 +75,6 @@ export class TodoItemComponent implements OnInit {
 
   onToggle(e: any) {
     this._todoService.updateTodoDone(this.todo._id, this.todo.done);
-    //this._entityService.updateTodo(this.entityId,this.todo.text,this.todo);
     this.updateProgress.emit();
   } 
 }

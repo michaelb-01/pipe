@@ -2,7 +2,8 @@
   "name": "angular2-meteor-base",
   "version": false,
   "dependencies": {
-    "chai-spies": "registry:npm/chai-spies#0.7.1+20160614064916"
+    "chai-spies": "registry:npm/chai-spies#0.7.1+20160614064916",
+    "text-encoding": "github:nozzlegear/text-encoding.d.ts"
   },
   "globalDependencies": {
     "meteor": "github:meteor-typings/meteor/1.3#955b89a4e2af892d1736bc570b490a97e860d5b7"

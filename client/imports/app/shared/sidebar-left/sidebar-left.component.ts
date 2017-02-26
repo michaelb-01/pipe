@@ -79,26 +79,7 @@ export class SidebarLeftComponent extends MeteorComponent implements OnInit, OnD
     }
   }
 
-  groupTodos(todos) {
-    console.log(todos);
-    console.log(todos.length);
-    var numbers = todos.map(function(todo) { console.log(todo); });
-
-    return;
-    
-    todos.forEach(todo=>{
-      console.log(todo.entity.name);
-    })
-  }
-
-  findMyTodos() {
-    this.myTasks.forEach(task=>{
-      //console.log(task.todos);
-    });
-  }
-
   ngOnInit() {
-    console.log('sidebar-left: find my todos');
     this.call('findMyTodos',this.user, (err, res) => {
       if (res) {
           this.myTodos = res;

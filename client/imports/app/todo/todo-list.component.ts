@@ -35,14 +35,6 @@ export class TodoListComponent implements OnInit {
       }
     });
 
-    this.newTodo = {
-      "user":this.user,
-      "text":"",
-      "done":false
-    };
-
-    console.log(this.newTodo);
-
     this.resetNewTodo();
     this.updateProgress();
   }
@@ -64,9 +56,13 @@ export class TodoListComponent implements OnInit {
 
   resetNewTodo() {
     this.newTodo = {
-      'user':this.user,
-      'text':'',
-      'done':false
+      "entity":{
+        "id":this.entityId,
+        "name":this.todosTitle
+      },
+      "user":this.user,
+      "text":"",
+      "done":false
     };
   }
 
@@ -79,7 +75,9 @@ export class TodoListComponent implements OnInit {
 
   addNewTodo() {
     if (this.newTodo.text) {
-      this._entityService.addTodo(this.entityId,this.newTodo);
+      console.log(this.newTodo);
+      return;
+      this._todoService.addTodo(this.newTodo);
 
       this.resetNewTodo();
     }
