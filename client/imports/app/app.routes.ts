@@ -19,10 +19,10 @@ export const routes: Route[] = [
   { path: 'entity/:entityId', component: EntityComponent, canActivate: ['canActivateForLoggedIn']},
   { path: 'entity/:entityId/:taskType', component: EntityComponent, canActivate: ['canActivateForLoggedIn']},
 
-  { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] }
+  { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] },
 
-  //{ path: '', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
-  //{ path: '**', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] }
+  { path: '', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
+  { path: '**', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] }
 ];
 
 export const ROUTES_PROVIDERS = [{

@@ -6,13 +6,11 @@ import { createJobs } from './imports/fixtures/initialise_DB';
 import { createUsers } from './imports/fixtures/initialise_DB';
 
 import { Entities } from "../both/collections/entities.collection";
-import { Todos } from "../both/collections/todos.collection";
 import { Versions } from "../both/collections/versions.collection";
 
 //import './imports/publications/parties';
 import './imports/publications/jobs';  
 import './imports/publications/entities';  
-import './imports/publications/todos';  
 import './imports/publications/versions';  
 import './imports/publications/users';  
 import './imports/publications/activity';  
@@ -72,15 +70,6 @@ Meteor.startup(() => {
       Versions.remove({"job.jobId":id});
     },
 
-    findMyTodos(user) {
-      console.log('main.ts - find my todos');
-      return Todos.aggregate(
-          { $match:{ "user":user } },
-          { $group:{ _id:"$entity.name", todos:{ $push:"$$ROOT" } } },
-          { $sort:{ "_id":1 } }
-        );
-    },
-
     addTodo(entityId,user,todo) {
       console.log(entityId);
       console.log(user);
@@ -92,12 +81,18 @@ Meteor.startup(() => {
       );
     },
 
-    updateTodo(entityId,oldText,todo) {
-      console.log('update todo');
+    updateTodo(entityId,todo) {
       Entities.update({"_id":entityId,
-                 "todos.text":oldText},
+                 "todos._id":todo._id},
                  {$set:{"todos.$.text":todo.text,
                         "todos.$.done":todo.done}});
+    },
+
+    deleteTodo(entityId,todo) {
+      Entities.update(
+        { "_id": entityId },
+        { $pull: { "todos": { "_id": todo._id } } }
+      );
     }
   });
 

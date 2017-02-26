@@ -49,7 +49,7 @@
         <div class="addTask">
           <form (ngSubmit)="addTask(asset._id._str, asset[assetId])">
             <md-input-container>
-              <input md-input placeholder="Add Task" 
+              <input mdInput placeholder="Add Task" 
                 [(ngModel)]="asset[assetId]" 
                 name="addTask" 
                 autocomplete="off">

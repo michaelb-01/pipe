@@ -35,6 +35,14 @@ export class TodoListComponent implements OnInit {
       }
     });
 
+    this.newTodo = {
+      "user":this.user,
+      "text":"",
+      "done":false
+    };
+
+    console.log(this.newTodo);
+
     this.resetNewTodo();
     this.updateProgress();
   }
@@ -56,28 +64,19 @@ export class TodoListComponent implements OnInit {
 
   resetNewTodo() {
     this.newTodo = {
-      "entity":{
-        "id":this.entityId,
-        "name":this.todosTitle
-      },
-      "user":this.user,
-      "text":"",
-      "done":false
+      'user':this.user,
+      'text':'',
+      'done':false
     };
   }
 
   deleteTodo(todo: Todo) {
-    const index = this.todos.indexOf(todo);
-    if (index !== -1) {
-        this.todos.splice(index, 1);
-    }
+    this._entityService.deleteTodo(this.entityId,todo);
   }
 
   addNewTodo() {
     if (this.newTodo.text) {
-      console.log(this.newTodo);
-      return;
-      this._todoService.addTodo(this.newTodo);
+      this._entityService.addTodo(this.entityId,this.newTodo);
 
       this.resetNewTodo();
     }

@@ -3,7 +3,7 @@
 <div class="formContent">
   <form (ngSubmit)="onSubmit()" #jobForm="ngForm">
     <md-input-container>
-      <input md-input placeholder="Client" 
+      <input mdInput placeholder="Client" 
               name="client" 
               required
               [(ngModel)]="job.client"
@@ -11,14 +11,14 @@
     </md-input-container>
 
     <md-input-container>
-      <input md-input placeholder="Agency" 
+      <input mdInput placeholder="Agency" 
               name="agency" 
               [(ngModel)]="job.agency"
               autocomplete="off">
     </md-input-container>
 
     <md-input-container>
-      <input md-input placeholder="Name" 
+      <input mdInput placeholder="Name" 
               name="name" 
               required
               [(ngModel)]="job.name"

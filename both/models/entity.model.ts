@@ -2,8 +2,8 @@ import { CollectionObject } from './collection-object.model';
 
 export interface Entity extends CollectionObject {
   job: {
-    id: string,
-    name: string
+    jobId: string,
+    jobName: string
   };
   name: string;
   type: string;

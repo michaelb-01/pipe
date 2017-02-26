@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { PipeUser } from '../../../../both/models/user.model';
 import { PipeUsers } from '../../../../both/collections/users.collection';
 
+import { Todo } from '../todo/todo.model';
+
 import { Observable } from "rxjs";
 
 import { MeteorObservable } from 'meteor-rxjs';
@@ -20,6 +22,9 @@ export class UserService {
     return PipeUsers.find();
   }
 
+  public findMyTodos() : Observable<Todo[]> {
+
+  }
 }
 
 

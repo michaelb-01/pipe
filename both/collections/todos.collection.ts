@@ -2,7 +2,7 @@ import { MongoObservable } from 'meteor-rxjs';
 
 import { Todo } from '../models/todo.model';
 
-export const Todos = new Mongo.Collection<Todo>('todos', {idGeneration: 'MONGO'});
+export const Todos = new MongoObservable.Collection<Todo>('todos', {idGeneration: 'MONGO'});
 
 function loggedIn() {
   return !!Meteor.user();

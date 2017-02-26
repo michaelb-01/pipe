@@ -55,23 +55,22 @@ export class EntityService {
   }
 
   public addTodo(entityId, todo) {
+    todo['_id'] = new Mongo.ObjectID();
+
     Entities.update( { "_id": entityId},   
       { "$push": {"todos": todo } }
     );
   }
 
-  public updateTodo(entityId,oldText,todo) {
-    Meteor.call('updateTodo', entityId, oldText, todo);
+  public updateTodo(entityId,todo) {
+    console.log(todo);
+    Meteor.call('updateTodo', entityId, todo);
 
     //db.entities.update({"name":"I.","todos.text":"Mike's first todo"},{$set:{"todos.$.text":"Mike's updated todo"}});
   }
 
   public deleteTodo(entityId, todo) {
-    Entities.update( { "_id": entityId},   
-      { "pull": 
-        {"todo": todo }
-      }
-    );
+    Meteor.call('deleteTodo', entityId, todo);
   }
 }
 

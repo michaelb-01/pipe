@@ -4,14 +4,6 @@ import { Entity } from '../../../../../both/models/entity.model';
 import { Entities } from '../../../../../both/collections/entities.collection';
 import { EntityService } from '../../entity/entity.service';
 
-import { Todo } from '../../../../../both/models/todo.model';
-import { Todos } from '../../../../../both/collections/todos.collection';
-import { TodoService } from '../../todo/todo.service';
-
-import { Mongo } from 'meteor/mongo';
-import { Meteor } from 'meteor/meteor';
-import { MeteorComponent } from 'angular2-meteor';
-
 import { MeteorObservable } from 'meteor-rxjs';
 
 import { Observable } from 'rxjs/Observable';
@@ -21,36 +13,21 @@ import template from './sidebar-left.component.html';
 
 @Component({
   selector: 'sidebar-left',
-  providers: [ EntityService,
-               TodoService ],
+  providers: [ EntityService ],
   template
 })
 
-export class SidebarLeftComponent extends MeteorComponent implements OnInit, OnDestroy {
+export class SidebarLeftComponent implements OnInit, OnDestroy {
   myTasksSub: Subscription;
   myTasks: Entity[];
 
-  myTodosSub: Subscription;
-
   user: string = 'Mike Battcock';
 
-  myTodos: Mongo.Cursor<Todo>;
-  subscription: any;
+  myTodos: any[];
 
   selectedTab = 1;
 
-  constructor(private _entityService: EntityService,
-              private _todoService: TodoService) {
-    super();
-    // var source = Observable.interval(500).take(5);
-
-    // var sub = source.groupBy(x=>x%2)
-    //                 //.map(innerObs=>innerObs.count())
-    //                 //.mergeAll()
-    //                 .subscribe( x => {
-    //                   console.log(x);
-    //                 });
-
+  constructor(private _entityService: EntityService) {
     if (Meteor.userId()) {
       if (this.myTasksSub) {
         this.myTasksSub.unsubscribe();
@@ -60,34 +37,20 @@ export class SidebarLeftComponent extends MeteorComponent implements OnInit, OnD
         MeteorObservable.autorun().subscribe(() => {
           this._entityService.findMyTasks(this.user).subscribe(tasks => {
             this.myTasks = tasks;
+            console.log(tasks);
           });
         });
       });
-
-      // this.myTodosSub = MeteorObservable.subscribe('todos').subscribe(() => {
-      //   MeteorObservable.autorun().subscribe(() => {
-          
-      //     // this._todoService.findMyTodos(this.user)
-      //     //                  .throttleTime(10)
-      //     //                  .mergeAll()
-      //     //                  .groupBy(x=>x.done)
-      //     //                  .subscribe(todos => {
-      //     //                     console.log(todos);
-      //     //                  });
-      //   });
-      // });
     }
   }
 
+  findMyTodos() {
+    this.myTasks.forEach(task=>{
+      //console.log(task.todos);
+    });
+  }
+
   ngOnInit() {
-    this.call('findMyTodos',this.user, (err, res) => {
-      if (res) {
-          this.myTodos = res;
-          console.log(res);
-      } else if (err) {
-          console.log(err);
-      }
-    }, true);  // set `autoBind` to `true` here
   }
 
   showSidebarLeft = true;

@@ -3,7 +3,6 @@ import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ChangeDetect
 import { Todo } from "./todo.model";
 
 import { EntityService } from '../entity/entity.service';
-import { TodoService } from './todo.service';
 
 import template from './todo-item.component.html';
 
@@ -32,8 +31,7 @@ export class TodoItemComponent implements OnInit {
   originalText: string;
 
   constructor(private changeDetector:ChangeDetectorRef,
-              private _entityService: EntityService,
-              private _todoService: TodoService){}
+              private _entityService: EntityService){}
 
   ngOnInit() {}
 
@@ -66,7 +64,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   updateTodo() {
-    this._todoService.updateTodoText(this.todo._id,this.todo.text);
+    this._entityService.updateTodo(this.entityId,this.originalText,this.todo);
   }
 
   deleteButtonClicked() {
@@ -74,7 +72,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   onToggle(e: any) {
-    this._todoService.updateTodoDone(this.todo._id, this.todo.done);
+    this._entityService.updateTodo(this.entityId,this.todo.text,this.todo);
     this.updateProgress.emit();
   } 
 }
