@@ -23,7 +23,7 @@ import template from './entity-form.component.html';
 export class EntityFormComponent extends MeteorComponent { 
   usersSub: Subscription;
 
-  users: Observable<PipeUser[]>;
+  users: Observable<Array<PipeUser>>;
 
   filteredUsers: PipeUser[] = [];
   selectedUsers: PipeUser[] = [];

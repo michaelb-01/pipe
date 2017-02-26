@@ -83,7 +83,6 @@ export class SidebarLeftComponent extends MeteorComponent implements OnInit, OnD
     this.call('findMyTodos',this.user, (err, res) => {
       if (res) {
           this.myTodos = res;
-          console.log(res);
       } else if (err) {
           console.log(err);
       }

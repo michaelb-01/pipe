@@ -70,7 +70,8 @@ export class TodoItemComponent implements OnInit {
   }
 
   deleteButtonClicked() {
-    this.deleteTodo.emit(this.todo);
+     this._todoService.deleteTodo(this.todo._id);
+    //this.deleteTodo.emit(this.todo);
   }
 
   onToggle(e: any) {

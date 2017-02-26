@@ -183,38 +183,6 @@ export class EntitiesComponent implements OnInit, OnDestroy {
     this.showDetails = !this.showDetails;
   }
 
-  onAssignOld2(event) {
-
-    if (event.mode == false) {
-      for (var i = 0; i < this.selected.length; i++) {
-        for (var j = 0; j < event.users.length; j++) {
-          this._entityService.unassignUser2(this.selected[i].id._str, this.selected[i].taskId, event.users[j].name);
-          //this.reselect();
-        }
-      }
-    }
-    else {
-
-      for (var i = 0; i < this.selected.length; i++) {
-        for (var j = 0; j < event.users.length; j++) {
-          var found = 0;
-
-          for (var k = 0; k < this.selected[i].task.users.length; k++) {
-            if (event.users[j].name == this.selected[i].task.users[k].name) {
-              found = 1;
-            }
-          }
-
-          if (found == 0) {
-            this._entityService.assignUser2(this.selected[i].id._str, this.selected[i].taskId, event.users[j].name);
-            this.selected[i].task.users.push({"name":event.users[j].name});
-            this.reselect();
-          }
-        }
-      }
-    }
-  }
-
   onAssign(event) {
     if (event.mode == false) {
       for (var i = 0; i < this.selected.length; i++) {

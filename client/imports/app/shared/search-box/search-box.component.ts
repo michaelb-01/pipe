@@ -4,7 +4,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
   selector:'search-box',
   template:`<div class='searchBoxWrapper'>
               <md-input-container>
-                <input md-input #input2 placeholder="Filter" 
+                <input mdInput #input2 placeholder="Filter" 
                   (input)="update.emit(input2.value)"
                   autocomplete="off">
               </md-input-container>
