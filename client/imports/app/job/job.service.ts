@@ -28,7 +28,6 @@ export class JobService {
   }
 
   public getJobActivity(jobId) : Observable<Action[]> {
-    console.log('job id ' + jobId);
     return Activity.find({"meta.jobId": jobId},{limit:2});
   }
 
@@ -37,13 +36,10 @@ export class JobService {
   }
 
   public editJob(id, job) {
-    console.log(job);
-
     Jobs.update({"_id": new Mongo.ObjectID(id)}, {$set:job} );
   }
 
   public deleteJob(id) {
-    console.log(id);
     Jobs.remove({"_id": id});
   }
 }

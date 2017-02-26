@@ -5,10 +5,7 @@ export interface Todo extends CollectionObject {
     id: string,
     name: string
   };
-  user: {
-    id: string,
-    name: string
-  };
+  user: string;
   text: string;
   done: string;
 }

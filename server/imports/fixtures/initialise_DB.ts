@@ -5,6 +5,7 @@ import { Entities } from '../../../both/collections/entities.collection';
 import { Versions } from '../../../both/collections/versions.collection';
 import { PipeUsers } from '../../../both/collections/users.collection';
 import { Activity } from '../../../both/collections/activity.collection';
+import { Todos } from '../../../both/collections/todos.collection';
 
 import { Mongo } from 'meteor/mongo';
 
@@ -46,6 +47,21 @@ export function createUsers() {
       PipeUsers.insert(user);
     }
   }
+}
+
+function createTodo(entityId,entityName) {
+  const user = users[Math.floor(Math.random()*users.length)];
+
+  Todos.insert({
+    'entity': {
+      'id':entityId,
+      'name':entityName
+    },
+    'user': user,
+    'text': Fake.sentence(3),
+    'done': Math.floor(Math.random()+0.5)
+
+  });
 }
 
 function createVersion(jobId, jobName, entityId, entityName) {
@@ -172,6 +188,10 @@ function createEntity(jobId, jobName) {
 
   Entities.insert(entity);
 
+  for (var i = 0; i < 10; i++) {
+    createTodo(entityId,name);
+  }
+
   var action = {
     'author':{
       'id':'',
@@ -196,6 +216,8 @@ function createEntity(jobId, jobName) {
     createVersion(jobId, jobName, entityId._str, entity.name);
   }
 } 
+
+const tags = ['car','environment','character'];
  
 export function createJobs() {
   if (Versions.find().cursor.count() === 0) {

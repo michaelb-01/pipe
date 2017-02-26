@@ -58,8 +58,9 @@
       </div>
 
       <div class="tabContent todoWrapper" *ngIf="selectedTab==1">
-        <md-card *ngFor="let myTask of myTasks">
-          <todo-list [todos]="myTask.todos" [todosTitle]="myTask.name" [entityId]="myTask._id"></todo-list>
+
+        <md-card *ngFor="let list of myTodos">
+          <todo-list [todos]="list.todos" [todosTitle]="list._id" [entityId]="list._id"></todo-list>
         </md-card>
       </div>
     </ul>

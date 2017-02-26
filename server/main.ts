@@ -6,11 +6,13 @@ import { createJobs } from './imports/fixtures/initialise_DB';
 import { createUsers } from './imports/fixtures/initialise_DB';
 
 import { Entities } from "../both/collections/entities.collection";
+import { Todos } from "../both/collections/todos.collection";
 import { Versions } from "../both/collections/versions.collection";
 
 //import './imports/publications/parties';
 import './imports/publications/jobs';  
 import './imports/publications/entities';  
+import './imports/publications/todos';  
 import './imports/publications/versions';  
 import './imports/publications/users';  
 import './imports/publications/activity';  
@@ -68,6 +70,16 @@ Meteor.startup(() => {
     deleteJob: function (id) {
       Entities.remove({"job.jobId":id});
       Versions.remove({"job.jobId":id});
+    },
+
+    findMyTodos(user) {
+      console.log('main.ts - find my todos');
+      //return Todos.find({'user':user});
+      return Todos.aggregate(
+          { $match:{ "user":user } },
+          { $group:{ _id:"$entity.name", todos:{ $push:"$$ROOT" } } },
+          { $sort:{ "_id":1 } }
+        );
     },
 
     addTodo(entityId,user,todo) {

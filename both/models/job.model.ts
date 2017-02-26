@@ -5,5 +5,6 @@ export interface Job extends CollectionObject {
   client: string;
   agency: string;
   thumbUrl?: string;
+  tags?: string[];  // e.g. car, character, environment
   public: boolean;
 }
