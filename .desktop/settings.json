@@ -1,7 +1,7 @@
 {
-    "name": "Pipe App",
+    "name": "My Meteor App",
     "version": "0.0.1",
-    "projectName": "PipeApp",
+    "projectName": "MyMeteorApp",
     "devTools": true,
     "devtron": true,
     "desktopHCP": true,
@@ -11,7 +11,7 @@
     "autoUpdateCheckOnStart": true,
     "rebuildNativeNodeModules": false,
     "webAppStartupTimeout": 60000,
-    "exposeLocalFilesystem": true,
+    "exposeLocalFilesystem": false,
     "window": {
         "icon": "@assets/meteor.png",
         "_windows": {
@@ -34,7 +34,7 @@
     "dependencies": {},
     "packageJsonFields": {
         "description": "My Meteor App",
-        "author": "Mike Battcock",
+        "author": "Me, Myself And I",
         "private": true
     },
     "builderOptions": {

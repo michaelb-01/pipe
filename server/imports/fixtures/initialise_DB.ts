@@ -8,6 +8,8 @@ import { Activity } from '../../../both/collections/activity.collection';
 
 import { Mongo } from 'meteor/mongo';
 
+declare var Fake: any;
+
 var users = ['Mike Battcock', 'Mike Skrgatic', 'Ben Cantor', 'Sam Osbourne'];
 var types = ['asset','shot'];
 var images = ['/img/bmw.jpg','/img/clothes.jpg','/img/interior.jpg','/img/wallSmash.jpg','/img/warAndPeace.jpg','/img/willYoung.jpg'];

@@ -28,20 +28,22 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
   selectedTab = 1;
 
   constructor(private _entityService: EntityService) {
-    if (Meteor.userId()) {
+    console.log('sidebar left');
+    //if (Meteor.userId()) {
       if (this.myTasksSub) {
         this.myTasksSub.unsubscribe();
       }
 
       this.myTasksSub = MeteorObservable.subscribe('entities').subscribe(() => {
         MeteorObservable.autorun().subscribe(() => {
+          console.log('find my tasks');
           this._entityService.findMyTasks(this.user).subscribe(tasks => {
             this.myTasks = tasks;
             console.log(tasks);
           });
         });
       });
-    }
+    //}
   }
 
   findMyTodos() {
