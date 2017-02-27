@@ -10,6 +10,10 @@ import { MeteorComponent } from 'angular2-meteor';
 
 import template from './job-form.component.html';
 
+declare var ObjectID : {
+  _str:string
+};
+
 @Component({
   selector: 'job-form',
   providers: [JobService],

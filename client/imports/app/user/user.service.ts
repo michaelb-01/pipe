@@ -21,10 +21,6 @@ export class UserService {
   public findUsers() : Observable<PipeUser[]> {
     return PipeUsers.find();
   }
-
-  public findMyTodos() : Observable<Todo[]> {
-
-  }
 }
 
 

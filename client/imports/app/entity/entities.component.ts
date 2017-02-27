@@ -14,6 +14,10 @@ import { EntityService } from './entity.service';
 
 import template from './entities.component.html';
 
+declare var ObjectID : {
+  _str:string
+};
+
 @Component({
   selector: 'entities',
   providers: [ EntityService ],
@@ -34,8 +38,8 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   assets = [];
   shots = [];
 
-  assets2: Observable<Entity[]>;
-  shots2: Observable<Entity[]>;
+  assets2: Entity[];
+  shots2: Entity[];
 
   selected = [];
 
@@ -58,9 +62,17 @@ export class EntitiesComponent implements OnInit, OnDestroy {
         this.entitiesSub = MeteorObservable.subscribe('entities', this.jobId).subscribe(() => {
           MeteorObservable.autorun().subscribe(() => {
             //this.entities = this._entityService.getJobEntities(jobId);
-            this.assets2 = Entities.find({$and:[{"job.jobId":jobId},{"type":"asset"}]});//.filter(entity => entity.name == "test");
+            //this.assets2 = Entities.find({$and:[{"job.jobId":jobId},{"type":"asset"}]});//.filter(entity => entity.name == "test");
 
-            this.shots2 = Entities.find({$and:[{"job.jobId":jobId},{"type":"shot"}]});
+            //this.shots2 = Entities.find({$and:[{"job.jobId":jobId},{"type":"shot"}]});
+
+            Entities.find({$and:[{"job.jobId":jobId},{"type":"asset"}]}).subscribe(entities => {
+              this.assets2 = entities;
+            });
+
+            Entities.find({$and:[{"job.jobId":jobId},{"type":"shot"}]}).subscribe(entities => {
+              this.shots2 = entities;
+            });
 
             // this.assets2 = this.hotEntities
             //                     .filter(function(e) {
@@ -183,38 +195,6 @@ export class EntitiesComponent implements OnInit, OnDestroy {
     this.showDetails = !this.showDetails;
   }
 
-  onAssignOld2(event) {
-
-    if (event.mode == false) {
-      for (var i = 0; i < this.selected.length; i++) {
-        for (var j = 0; j < event.users.length; j++) {
-          this._entityService.unassignUser2(this.selected[i].id._str, this.selected[i].taskId, event.users[j].name);
-          //this.reselect();
-        }
-      }
-    }
-    else {
-
-      for (var i = 0; i < this.selected.length; i++) {
-        for (var j = 0; j < event.users.length; j++) {
-          var found = 0;
-
-          for (var k = 0; k < this.selected[i].task.users.length; k++) {
-            if (event.users[j].name == this.selected[i].task.users[k].name) {
-              found = 1;
-            }
-          }
-
-          if (found == 0) {
-            this._entityService.assignUser2(this.selected[i].id._str, this.selected[i].taskId, event.users[j].name);
-            this.selected[i].task.users.push({"name":event.users[j].name});
-            this.reselect();
-          }
-        }
-      }
-    }
-  }
-
   onAssign(event) {
     if (event.mode == false) {
       for (var i = 0; i < this.selected.length; i++) {
@@ -235,12 +215,12 @@ export class EntitiesComponent implements OnInit, OnDestroy {
 
   reselect() {
     this.selected.forEach(sel => {
-      this.assets2._data.forEach(asset => {
+      this.assets2.forEach(asset => {
          if (asset._id._str == sel.id._str) {
            asset.tasks[sel.taskId].selected = true;
          }
       });
-      this.shots2._data.forEach(shot => {
+      this.shots2.forEach(shot => {
          if (shot._id._str == sel.id._str) {
            shot.tasks[sel.taskId].selected = true;
          }
@@ -336,7 +316,7 @@ export class EntitiesComponent implements OnInit, OnDestroy {
 
   deselectAssets() {
     console.log('deslect assets');
-    this.assets2._data.forEach(asset => {
+    this.assets2.forEach(asset => {
       asset.tasks.forEach(task => {
         task.selected = false;
       });
@@ -344,7 +324,7 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   }
 
   deselectShots() {
-    this.shots2._data.forEach((shot) => {
+    this.shots2.forEach((shot) => {
       shot.tasks.forEach((task) => {
         task.selected = false;
       });

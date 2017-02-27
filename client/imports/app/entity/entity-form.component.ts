@@ -25,8 +25,8 @@ export class EntityFormComponent extends MeteorComponent {
 
   users: Observable<PipeUser[]>;
 
-  filteredUsers: PipeUser[] = [];
-  selectedUsers: PipeUser[] = [];
+  filteredUsers: any[] = [];
+  selectedUsers: any[] = [];
 
   selectedUsersID: string;
 

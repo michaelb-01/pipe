@@ -15,6 +15,9 @@ import '../shared/js/numeric-1.2.6.min.js';
 
 import template from './review.component.html';
 
+declare var numeric: any;
+
+
 @Component({
   providers: [
     VersionService

@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<h5>Assets ({{assets2?._data.length}})</h5>
+<h5>Assets ({{assets2?.length}})</h5>
 
 <span class='tooltipUser' [style.top]="top" [style.left]="left"
       [ngClass]="{hidden: tooltipName==''}">
@@ -21,7 +21,7 @@
 </span>
 
 <div class="cards assets">
-  <div *ngFor="let asset of assets2 | async | filter:term; let assetId = index; trackBy:trackByIndex;" class="card card-mid">
+  <div *ngFor="let asset of assets2 | filter:term; let assetId = index; trackBy:trackByIndex;" class="card card-mid">
     <div class="card-details" [ngClass]="{show: showDetails}">
       <a class="card-details-title bold" [routerLink]="['/entity', asset._id._str]">{{asset.name}}</a>
       <ul class="task-list">
@@ -71,10 +71,10 @@
   </div>
 </div>
 
-<h5>Shots ({{shots2?._data.length}})</h5>
+<h5>Shots ({{shots2?.length}})</h5>
 
 <div class="cards shots">
-  <div *ngFor="let shot of shots2 | async; let shotId = index;" class="card card-mid">
+  <div *ngFor="let shot of shots2; let shotId = index;" class="card card-mid">
     <div class="card-details" [ngClass]="{show: showDetails}">
       <div class="card-details-title bold">{{shot.name}}</div>
       <ul class="task-list">
