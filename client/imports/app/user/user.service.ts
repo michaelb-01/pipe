@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { PipeUser } from '../../../../both/models/user.model';
 import { PipeUsers } from '../../../../both/collections/users.collection';
 
-import { Todo } from '../todo/todo.model';
+import { Todo } from '../../../../both/models/todo.model';
 
 import { Observable } from "rxjs";
 

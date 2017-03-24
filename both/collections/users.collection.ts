@@ -1,4 +1,5 @@
 import { MongoObservable } from 'meteor-rxjs';
+import { Meteor } from 'meteor/meteor';
 
 import { PipeUser } from '../models/user.model';
 

@@ -1,0 +1,75 @@
+<p class="title">CREATE ENTITY</p>
+
+<div class="formContent">
+  <form #entityForm="ngForm" (ngSubmit)="onSubmit()">
+    <md-input-container>
+      <input mdInput placeholder="Job Name" 
+              name="jobName" 
+              disabled="" 
+              [(ngModel)]="entity.job.jobName"
+              autocomplete="off">
+    </md-input-container>
+
+<!--     <md-input-container>
+      <input mdInput placeholder="Type" 
+              name="type" 
+              required
+              [(ngModel)]="entity.type"
+              autocomplete="off">
+    </md-input-container> -->
+
+    <div>
+      <select [(ngModel)]="entity.type" name="type">
+        <option value="asset">Asset</option>
+        <option value="shot">Shot</option>
+      </select>
+    </div>
+
+    <md-input-container *ngIf="entity.type=='shot'">
+      <input mdInput placeholder="Shot Number" 
+              name="numShots"
+              [(ngModel)]="shotNumber"
+              (ngModelChange)="shotUpdate($event)"
+              type="number"
+              required
+              autocomplete="off">
+    </md-input-container>
+
+    <md-input-container *ngIf="entity.type=='asset'">
+      <input mdInput placeholder="Name" 
+              name="name" 
+              required
+              [(ngModel)]="entity.name"
+              autocomplete="off">
+    </md-input-container>
+
+    <md-input-container>
+      <input mdInput placeholder="Status" 
+              name="status" 
+              required
+              [(ngModel)]="entity.status"
+              autocomplete="off">
+    </md-input-container>
+
+    <br>
+
+    <md-checkbox [(ngModel)]="entity.public" name="public">Public?</md-checkbox>
+
+    <br>
+
+    <label class="image-uploader" (dragenter)="onDragEnter($event)"
+                                  (dragover)="onDragOver($event)"
+                                  (dragleave)="onDragLeave($event)"
+                                  (dragend)="onDragEnd($event)"
+                                  (drop)="onDrop($event)"
+                                  [ngStyle]="{'border-style':borderStyle}">
+      <input type="file" required/>
+      <span>Upload Thumbnail</span>
+    </label>
+
+    <br>
+
+    <button type="submit" (click)="onSubmit()">Create</button>
+  </form>
+</div>
+

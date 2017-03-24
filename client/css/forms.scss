@@ -5,7 +5,7 @@
   height: 100%;
   width: 250px;
   background-color: white;
-  z-index: 2001;
+  z-index: 101;
   box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.12);
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
@@ -76,5 +76,13 @@
   &.selected {
     //background-color: 
     color: #ff0d0d;
+  }
+}
+
+.formButtons {
+  button {
+    width: 100%;
+    border: 1px solid black;
+    margin: 5px 0;
   }
 }

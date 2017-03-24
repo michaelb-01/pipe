@@ -26,8 +26,8 @@ import 'hammerjs';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    MaterialModule.forRoot(),
-    AccountsModule
+    AccountsModule,
+    MaterialModule
   ],
   declarations: [
     AppComponent,

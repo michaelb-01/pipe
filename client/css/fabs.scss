@@ -4,6 +4,7 @@
   bottom:0px;
   left: -95px;
   margin:1em;
+  z-index: 20;
   &:hover li:not(:last-child) > .fab {
     opacity: 1;
     //-webkit-transform: none;

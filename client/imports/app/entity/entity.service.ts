@@ -19,12 +19,34 @@ export class EntityService {
     MeteorObservable.subscribe("entities").subscribe();
   }
 
+  public findEntities(jobId,type) : Observable<Entity[]> {
+    return Entities.find({$and:[{"job.jobId":jobId},{"type":type}]});
+  }
+
   public getJobEntities(jobId) : Observable<Entity[]> {
     return Entities.find({ "job.jobId":jobId });
   }
 
   public getEntityById(entityId) : Entity {
     return Entities.findOne({"_id": new Mongo.ObjectID(entityId)});
+  }
+
+  public createEntity(entity) {
+    Entities.insert(entity);
+
+    Meteor.call('createEntity', entity);
+  }
+
+  public updateEntity(entity, oldPath) {
+    let id = entity._id;
+
+    delete entity._id;
+
+    Entities.update({"_id": id}, { $set:entity } );
+
+    if (oldPath) {
+      Meteor.call('renameFolder', oldPath, entity.path);
+    }
   }
 
   public findMyTasks(user) : Observable<Entity[]> {
@@ -47,11 +69,12 @@ export class EntityService {
 
   public addTask(entitiyId, taskName) {
     var task = {
+      '_id': new Mongo.ObjectID(),
       'type': taskName,
       'users':[]
     }
 
-    Entities.update({"_id":new Mongo.ObjectID(entitiyId) },{$push : {"tasks":task}});
+    Entities.update({"_id":entitiyId },{$push : {"tasks":task}});
   }
 
   public addTodo(entityId, todo) {

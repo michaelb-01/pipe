@@ -1,4 +1,4 @@
-import { Job } from "../../../both/models/job.model";
+import { IJob, Job } from "../../../both/models/job.model";
 
 import { Jobs } from '../../../both/collections/jobs.collection';
 import { Entities } from '../../../both/collections/entities.collection';
@@ -33,7 +33,6 @@ function numberGen()
 
   return text;
 }
-
 
 export function createUsers() {
   if (PipeUsers.find().cursor.count() === 0) {
@@ -197,7 +196,7 @@ function createEntity(jobId, jobName) {
 
   // create entities in job
   for (var i = 0; i < numVersions; i++) {
-    createVersion(jobId, jobName, entityId._str, entity.name);
+    createVersion(jobId, jobName, entityId.valueOf(), entity.name);
   }
 } 
  
@@ -205,57 +204,34 @@ export function createJobs() {
   if (Versions.find().cursor.count() === 0) {
     console.log('load default jobs');
 
-    const jobs: Job[] = [
-      /*
-      {
-        'name': 'X-World',
-        'client': 'BMW',
-        'agency': 'Radical',
-        'thumbUrl': 'bmw.jpg',
-        'public': true
-      },
-      {
-        'name': 'What The World Needs Now is Love',
-        'client': 'Will Young',
-        'agency': 'WWF',
-        'thumbUrl': 'willYoung.jpg',
-        'public': true
-      },
-      {
-        'name': 'Test Name',
-        'client': 'Test Client',
-        'agency': 'Test Agency',
-        'thumbUrl': images[Math.floor((Math.random() * images.length))],
-        'public': true
-      },
-      */
-      {
-        'name': 'War and Peace',
-        'client': 'BBC',
-        'agency': 'Someone',
-        'thumbUrl': images[Math.floor((Math.random() * images.length))],
-        'public': true
-      }
-    ];
+    const jobs: Job[] = [];
 
-    console.log('loaded the following jobs:');
+    const job = new Job();
 
-    var jobId = '';
-    var numEntities = 1;
+    job.name = 'War and Peace';
+    job.client = 'BBC';
+    job.agency = 'Someone';
+    job.thumbUrl = images[Math.floor((Math.random() * images.length))];
+    job.public = true;
+
+    jobs.push(job);
+
+    let jobId = '';
+    let numEntities = 4;
 
     for (var i = 0; i < jobs.length; i++) {
-      var objectId = new Mongo.ObjectID();
+      let objectId = new Mongo.ObjectID();
 
-      jobs[i]._id = objectId; // remove _str for mongo style id generation
+      jobs[i]._id = objectId; // remove valueOf() for mongo style id generation
 
       this.jobId = Jobs.insert(jobs[i]);
 
       // random integer between 1 and 10
-      numEntities = 6;//Math.floor((Math.random() * 10) + 1);
+      numEntities = Math.floor((Math.random() * 10) + 1);
 
       // create entities in job
       for (var j = 0; j < numEntities; j++) {
-        createEntity(objectId._str, jobs[i].name);
+        createEntity(objectId.valueOf(), jobs[i].name);
       }
     }
   }

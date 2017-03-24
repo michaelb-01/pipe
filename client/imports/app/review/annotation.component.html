@@ -1,0 +1,50 @@
+<div class="annotainWrapper">
+  <div class="annotationContainer" #annotationContainer 
+    (mousedown)="containerMouseDown($event)"
+    (mousemove)="containerMouseMove($event)"
+    (mouseleave)="containerMouseLeave($event)"
+    (mouseup)="containerMouseUp($event)">
+
+    <div #annotation2 *ngFor="let annotation of annotations; let i = index" 
+      class="annotation"
+      [ngStyle]="{'top': annotation.y + '%', 'left': annotation.x + '%'}"
+      (mousedown)="annotationMouseDown(annotation,$event,i)"
+      (mouseup)="dragging=false">
+
+      <div class="line" [ngStyle]="{'width': annotation.lineLen + 'px',
+                                    'transform': 'rotate(' + annotation.lineRot + 'deg)'}"></div>
+
+      <div class="annotationText" 
+          (mousedown)="textContainerMouseDown($event)"
+          (mouseup)="textContainerMouseUp($event)"
+          [ngStyle]="{'margin-top': (annotation.colOffsetY + annotation.offsetY) + 'px',
+                      'margin-left': (annotation.colOffsetX + annotation.offsetX) + 'px'}">
+
+        <i (click)="deleteAnnotation(i)" class="material-icons annotationDelete">delete</i>
+
+        Offset: {{annotation.offsetX}}, {{annotation.offsetY}}
+
+        <md-input-container class="edit-input">
+          <textarea mdInput
+            mdTextareaAutosize
+            [(ngModel)]="annotation.text" placeholder="Comment">
+          </textarea>
+
+        </md-input-container>
+      </div>
+    </div>
+  </div>
+</div>
+
+Dragging: {{dragging}}
+<br>
+Annotation Dimensions: {{selectedTextBoxEl?.offsetWidth}}, {{selectedTextBoxEl?.offsetHeight}}
+<br>
+Annotation Offset Dimensions: {{annotationDim.left}}, {{annotationDim.top}}, {{annotationDim.right}}, {{annotationDim.bottom}}
+<br>
+Old Offset: {{oldOffsetX}}, {{oldOffsetY}}
+<br>
+Offset: {{offsetTop}}, {{offsetLeft}}
+<br>
+Container Dimensions: {{width}}, {{height}}
+

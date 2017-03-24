@@ -1,0 +1,37 @@
+<search-box (update)="term = $event"></search-box>
+
+<div class="assignView" (click)="showTasks()">
+  <div class="assignViewIcon" [ngClass]="{showAssign: showDetails}">
+    <i class="material-icons" 
+        style="position: absolute;
+        color: #595f67">people</i>
+
+    <i class="material-icons"
+       style="position: absolute;
+          top: 20px;
+          color: #595f67">dashboard</i>
+  </div>
+</div>
+
+<h5>{{title}} ({{entities?.length}})</h5>
+
+<!-- <span class='tooltipUser' [style.top]="top" [style.left]="left"
+      [ngClass]="{hidden: tooltipName==''}">
+      {{tooltipName}} 
+</span> -->
+
+<div class="cards assets">
+  <div *ngFor="let entity of entities | filter:term; let id = index; trackBy:trackByIndex;" class="card card-mid">
+    <entity-item (click)="selectEntity(entity)" [entity]="entity" [showDetails]="showDetails" (taskSelected)="selectTask($event)"></entity-item>
+  </div>
+
+</div>
+
+<div id="form-container" [ngClass]="{closed: sidebarClosed}">
+  <entity-form2 #entityForm [method]="edit"></entity-form2>
+
+  <button (click)="closeSidebar()" [ngClass]="{active: !sidebarClosed}" class="burger left burger--htx">
+    <span></span>
+    <span></span>
+  </button>
+</div>

@@ -1,0 +1,18 @@
+.image-uploader { 
+  border: 2px dashed #AAA;
+  border-radius: 4px;
+  margin: 10px 0;
+  width: 100%;
+  height: 100px;
+  display: block;
+  input[type="file"] {
+      position: fixed;
+      top: -1000px;
+  }
+  span {
+    width:100%;
+    line-height: 100px;
+    text-align: center;
+    display: inline-block;
+  }
+}

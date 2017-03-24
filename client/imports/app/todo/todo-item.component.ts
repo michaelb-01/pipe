@@ -1,6 +1,6 @@
 import { Component, Input, Output, OnInit, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
 
-import { Todo } from "./todo.model";
+import { Todo } from "../../../../both/models/todo.model";
 
 import { EntityService } from '../entity/entity.service';
 
@@ -64,7 +64,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   updateTodo() {
-    this._entityService.updateTodo(this.entityId,this.originalText,this.todo);
+    this._entityService.updateTodo(this.entityId,this.todo);
   }
 
   deleteButtonClicked() {
@@ -72,7 +72,7 @@ export class TodoItemComponent implements OnInit {
   }
 
   onToggle(e: any) {
-    this._entityService.updateTodo(this.entityId,this.todo.text,this.todo);
+    this._entityService.updateTodo(this.entityId,this.todo);
     this.updateProgress.emit();
   } 
 }

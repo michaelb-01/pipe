@@ -2,6 +2,7 @@
 <button (click)="readImageFile()">Read Image File</button>
 <button (click)="writeTextFile()">Write Text File</button>
  -->
+
 <div class="contentSafe">
   <div *ngFor="let job of jobs | async; let idx=index" class="card card-big" (click)="editJob(job)">
     <div class="card-image">
@@ -24,9 +25,13 @@
   </div>
 </div>
 
+<!-- <md-input-container>
+   <input type="text" mdInput [formControl]="myControl">
+</md-input-container> -->
+
 <div id="form-container" [ngClass]="{closed: sidebarClosed}">
 
-  <job-form [method]="method" [job]="job"></job-form>
+  <job-form #jobForm [method]="method"></job-form>
 
   <button (click)="toggleSidebarRight(!showSidebarRight)" [ngClass]="{active: !sidebarClosed}" class="burger left burger--htx">
     <span></span>

@@ -1,0 +1,44 @@
+<div class="card-details" [ngClass]="{show: showDetails}">
+  <div class="card-details-title bold">{{entity.name}}</div>
+  <ul class="task-list">
+    <li *ngFor="let task of entity.tasks | filter:term; let taskId = index;" 
+       (click)="selectTask(task)" 
+       class="task-item"
+       [ngClass]="{selected: task.selected}">
+      <span class="type">
+        {{task.type}} 
+      </span>
+      <div class="chips chips-small">
+        <div *ngFor="let taskUser of task.users | filter:term" class="chip">
+          {{taskUser | firstLetter}}
+        </div>
+      </div>
+      <hr class="hr-thin">
+    </li>
+<!--     <li class="task-item">
+      <span class="type">{{taskName}}</span>
+    </li> -->
+  </ul>
+  <div class="cardDetailsFooter">
+    <div class="addTask">
+      <form (ngSubmit)="addTask(taskName)">
+        <md-input-container>
+          <input mdInput placeholder="Add Task" 
+            [(ngModel)]="taskName" 
+            name="addTask" 
+            autocomplete="off">
+        </md-input-container>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="card-thumb">
+  <img src="{{entity?.thumbUrl}}" onerror="this.src='/img/default.jpg'">
+  <div class="banner fadeOut">
+    <a [routerLink]="['/entity', entity._id._str]">
+      <h2 class="cardTitle">{{entity?.name}}</h2>
+      <h5 class="cardTag">{{entity?.type}}</h5>
+    </a>
+  </div>
+</div>
+

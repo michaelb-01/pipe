@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/map';
 import { MeteorObservable } from 'meteor-rxjs';
 
-import {MeteorComponent} from 'angular2-meteor';
+import { MeteorComponent } from 'angular2-meteor';
 
 import { Entity } from "../../../../both/models/entity.model";
 

@@ -17,7 +17,6 @@ import template from './review.component.html';
 
 declare var numeric: any;
 
-
 @Component({
   providers: [
     VersionService
@@ -176,14 +175,11 @@ export class ReviewComponent {
   }
 
   clearCanvas() {
-    console.log('clear canvas');
     this.ctx.clearRect(0, 0, this.canvas.nativeElement.width, this.canvas.nativeElement.height);
   }
 
   drawOldStrokes() {
     this.clearCanvas();
-
-    console.log('draw old strokes');
 
     for (var i = 0; i < this.version.review.length; i++) {
       if (this.version.review[i].frame == this.frame && this.version.review[i].type == 1) {
@@ -201,22 +197,18 @@ export class ReviewComponent {
 
         var scale = this.media.clientWidth / this.version.review[i].width;
 
-        console.log('scale: ' + scale);
-
         this.draw_spline(ss, colour, width, scale);
       }
     }
   }
 
   videoSeeking() {
-    console.log('video seeking');
     this.updateFrame();
 
     this.drawOldStrokes();
   }
 
   goToReview(review) {
-    console.log('go to review');
     if (this.version.contentType == "video") {
       this.media.pause();
       this.media.currentTime = review.frame / this.fps;
@@ -226,7 +218,6 @@ export class ReviewComponent {
   }
 
   goToNextNote() {
-    console.log('go to next note');
     this.media.pause();
 
     var lowest = 99999;
@@ -255,7 +246,6 @@ export class ReviewComponent {
   }
 
   goToPreviousNote() {
-    console.log('go to previous note');
     this.media.pause();
 
     var highest = -99999;
@@ -284,7 +274,7 @@ export class ReviewComponent {
   }
 
   goToVersion(version) {
-    this.router.navigate(['/review', version._id._str]);
+    this.router.navigate(['/review', version._id.valueOf()]);
   }
 
   flashFrame(seekFrame) {
@@ -296,7 +286,6 @@ export class ReviewComponent {
   }
 
   canvasMouseDown(e) {
-    console.log('canvas mouse down');
     if (this.version.contentType == "video") {
       this.media.pause();
     }
@@ -335,7 +324,6 @@ export class ReviewComponent {
   }
 
   onPaint(e) {
-    console.log('onPaint()');
     var mouse = this.getMousePos(this.canvas, e);
 
     var nx = mouse[0];
@@ -356,7 +344,6 @@ export class ReviewComponent {
   }
 
   drawSegment(x1, y1, x2, y2) {
-    console.log('drawSegment()');
     this.ctx.beginPath();
     this.ctx.moveTo(x1, y1);
     this.ctx.lineTo(x2, y2);
@@ -365,7 +352,6 @@ export class ReviewComponent {
   }
 
   simplify_spline(spold, tolerance) {
-    console.log('simplifySpline()');
     // Simplifies the source spline by trying to find a smaller set of points
     // which fit within @tolerance.
     
@@ -408,7 +394,6 @@ export class ReviewComponent {
   }
 
   draw_spline(spline, colour, width, scale) {
-    console.log('drawSpline()');
     var xys = spline.at(numeric.linspace(0,1,100));
     this.ctx.beginPath();
     this.ctx.moveTo(xys[0][0]*scale,xys[0][1]*scale);
@@ -424,7 +409,6 @@ export class ReviewComponent {
   }
 
   endPaint() {
-    console.log('endPaint()');
     if (this.mouseMoveFunc != null) {
       this.mouseMoveFunc();
     }
@@ -458,9 +442,6 @@ export class ReviewComponent {
 
   // UTILITY FUNCTIONS
   submitReview(type) {
-    console.log('submitReview()');
-
-
     var paint = {};
     var comment = '';
 
@@ -510,7 +491,6 @@ export class ReviewComponent {
   }
 
   deleteReview(e,review) {
-    console.log('deleteReview()');
     e.stopPropagation();
 
     this._versionService.deleteReview(this.versionId, review.date);
@@ -526,13 +506,10 @@ export class ReviewComponent {
   }
 
   deleteNote(e,note) {
-    console.log('deleteNote()');
-
     this._versionService.deleteNote(this.versionId, note.date);
   }
 
   getMousePos(canvas, e) {
-    console.log('getMousePos()');
     var rect = this.canvas.nativeElement.getBoundingClientRect();
 
     // use touches for iphone
@@ -544,7 +521,6 @@ export class ReviewComponent {
   }
 
   resizeCanvas(e: Event) {
-    console.log('resizeCanvas()');
     var width = this.media.clientWidth;
     var height = this.media.clientHeight;
 
@@ -560,7 +536,6 @@ export class ReviewComponent {
   }
 
   mouseOffCanvas() {
-    console.log('mouseOffCanvas()');
     if (this.paint) {
       this.endPaint();
     }
@@ -568,7 +543,6 @@ export class ReviewComponent {
 
   // distance between two points
   dist2(p1, p2) {
-    console.log('dist2()');
     var dx = p1[0] - p2[0];
     var dy = p1[1] - p2[1];
     return dx * dx + dy * dy;
@@ -597,7 +571,6 @@ export class ReviewComponent {
   }
 
   ngOnDestroy() {
-    console.log('ngOnDestroy()');
     // end mousemove listener
     if (this.mouseMoveFunc != null) {
       this.mouseMoveFunc();

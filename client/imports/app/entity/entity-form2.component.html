@@ -1,0 +1,43 @@
+<p class="title">EDIT ENTITY</p>
+
+<div class="formContent">
+  <form (ngSubmit)="onSubmit()" #entityForm="ngForm">
+    <md-input-container>
+      <input mdInput placeholder="Name" 
+              name="name" 
+              required
+              [(ngModel)]="entity.name"
+              autocomplete="off">
+    </md-input-container>
+
+    <md-input-container>
+      <input mdInput placeholder="Status" 
+              name="status" 
+              required
+              [(ngModel)]="entity.status"
+              autocomplete="off">
+    </md-input-container>
+
+    <md-input-container>
+      <input mdInput placeholder="Description" 
+              name="description"
+              [(ngModel)]="entity.description"
+              autocomplete="off">
+    </md-input-container>
+
+    <br>
+
+    <md-checkbox [(ngModel)]="entity.public" name="public">Public?</md-checkbox>
+
+    <br>
+    <br>
+
+    <button type="submit">Update</button>
+
+    <br>
+
+    <button (click)="deleteEntity()">Delete Entity</button>
+  </form>
+</div>
+
+

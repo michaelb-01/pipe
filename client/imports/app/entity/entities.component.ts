@@ -14,10 +14,6 @@ import { EntityService } from './entity.service';
 
 import template from './entities.component.html';
 
-declare var ObjectID : {
-  _str:string
-};
-
 @Component({
   selector: 'entities',
   providers: [ EntityService ],
@@ -38,8 +34,8 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   assets = [];
   shots = [];
 
-  assets2: Entity[];
-  shots2: Entity[];
+  assets2: Entity[] = [];
+  shots2: Entity[] = [];
 
   selected = [];
 
@@ -98,6 +94,10 @@ export class EntitiesComponent implements OnInit, OnDestroy {
 
   trackByIndex(index: number, obj: any): any {
     return index;
+  }
+
+  addEntity() {
+    
   }
 
   addTask(entityId, taskName) {
@@ -193,20 +193,21 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   showDetails = false;
   showTaskDetails() {
     this.showDetails = !this.showDetails;
+    this.sidebarClosed = !this.sidebarClosed;
   }
 
   onAssign(event) {
     if (event.mode == false) {
       for (var i = 0; i < this.selected.length; i++) {
         for (var j = 0; j < event.users.length; j++) {
-          this._entityService.unassignUser(this.selected[i].id._str, this.selected[i].taskId, event.users[j]);
+          this._entityService.unassignUser(this.selected[i].id.valueOf(), this.selected[i].taskId, event.users[j]);
           this.reselect();
         }
       }
     }
     else {
       for (var i = 0; i < this.selected.length; i++) {
-        this._entityService.assignUser(this.selected[i].id._str, this.selected[i].taskId, event.users);
+        this._entityService.assignUser(this.selected[i].id.valueOf(), this.selected[i].taskId, event.users);
         //this.selected[i].task.users.push({"name":event.users[j].name});
         this.reselect();
       }
@@ -216,12 +217,12 @@ export class EntitiesComponent implements OnInit, OnDestroy {
   reselect() {
     this.selected.forEach(sel => {
       this.assets2.forEach(asset => {
-         if (asset._id._str == sel.id._str) {
+         if (asset._id.valueOf() == sel.id.valueOf()) {
            asset.tasks[sel.taskId].selected = true;
          }
       });
       this.shots2.forEach(shot => {
-         if (shot._id._str == sel.id._str) {
+         if (shot._id.valueOf() == sel.id.valueOf()) {
            shot.tasks[sel.taskId].selected = true;
          }
       })

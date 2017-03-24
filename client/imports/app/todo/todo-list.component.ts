@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 
-import { Todo } from "./todo.model";
+import { Todo } from "../../../../both/models/todo.model";
 
 import { EntityService } from '../entity/entity.service';
 
@@ -30,18 +30,12 @@ export class TodoListComponent implements OnInit {
   ngOnInit() {
     // filter only current user
     this.todos = this.todos.filter(todo=>{
-      if (todo.user == this.user) {
+      if (todo.user.name == this.user) {
         return true;
       }
     });
 
-    this.newTodo = {
-      "user":this.user,
-      "text":"",
-      "done":false
-    };
-
-    console.log(this.newTodo);
+    this.resetNewTodo();
 
     this.resetNewTodo();
     this.updateProgress();
@@ -64,7 +58,10 @@ export class TodoListComponent implements OnInit {
 
   resetNewTodo() {
     this.newTodo = {
-      'user':this.user,
+      'user':{
+        'id':'',
+        'name':this.user
+      },
       'text':'',
       'done':false
     };

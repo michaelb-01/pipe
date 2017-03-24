@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 
-import { Job } from "../../../../both/models/job.model";
+import { IJob, Job } from "../../../../both/models/job.model";
 import { Jobs } from "../../../../both/collections/jobs.collection";
 
 import { MeteorComponent } from 'angular2-meteor';
@@ -23,63 +23,37 @@ import template from './jobs.component.html';
   template
 })
 
-
-
 export class JobsComponent extends MeteorComponent {
+
+  @ViewChild('jobForm') jobForm;
+
   images = [];
 
   jobs: Observable<Job[]>;
 
-  job: Job = {
-    "name":"",
-    "client":"",
-    "agency":"",
-    "public": true
-  };
+  job: IJob = new Job();
 
   jobsSub: Subscription;
+
+  originalJob: IJob;
+  selectedJob: IJob;
 
   sidebarClosed = true;
 
   method: string = 'create';
 
   constructor (private zone: NgZone) {
-
     super();
   }
 
   ngOnInit() {
-    /*
-    this.jobs = Jobs.find({}).zone().map((jobs: Array<any>) => {
-      if (jobs) {
-        var job,idx:any;
-
-        jobs.forEach((job,idx) => {
-          if (job.imageLoaded == true) {
-            return;
-          }
-          this.readImageFile(idx, job.thumbUrl);
-          job.imageLoaded = true;
-        });
-      }
-
-      return jobs;
-    });
-    */
-
     this.jobs = Jobs.find({}).zone();
 
     this.jobsSub = MeteorObservable.subscribe('jobs').subscribe();
   }
 
   addJob() {
-    this.method = 'Create';
-    this.job = {
-      "name":"",
-      "client":"",
-      "agency":"",
-      "public": true
-    };
+    this.method = 'create';
     this.sidebarClosed = false;
   }
 
@@ -87,10 +61,18 @@ export class JobsComponent extends MeteorComponent {
     this.method = 'Edit';
     this.job = job;
     this.sidebarClosed = false;
+    this.jobForm.updateForm(job);
+
+    this.originalJob = JSON.parse(JSON.stringify(job));
+    this.selectedJob = job;
   }
 
   toggleSidebarRight(newState) {
     this.sidebarClosed = true;
+
+    for (let key in this.originalJob) {
+      this.selectedJob[key] = this.originalJob[key];
+    } 
   }
 
   readTextFile() {

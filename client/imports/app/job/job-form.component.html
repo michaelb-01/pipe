@@ -2,41 +2,173 @@
 
 <div class="formContent">
   <form (ngSubmit)="onSubmit()" #jobForm="ngForm">
-    <md-input-container>
-      <input mdInput placeholder="Client" 
-              name="client" 
-              required
-              [(ngModel)]="job.client"
-              autocomplete="off">
-    </md-input-container>
 
-    <md-input-container>
-      <input mdInput placeholder="Agency" 
-              name="agency" 
-              [(ngModel)]="job.agency"
-              autocomplete="off">
-    </md-input-container>
+    <div>
+      <md-tab-group>
+        <md-tab>
+          <template md-tab-label>
+            <i class="material-icons">list</i>
+          </template>
+          <md-input-container>
+            <input mdInput placeholder="Client" 
+                    name="client" 
+                    required
+                    [(ngModel)]="job.client"
+                    autocomplete="off">
+          </md-input-container>
 
-    <md-input-container>
-      <input mdInput placeholder="Name" 
-              name="name" 
-              required
-              [(ngModel)]="job.name"
-              autocomplete="off">
-    </md-input-container>
+          <md-input-container>
+            <input mdInput placeholder="Agency" 
+                    name="agency" 
+                    [(ngModel)]="job.agency"
+                    autocomplete="off">
+          </md-input-container>
 
-    <input type="checkbox" [(ngModel)]="job.public"
-              name="public">
+          <md-input-container>
+            <input mdInput placeholder="Name" 
+                    name="name" 
+                    required
+                    [(ngModel)]="job.name"
+                    autocomplete="off">
+          </md-input-container>
 
-    <br>
-    <br>
+          <br>
 
-    <button type="submit">{{method}}</button>
+          <md-input-container *ngIf="method=='create'">
+            <input mdInput placeholder="Number of Shots" 
+                    name="numShots"
+                    [(ngModel)]="numShots"
+                    (ngModelChange)="numberUpdate($event)"
+                    type="number"
+                    autocomplete="off">
+          </md-input-container>
+        </md-tab>
 
-    <br>
+        <md-tab>
+          <template md-tab-label>
+            <i class="material-icons">photo_camera</i>
+          </template>
 
-    <button (click)="deleteJob()" *ngIf="method == 'Edit'">Delete Job</button>
+          <md-input-container>
+             <input type="text" name="camera" placeholder="Camera" mdInput [ngModel]="job?.camera.body" (ngModelChange)="filterCameraList($event)" [mdAutocomplete]="autoCamera">
+          </md-input-container>
+
+          <md-autocomplete #autoCamera="mdAutocomplete">
+             <md-option *ngFor="let camera of camerasFiltered" [value]="camera.body" (click)="selectCamera(camera)">
+                {{ camera.body }}
+             </md-option>
+          </md-autocomplete>
+
+          <br>
+
+          <button md-button [mdMenuTriggerFor]="formats">Formats<i class="material-icons">arrow_drop_down</i></button>
+          <md-menu #formats="mdMenu">
+            <button (click)="selectFormat(format)" md-menu-item *ngFor="let format of selectedCamera.formats">{{format.width}} x {{format.height}}</button>
+          </md-menu>
+
+          <p>Resolution</p>
+
+          <div class="flex">
+            <md-input-container>
+              <input mdInput placeholder="Width" 
+                      name="resWidth"
+                      disabled 
+                      [ngModel]="job.camera?.res?.width"
+                      autocomplete="off">
+            </md-input-container>
+
+            <md-input-container>
+              <input mdInput placeholder="Height" 
+                      name="resHeight" 
+                      disabled
+                      [ngModel]="job.camera?.res?.height"
+                      autocomplete="off">
+            </md-input-container>
+          </div>
+
+          <p>Sensor</p>
+
+          <div class="flex">
+            <md-input-container>
+              <input mdInput placeholder="Width" 
+                      name="sensorWidth"
+                      disabled 
+                      [ngModel]="job.camera?.sensor?.width"
+                      autocomplete="off">
+            </md-input-container>
+
+            <md-input-container>
+              <input mdInput placeholder="Height" 
+                      name="sensorHeight" 
+                      disabled
+                      [ngModel]="job.camera?.sensor?.height"
+                      autocomplete="off">
+            </md-input-container>
+          </div>
+        </md-tab>
+
+       <md-tab>
+          <template md-tab-label>
+            <i class="material-icons">exit_to_app</i>
+          </template>
+
+          <md-input-container>
+            <input mdInput placeholder="Frame Rate" 
+                    name="frameRate"
+                    [(ngModel)]="job.output.fps"
+                    (ngModelChange)="updateDropframe(dropframe)"
+                    type="number"
+                    autocomplete="off">
+          </md-input-container>
+
+          <md-checkbox #dropframe (change)="updateDropframe(dropframe)">Dropframe</md-checkbox>
+
+          <div class="flex">
+            <md-input-container>
+              <input mdInput placeholder="Width" 
+                      name="outputWidth"
+                      [ngModel]="job.camera?.output?.width"
+                      autocomplete="off">
+            </md-input-container>
+
+            <md-input-container>
+              <input mdInput placeholder="Height" 
+                      name="outputHeight" 
+                      [ngModel]="job.camera?.output?.height"
+                      autocomplete="off">
+            </md-input-container>
+          </div>
+
+          <p>Sensor</p>
+
+          <div class="flex">
+            <md-input-container>
+              <input mdInput placeholder="Width" 
+                      name="sensorWidth"
+                      disabled 
+                      [ngModel]="job.camera?.sensor?.width"
+                      autocomplete="off">
+            </md-input-container>
+
+            <md-input-container>
+              <input mdInput placeholder="Height" 
+                      name="sensorHeight" 
+                      disabled
+                      [ngModel]="job.camera?.sensor?.height"
+                      autocomplete="off">
+            </md-input-container>
+          </div>
+        </md-tab>
+
+      </md-tab-group>
+
+      <md-checkbox [(ngModel)]="job.public" name="public">Public?</md-checkbox>
+    </div>
+
+    <div class="formButtons">
+      <button type="submit">{{method}}</button>
+      <br>
+      <button (click)="deleteJob()" *ngIf="method == 'Edit'">Delete Job</button>
+    </div>  
   </form>
 </div>
-
-

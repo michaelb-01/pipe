@@ -3,15 +3,6 @@
         <li [routerLink]="['Job', {jobId:id}]">{{job?.name}}</li>
   </ul>
 
-  <!--
-  <div id="detailsToggle" (click)="toggleDetails(!showDetails)">
-    <div>
-      <span class="arrow" [ngClass]="{closed: showDetails}"></span>
-        Details
-      <span class="arrow" [ngClass]="{closed: showDetails}"></span>
-    </div>
-  </div>
-  -->
   <div id="details">
 
     <ul class="block jobInfo">
@@ -39,11 +30,8 @@
 
     <ul class="block cameraInfo">
       <li class="bold">Camera</li>
-
-      <li class="cameraName">Arri Alexa</li>
-      <li class="filmback">23.76 x 13.37mm</li>
-      <li class="focalLength">50mm</li>
-      <li class="extra">Extra info</li>
+      <li class="cameraName">{{job?.camera.body}}</li>
+      <li class="filmback">{{job?.camera.sensor.width}} x {{job?.camera.sensor.height}}</li>
     </ul>
   </div>
 </div>
@@ -55,17 +43,28 @@
   </div>
 </div>
 
-<entities></entities>
+<!-- <entities2></entities2> -->
+
+<entity-list [entities]="assets" [title]="'Assets'"></entity-list>
+
+<entity-list [entities]="shots" [title]="'Shots'"></entity-list>
 
 <div style="position: fixed; bottom: 0; right: 0;">
-  <div class="fab entity edit">
+  <div class="fab entity edit" (click)="addEntity()">
     <div>
-      <i class="material-icons">mode_edit</i>
+      <i class="material-icons">create</i>
     </div>
   </div>
 </div>
 
+<div id="form-container" [ngClass]="{closed: sidebarClosed}">
+  <entity-create-form #entityCreateForm></entity-create-form>
 
+  <button (click)="sidebarClosed=true" [ngClass]="{active: !sidebarClosed}" class="burger left burger--htx">
+    <span></span>
+    <span></span>
+  </button>
+</div>
 
 
 

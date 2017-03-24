@@ -9,6 +9,8 @@ import { EntityComponent } from './entity/entity.component';
 
 import { ReviewComponent } from './review/review.component';
 
+import { AnnotationComponent } from './review/annotation.component';
+
 //import { PartyDetailsComponent } from './parties/party-details.component';
 
 export const routes: Route[] = [
@@ -21,8 +23,8 @@ export const routes: Route[] = [
 
   { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] },
 
-  { path: '', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
-  { path: '**', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] }
+  { path: '', component: AnnotationComponent, canActivate: ['canActivateForLoggedIn'] },
+  { path: '**', component: AnnotationComponent, canActivate: ['canActivateForLoggedIn'] }
 ];
 
 export const ROUTES_PROVIDERS = [{

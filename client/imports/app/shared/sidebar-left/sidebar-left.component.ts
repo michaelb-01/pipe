@@ -28,7 +28,6 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
   selectedTab = 1;
 
   constructor(private _entityService: EntityService) {
-    console.log('sidebar left');
     //if (Meteor.userId()) {
       if (this.myTasksSub) {
         this.myTasksSub.unsubscribe();
@@ -36,10 +35,8 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
 
       this.myTasksSub = MeteorObservable.subscribe('entities').subscribe(() => {
         MeteorObservable.autorun().subscribe(() => {
-          console.log('find my tasks');
           this._entityService.findMyTasks(this.user).subscribe(tasks => {
             this.myTasks = tasks;
-            console.log(tasks);
           });
         });
       });
@@ -55,7 +52,7 @@ export class SidebarLeftComponent implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
-  showSidebarLeft = true;
+  showSidebarLeft = false;
   toggleSidebarLeft(newState) {
     this.showSidebarLeft = newState;
   }

@@ -1,4 +1,5 @@
 import { MongoObservable } from 'meteor-rxjs';
+import { Meteor } from 'meteor/meteor';
 
 import { Version } from '../models/version.model';
 

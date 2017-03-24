@@ -16,7 +16,8 @@
   "exclude": [
     "node_modules",
     "client/imports/app/test",
-    "docs"
+    "docs",
+    "dbTest"
   ],
   "compileOnSave": false
 }

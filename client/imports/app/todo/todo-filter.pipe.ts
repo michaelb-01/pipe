@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Todo } from './todo.model';
+import { Todo } from '../../../../both/models/todo.model';
 
 @Pipe({ name: 'todoFilter', pure: false })
 export class TodoFilterPipe implements PipeTransform {
@@ -8,10 +8,10 @@ export class TodoFilterPipe implements PipeTransform {
           return todos;
         }
         else if (todoFilter === 1) {
-          return _.filter(todos, (t: Todo) => !t.done);
+          return todos.filter( (t: Todo) => !t.done);
         }
         else if (todoFilter === 2) {
-          return _.filter(todos, (t: Todo) => t.done);
+          return todos.filter( (t: Todo) => t.done);
         }
     }
 }

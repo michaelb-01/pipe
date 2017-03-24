@@ -47,7 +47,7 @@
       </ul>
       <div class="cardDetailsFooter">
         <div class="addTask">
-          <form (ngSubmit)="addTask(asset._id._str, asset[assetId])">
+          <form (ngSubmit)="addTask(asset._id, asset[assetId])">
             <md-input-container>
               <input mdInput placeholder="Add Task" 
                 [(ngModel)]="asset[assetId]" 
@@ -74,8 +74,9 @@
 <h5>Shots ({{shots2?.length}})</h5>
 
 <div class="cards shots">
-  <div *ngFor="let shot of shots2; let shotId = index;" class="card card-mid">
-    <div class="card-details" [ngClass]="{show: showDetails}">
+  <div *ngFor="let shot of shots2 | filter:term; let assetId = index; trackBy:trackByIndex;" class="card card-mid">
+    <entity-item [entity]="shot"></entity-item>
+  <!--   <div class="card-details" [ngClass]="{show: showDetails}">
       <div class="card-details-title bold">{{shot.name}}</div>
       <ul class="task-list">
         <li *ngFor="let task of shot.tasks | filter:term; let taskId = index;" 
@@ -92,7 +93,22 @@
           </div>
           <hr class="hr-thin">
         </li>
+        <li class="task-item">
+          <span class="type">{{shot[assetId]}}</span>
+        </li>
       </ul>
+      <div class="cardDetailsFooter">
+        <div class="addTask">
+          <form (ngSubmit)="addTask(shot._id, shot[assetId])">
+            <md-input-container>
+              <input mdInput placeholder="Add Task" 
+                [(ngModel)]="shot[assetId]" 
+                name="addTask" 
+                autocomplete="off">
+            </md-input-container>
+          </form>
+        </div>
+      </div>
     </div>
     <div class="card-thumb">
       <img src="{{shot?.thumbUrl}}" onerror="this.src='/img/default.jpg'">
@@ -102,22 +118,18 @@
           <h5 class="cardTag">{{shot?.type}}</h5>
         </a>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 
-<!--
-<div style="position: absolute; bottom: 0; right: 0;">
-  <div class="fab entity edit" (click)="editSelected()">
+<div style="position: fixed; bottom: 0; right: 0;">
+  <div class="fab entity edit" (click)="addEntity()">
     <div>
-      <div class="numSelected">{{selected.length}}</div>
-      <i class="material-icons">mode_edit</i>
+      <i class="material-icons">create</i>
     </div>
   </div>
 </div>
--->
 
-<!--<entity-form [sel]="selected" (onAssign)="onAssign($event)"></entity-form>-->
 <div id="form-container" [ngClass]="{closed: sidebarClosed}">
 
   <entity-form [sel]="selected" (onAssign)="onAssign($event)"></entity-form>
