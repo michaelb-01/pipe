@@ -1,4 +1,5 @@
 import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { IAnnotation, Annotation } from './annotation.model';
 
 import template from './annotation.component.html';
 
@@ -45,7 +46,7 @@ import template from './annotation.component.html';
       top: 0;
       font-size: 14px;
       padding: 4px;
-      color: #ec0000;
+      color: #ccc;
     }
     .line {
       pointer-events:none;
@@ -64,9 +65,9 @@ import template from './annotation.component.html';
 
 export class AnnotationComponent {
   @ViewChild('annotationContainer') annotationContainer; 
-  @ViewChildren("annotation2") private annotations2: QueryList<ElementRef>;
+  @ViewChildren("myAnnotation") private myAnnotations: QueryList<ElementRef>;
 
-  annotations = [];
+  annotations:IAnnotation[] = [];
   dragging:boolean = false;
 
   width:number = 0;
@@ -84,19 +85,23 @@ export class AnnotationComponent {
   offsetX:number = 0;
   offsetY:number = 0;
 
-  selectedAnnotation:any;
+  selectedAnnotation:any = new Annotation();
+
   selectedAnnotationEl:any;
   selectedTextBoxEl:any;
+
+  pos1X;
+  pos1Y;
+  oldOffsetX:number = 0;
+  oldOffsetY:number = 0;
+  containerDragging:boolean = false;
+
+  frame:number = 0;
 
   constructor(){}
 
   containerMouseDown(event) {
-    console.log('container mouse down');
-
-    if (this.dragging) {
-      this.dragging = false;
-      return;
-    }
+    if (event.shiftKey == false) return;
 
     let x = event.offsetX;
     let y = event.offsetY;
@@ -117,17 +122,11 @@ export class AnnotationComponent {
 
     let text = ' ';
 
-    let annotation = {
-      'text':' ',
-      'x':xPerc,
-      'y':yPerc,
-      'offsetX':10,
-      'offsetY':20,
-      'colOffsetX':0,
-      'colOffsetY':0,
-      'lineRot':25,
-      'lineLen':20
-    }
+    let annotation = new Annotation();
+
+    annotation.x = xPerc;
+    annotation.y = yPerc;
+    annotation.author = 'Mike Battcock';
 
     this.annotations.push(annotation);
 
@@ -147,11 +146,11 @@ export class AnnotationComponent {
   }
 
   containerMouseMove(event) {
-    // mouse position
-    let x = event.clientX - this.offsetLeft;
-    let y = event.clientY - this.offsetTop;
-
     if (this.dragging) {
+      // mouse position
+      let x = event.clientX - this.offsetLeft;
+      let y = event.clientY - this.offsetTop;
+
       this.dragAnnotation(x,y);
     }
     else if (this.containerDragging) {
@@ -205,8 +204,7 @@ export class AnnotationComponent {
     let collisionBottom = this.height - y - this.annotationDim.bottom;
     let collisionTop = this.annotationDim.top - y;
 
-    console.log('x: ' + x);
-    console.log('collision right: ' + collisionRight);
+    //collisionLeft += this.colBounce;
 
     let colLeft = 0;
     let colRight = 0;
@@ -228,11 +226,11 @@ export class AnnotationComponent {
       colRight = collisionRight;
     }
 
-    let colPadding = 0;
+    let colPadding = 0;//this.selectedAnnotationEl.offsetWidth;
 
     //if mouse is going over annotation bounce it over
     if (this.selectedAnnotation.offsetX < colPadding && this.selectedAnnotation.offsetY < colPadding) {
-      if (this.selectedAnnotation.offsetX > -this.selectedTextBoxEl.offsetWidth) {
+      if (this.selectedAnnotation.offsetX > -this.selectedTextBoxEl.offsetWidth && colBottom < 0 && colRight < 0) {
         colBounce = -(this.width - x);
       }
     }
@@ -260,29 +258,18 @@ export class AnnotationComponent {
     this.dragging=false; 
     this.containerDragging=false;  
   }
-  
-  annotationMouseDown(annotation, event,i) {
-    event.stopPropagation();
-    console.log('annotation mouse down');
 
-    // update selected annotation
-    this.selectedAnnotation = annotation;
-    this.selectedAnnotationEl = this.annotations2.toArray()[i].nativeElement;
-
-    this.selectedTextBoxEl = this.selectedAnnotationEl.childNodes[3];
-
-    //console.log('dimensions: ' + this.selectedAnnotationEl.)
-
+  calcAnnotationDim(x,y) {
     let bbox1 = this.selectedAnnotationEl.getBoundingClientRect();  // annotation marker
     let bbox2 = this.selectedTextBoxEl.getBoundingClientRect();  // annotation text box
 
     let left,top,right,bottom;
 
     if (this.containerDragging) {
-      left = event.offsetX;
-      top = event.offsetY;
-      right = bbox2.width - event.offsetX;
-      bottom = bbox2.height - event.offsetY;
+      left = x;
+      top = y;
+      right = bbox2.width - x;
+      bottom = bbox2.height - y;
     }
     else {
       left = bbox2.left - bbox1.left - (bbox1.width/2);
@@ -297,6 +284,19 @@ export class AnnotationComponent {
       'right':right,
       'bottom':bottom
     }
+  }
+  
+  annotationMouseDown(annotation, event,i) {
+    event.stopPropagation();
+    console.log('annotation mouse down');
+
+    // update selected annotation
+    this.selectedAnnotation = annotation;
+    this.selectedAnnotationEl = this.myAnnotations.toArray()[i].nativeElement;
+
+    this.selectedTextBoxEl = this.selectedAnnotationEl.childNodes[3];
+
+    this.calcAnnotationDim(event.offsetX,event.offsetY);
 
     this.oldOffsetX = this.selectedAnnotation.offsetX;
     this.oldOffsetY = this.selectedAnnotation.offsetY;
@@ -313,11 +313,6 @@ export class AnnotationComponent {
     return false;
   }
 
-  pos1X;
-  pos1Y;
-  oldOffsetX:number = 0;
-  oldOffsetY:number = 0;
-  containerDragging:boolean = false;
   textContainerMouseDown(event) {
     console.log('textContainerMouseDown');
     this.pos1X = event.pageX - this.offsetLeft;
@@ -337,6 +332,22 @@ export class AnnotationComponent {
 
   deleteAnnotation(i) {
     this.annotations.splice(i,1);
+  }
+
+  annotationKeyPress(e,annotation,input) {
+    if (e.keyCode === 13) {
+
+      if (e.ctrlKey) {
+        annotation.text += "\n";
+        
+        console.log('ctrl enter key');
+      }
+      else {
+        console.log('remove focus');
+        input.focused = 0;
+        e.preventDefault();
+      }
+    }
   }
 
   clamp(val, min, max) {

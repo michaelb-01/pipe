@@ -13,6 +13,7 @@ import { ENTITIES_DECLARATIONS } from './entity';
 import { VERSIONS_DECLARATIONS } from './version';
 import { REVIEW_DECLARATIONS } from './review';
 import { TODO_DECLARATIONS } from './todo';
+import { THUMBNAIL_DECLARATIONS } from './thumbnail';
 
 import { APP_BASE_HREF } from '@angular/common';
 
@@ -36,7 +37,8 @@ import 'hammerjs';
     ...ENTITIES_DECLARATIONS,
     ...VERSIONS_DECLARATIONS,
     ...REVIEW_DECLARATIONS,
-    ...TODO_DECLARATIONS
+    ...TODO_DECLARATIONS,
+    ...THUMBNAIL_DECLARATIONS
   ],
   providers: [
     ...ROUTES_PROVIDERS,

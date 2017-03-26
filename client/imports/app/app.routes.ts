@@ -11,6 +11,8 @@ import { ReviewComponent } from './review/review.component';
 
 import { AnnotationComponent } from './review/annotation.component';
 
+import { ThumbnailComponent } from './thumbnail/thumbnail.component';
+
 //import { PartyDetailsComponent } from './parties/party-details.component';
 
 export const routes: Route[] = [
@@ -23,8 +25,8 @@ export const routes: Route[] = [
 
   { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] },
 
-  { path: '', component: AnnotationComponent, canActivate: ['canActivateForLoggedIn'] },
-  { path: '**', component: AnnotationComponent, canActivate: ['canActivateForLoggedIn'] }
+  { path: '', component: ThumbnailComponent, canActivate: ['canActivateForLoggedIn'] },
+  { path: '**', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] }
 ];
 
 export const ROUTES_PROVIDERS = [{

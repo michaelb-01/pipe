@@ -1,11 +1,11 @@
-<div class="annotainWrapper">
+<div class="annotationWrapper">
   <div class="annotationContainer" #annotationContainer 
     (mousedown)="containerMouseDown($event)"
     (mousemove)="containerMouseMove($event)"
     (mouseleave)="containerMouseLeave($event)"
     (mouseup)="containerMouseUp($event)">
 
-    <div #annotation2 *ngFor="let annotation of annotations; let i = index" 
+    <div #myAnnotation *ngFor="let annotation of annotations; let i = index" 
       class="annotation"
       [ngStyle]="{'top': annotation.y + '%', 'left': annotation.x + '%'}"
       (mousedown)="annotationMouseDown(annotation,$event,i)"
@@ -17,19 +17,24 @@
       <div class="annotationText" 
           (mousedown)="textContainerMouseDown($event)"
           (mouseup)="textContainerMouseUp($event)"
-          [ngStyle]="{'margin-top': (annotation.colOffsetY + annotation.offsetY) + 'px',
-                      'margin-left': (annotation.colOffsetX + annotation.offsetX) + 'px'}">
+          [ngStyle]="{'margin-top': (annotation.offsetY) + 'px',
+                      'margin-left': (annotation.offsetX) + 'px'}">
+
+        <div class="chip">
+          {{ annotation.author | firstLetter }}
+        </div>
+
+        <span>{{annotation.frame}}</span>
 
         <i (click)="deleteAnnotation(i)" class="material-icons annotationDelete">delete</i>
-
-        Offset: {{annotation.offsetX}}, {{annotation.offsetY}}
 
         <md-input-container class="edit-input">
           <textarea mdInput
             mdTextareaAutosize
-            [(ngModel)]="annotation.text" placeholder="Comment">
+            minRows=1
+            [(ngModel)]="annotation.text" placeholder="Comment"
+            (keypress)="annotationKeyPress($event,annotation,test)">
           </textarea>
-
         </md-input-container>
       </div>
     </div>
@@ -47,4 +52,8 @@ Old Offset: {{oldOffsetX}}, {{oldOffsetY}}
 Offset: {{offsetTop}}, {{offsetLeft}}
 <br>
 Container Dimensions: {{width}}, {{height}}
+<br>
+Selected Annotation Offset: {{selectedAnnotation?.offsetX}}, {{selectedAnnotation?.offsetY}}
+<br>
+Collision bounce: {{colBounce}}
 
