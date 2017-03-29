@@ -10,10 +10,11 @@ import { Mongo } from 'meteor/mongo';
 
 declare var Fake: any;
 
-var users = ['Mike Battcock', 'Mike Skrgatic', 'Ben Cantor', 'Sam Osbourne'];
-var types = ['asset','shot'];
-var images = ['/img/bmw.jpg','/img/clothes.jpg','/img/interior.jpg','/img/wallSmash.jpg','/img/warAndPeace.jpg','/img/willYoung.jpg'];
-var videos = ['/video/dust_01.mov','/video/test.mov'];
+const users = ['Mike Battcock', 'Mike Skrgatic', 'Ben Cantor', 'Sam Osbourne'];
+const types = ['asset','shot'];
+const jobImages = ['audi','bmw','kittiwakes','liquid','nike','vw'];
+const images = ['audi','audi_breakdown','bmw','dust_01','flip','kittiwakes','liquid','nike','test','vw'];
+const videos = ['/video/dust_01.mov','/video/test.mov'];
 
 function numberGen()
 {
@@ -105,6 +106,7 @@ function createVersion(jobId, jobName, entityId, entityName) {
       'idx': idx
     },
     'content': content,
+    'thumbUrl': '/img/' + images[Math.floor((Math.random() * images.length))] + '_sprites.jpg',
     'description': Fake.sentence(7),
     'date': new Date(),
     'public': true
@@ -168,7 +170,7 @@ function createEntity(jobId, jobName) {
     'tasks': tasks,
     'status': 'active',
     'todos':[],
-    'thumbUrl': images[Math.floor((Math.random() * images.length))],
+    'thumbUrl': '/img/' + images[Math.floor((Math.random() * images.length))] + '_sprites.jpg',
     'description': Fake.sentence(7),
     'public': true
   }
@@ -206,15 +208,25 @@ export function createJobs() {
 
     const jobs: Job[] = [];
 
-    const job = new Job();
+    let job = new Job();
 
-    job.name = 'War and Peace';
-    job.client = 'BBC';
-    job.agency = 'Someone';
-    job.thumbUrl = images[Math.floor((Math.random() * images.length))];
+    job.name = 'Sneakerboots';
+    job.client = 'Nike';
+    job.agency = 'More and More';
+    job.thumbUrl = '/img/nike_sprites_9600.jpg';
     job.public = true;
 
     jobs.push(job);
+
+    let job2 = new Job();
+
+    job2.name = 'Service';
+    job2.client = 'Audi';
+    job2.agency = 'Radical';
+    job2.thumbUrl = '/img/audi_sprites_9600.jpg';
+    job2.public = true;
+
+    jobs.push(job2);
 
     let jobId = '';
     let numEntities = 4;

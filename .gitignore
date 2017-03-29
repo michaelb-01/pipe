@@ -4,5 +4,6 @@ npm-debug.log
 typings
 version.desktop
 docs
+public
 .desktop
 .desktop-installer

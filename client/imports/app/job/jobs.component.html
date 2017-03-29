@@ -5,15 +5,15 @@
 
 <div class="contentSafe">
   <div *ngFor="let job of jobs | async; let idx=index" class="card card-big" (click)="editJob(job)">
-    <div class="card-image">
-      <img [src]="job.thumbUrl" onError="this.src='img/default.jpg'">
-        <div class="banner fadeOut">
-          <a [routerLink]="['/job', job._id._str]">
-            <h2 class="cardTitle">{{job.client}}</h2>
-            <h5 class="cardTag">{{job.name}}</h5>
-          </a>
-        </div>
-    </div>
+
+    <thumbnail [thumbUrl]="job.thumbUrl">
+      <div class="banner">
+        <a [routerLink]="['/job', job._id._str]">
+          <h2 class="cardTitle">{{job.client}}</h2>
+          <h5 class="cardTag">{{job.name}}</h5>
+        </a>
+      </div>
+    </thumbnail>
   </div>
 </div>
 
@@ -30,7 +30,6 @@
 </md-input-container> -->
 
 <div id="form-container" [ngClass]="{closed: sidebarClosed}">
-
   <job-form #jobForm [method]="method"></job-form>
 
   <button (click)="toggleSidebarRight(!showSidebarRight)" [ngClass]="{active: !sidebarClosed}" class="burger left burger--htx">

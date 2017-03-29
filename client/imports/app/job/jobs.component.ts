@@ -15,6 +15,8 @@ import { MeteorObservable } from 'meteor-rxjs';
 
 import { NgZone } from '@angular/core';
 
+import { ThumbnailComponent } from '../thumbnail/thumbnail.component'; 
+
 import template from './jobs.component.html';
 
 @Component({

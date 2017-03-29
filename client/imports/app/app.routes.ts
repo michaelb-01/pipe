@@ -25,7 +25,7 @@ export const routes: Route[] = [
 
   { path: 'review/:versionId', component: ReviewComponent, canActivate: ['canActivateForLoggedIn'] },
 
-  { path: '', component: ThumbnailComponent, canActivate: ['canActivateForLoggedIn'] },
+  { path: '', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] },
   { path: '**', component: JobsComponent, canActivate: ['canActivateForLoggedIn'] }
 ];
 

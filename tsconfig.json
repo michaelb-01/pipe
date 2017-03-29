@@ -17,7 +17,8 @@
     "node_modules",
     "client/imports/app/test",
     "docs",
-    "dbTest"
+    "dbTest",
+    "scripts"
   ],
   "compileOnSave": false
 }

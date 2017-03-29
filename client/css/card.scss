@@ -284,9 +284,10 @@
   right: 0;
   left: 0;
   bottom: 0;
-  //z-index: 100;
+  z-index: 200;
   color: white;
-  background-color: rgba(0,0,0,0.5);  // 50% opacity black
+  pointer-events: none;
+  //background-color: rgba(0,0,0,0.5);  // 50% opacity black
   &.active {
     background-color: transparent;
   }
@@ -298,6 +299,7 @@
   }
   a {
     z-index: 10;
+    pointer-events: all;
   }
 }
 

@@ -1,15 +1,15 @@
-<div class="test">
-  <div #thumbnailContainer class="thumbnailContainer" 
-    (mouseenter)="showBar=true"
-    (mousemove)="mousemove($event)"
-    (mouseleave)="showBar=false">
+<div class="thumbnailContainer"
+  (mouseenter)="mouseenter($event)"
+  (mousemove)="mousemove($event)"
+  (mouseleave)="hovering=false">
 
-    <div class="thumbnailWrapper" 
-        [ngStyle]="{'left': xTile + 'px'}">
-      <img src="/img/nike/nike_sprites4.jpg">
-    </div>
+  <ng-content></ng-content>
 
-    <div class="bar" *ngIf="showBar==true" [ngStyle]="{'left': xPerc + '%'}"></div>
+  <div class="fade hovering" [ngClass]="{fadeOut:hovering}"></div>
+  <div class="thumbnail"
+    [ngStyle]="{'background':'url(' + thumbUrl + ') left center', 'background-position': xTile + 'px 0'}">
   </div>
+
+  <!-- <div class="bar" *ngIf="hovering==true" [ngStyle]="{'left': xPerc + '%'}"></div> -->
 </div>
 

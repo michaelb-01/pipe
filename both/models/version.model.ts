@@ -20,6 +20,7 @@ export interface Version extends CollectionObject {
     idx: number
   };
   content?: string;
+  thumbUrl?: string;
   description?: string;
   date?: Date;
   public: boolean;
