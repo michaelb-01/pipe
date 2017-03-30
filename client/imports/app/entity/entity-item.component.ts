@@ -9,6 +9,13 @@ import template from './entity-item.component.html';
 
 @Component({
   selector: 'entity-item',
+  styles: [
+  `
+    :host { 
+      width:100%;
+      height:100%;
+    }
+  `],
   template
 })
 

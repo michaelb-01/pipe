@@ -1,6 +1,6 @@
 <div id="detailsPanel">
   <ul id="breadcrumbs" class="light">
-        <li [routerLink]="['Job', {jobId:id}]">{{job?.name}}</li>
+      <li [routerLink]="['/job', job?._id._str]">{{job?.name}}</li>
   </ul>
 
   <div id="details">
@@ -14,24 +14,16 @@
       </li>
     </ul>
 
-    <ul class="block techInfo">
-      <li>Length: 60/30/15</li>
-      <li>1920x1080</li>
-    </ul>
-
-    <ul class="block workInfo">
-      <li class="bold">Frame Range</li>
-
-      <li class="workIn">Work In: &nbsp;&nbsp; 1001</li>
-      <li class="workOut">Work Out: 1070</li>
-      <li class="cutIn">Cut In: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1010</li>
-      <li class="cutOut">Cut Out: &nbsp;&nbsp; 1065</li>
-    </ul>
-
     <ul class="block cameraInfo">
       <li class="bold">Camera</li>
       <li class="cameraName">{{job?.camera.body}}</li>
       <li class="filmback">{{job?.camera.sensor.width}} x {{job?.camera.sensor.height}}</li>
+    </ul>
+
+    <ul class="block outputInfo">
+      <li class="bold">Output</li>
+      <li>Length: 60/30/15</li>
+      <li>{{job?.output.width}}x{{job?.output.height}}</li>
     </ul>
   </div>
 </div>

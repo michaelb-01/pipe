@@ -65,7 +65,6 @@ import template from './thumbnail.component.html';
 
 export class ThumbnailComponent {
   @Input() thumbUrl;
-  @Input() pos;
 
   xTile = 0;
   xPerc = 0;
@@ -75,45 +74,47 @@ export class ThumbnailComponent {
 
   imgWidth = 9600;
 
-  numTiles = 24;
+  numTiles = 30;
 
   hovering = false;
+
+  offset = 0;
 
   constructor(){}
 
   ngAfterViewInit() {
-    console.log(this.thumbUrl.split('_').pop());
-    let end = this.thumbUrl.split('_').pop();
-
+    // once image is loaded, we need to find the image width
     let image = new Image();
     image.addEventListener('load', (e) => this.handleImageLoad(e));
     image.src = this.thumbUrl;
-
-    this.numTiles = parseInt(end.split('.')[0]) / 320;
   }
 
   handleImageLoad(event): void {
     this.imgWidth = event.target.width;
-    console.log('original image width: ' + this.imgWidth);
+    this.numTiles = this.imgWidth / this.tileWidth;
+
+    // initialise the thumbnail randomly between 30% and 70% of the timeline
+    let rand = 0.3 + Math.floor(Math.random() * 0.7);
+
+    this.xTile = Math.floor(this.numTiles * rand) * this.tileWidth * -1;
   }
 
   mouseenter(e) {
-    //this.tileWidth = e.target.offsetWidth;
     this.hovering = true;
 
-    console.log('width: ' + this.tileWidth);
-    console.log('thi')
+    // calculate difference between target 320px and actual width of element
+    this.offset = (this.tileWidth - e.target.offsetWidth) / 2;
   }
 
   mousemove(e) {
-    this.xTile = Math.floor((e.offsetX / this.tileWidth * (this.numTiles-1)) + 0.5) * this.tileWidth * -1;
-    this.xPerc = (e.offsetX / this.tileWidth) * 100;
+    let xPerc = e.offsetX / e.target.offsetWidth;
+    let offsetNum = Math.floor((xPerc * this.numTiles) + 0.5) * this.tileWidth * -1;
+
+    this.xTile = offsetNum - this.offset;
+    //this.xPerc = xPerc * 100;
 
     e.stopPropagation();
     e.preventDefault();
     return false;
   }
-
-
-
 }

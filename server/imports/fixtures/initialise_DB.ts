@@ -13,7 +13,8 @@ declare var Fake: any;
 const users = ['Mike Battcock', 'Mike Skrgatic', 'Ben Cantor', 'Sam Osbourne'];
 const types = ['asset','shot'];
 const jobImages = ['audi','bmw','kittiwakes','liquid','nike','vw'];
-const images = ['audi','audi_breakdown','bmw','dust_01','flip','kittiwakes','liquid','nike','test','vw'];
+const images = ['bmw','clothes','interior','wallSmash','warAndPeace','willYoung'];
+const thumbs = ['audi','audi_breakdown','bmw','dust_01','flip','kittiwakes','liquid','nike','test','vw'];
 const videos = ['/video/dust_01.mov','/video/test.mov'];
 
 function numberGen()
@@ -66,7 +67,7 @@ function createVersion(jobId, jobName, entityId, entityName) {
   }
 
   var contentType = 'still';
-  var content = images[Math.floor((Math.random() * images.length))];
+  var content = '/img/' + images[Math.floor((Math.random() * images.length))] + '.jpg';
 
   // make half videos
   if (Math.random() > 0.5) {
@@ -106,7 +107,7 @@ function createVersion(jobId, jobName, entityId, entityName) {
       'idx': idx
     },
     'content': content,
-    'thumbUrl': '/img/' + images[Math.floor((Math.random() * images.length))] + '_sprites.jpg',
+    'thumbUrl': '/img/' + thumbs[Math.floor((Math.random() * thumbs.length))] + '_sprites.jpg',
     'description': Fake.sentence(7),
     'date': new Date(),
     'public': true
@@ -170,7 +171,7 @@ function createEntity(jobId, jobName) {
     'tasks': tasks,
     'status': 'active',
     'todos':[],
-    'thumbUrl': '/img/' + images[Math.floor((Math.random() * images.length))] + '_sprites.jpg',
+    'thumbUrl': '/img/' + thumbs[Math.floor((Math.random() * thumbs.length))] + '_sprites.jpg',
     'description': Fake.sentence(7),
     'public': true
   }
@@ -213,7 +214,7 @@ export function createJobs() {
     job.name = 'Sneakerboots';
     job.client = 'Nike';
     job.agency = 'More and More';
-    job.thumbUrl = '/img/nike_sprites_9600.jpg';
+    job.thumbUrl = '/img/nike_sprites.jpg';
     job.public = true;
 
     jobs.push(job);
@@ -223,7 +224,7 @@ export function createJobs() {
     job2.name = 'Service';
     job2.client = 'Audi';
     job2.agency = 'Radical';
-    job2.thumbUrl = '/img/audi_sprites_9600.jpg';
+    job2.thumbUrl = '/img/audi_sprites.jpg';
     job2.public = true;
 
     jobs.push(job2);

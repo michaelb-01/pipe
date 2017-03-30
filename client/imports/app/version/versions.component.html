@@ -69,7 +69,7 @@
 
       <div *ngIf="version?.contentType == 'video'" class="pipe-video">
         <i class="material-icons playButton">chevron_right</i>
-        <thumbnail [thumbUrl]="'/video/dust_01_sprites_01.jpg'"></thumbnail>
+        <thumbnail [thumbUrl]="version.thumbUrl"></thumbnail>
         <!-- <video loop #videoEl 
           (mouseenter)=play(videoEl) 
           (mouseleave)=pause(videoEl)>

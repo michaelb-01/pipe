@@ -32,7 +32,7 @@
     </div>
   </div>
 </div>
-<div class="card-thumb">
+<!-- <div class="card-thumb">
   <img src="{{entity?.thumbUrl}}" onerror="this.src='/img/default.jpg'">
   <div class="banner fadeOut">
     <a [routerLink]="['/entity', entity._id._str]">
@@ -41,4 +41,12 @@
     </a>
   </div>
 </div>
-
+ -->
+<thumbnail [thumbUrl]="entity.thumbUrl">
+  <div class="banner">
+    <a [routerLink]="['/entity', entity._id._str]">
+      <h2 class="cardTitle">{{entity.name}}</h2>
+      <h5 class="cardTag">{{entity.type}}</h5>
+    </a>
+  </div>
+</thumbnail>

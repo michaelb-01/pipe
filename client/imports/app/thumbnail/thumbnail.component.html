@@ -7,9 +7,10 @@
 
   <div class="fade hovering" [ngClass]="{fadeOut:hovering}"></div>
   <div class="thumbnail"
-    [ngStyle]="{'background':'url(' + thumbUrl + ') left center', 'background-position': xTile + 'px 0'}">
+    [ngStyle]="{'background-image':'url(' + thumbUrl + ')', 
+                'background-position': xTile + 'px 0', 
+                'background-size': imgWidth + 'px 100%'}">
   </div>
 
   <!-- <div class="bar" *ngIf="hovering==true" [ngStyle]="{'left': xPerc + '%'}"></div> -->
 </div>
-
