@@ -16,8 +16,6 @@
     "@types/mocha": "^2.2.32",
     "chai": "3.5.0",
     "chai-spies": "0.7.1",
-    "meteor-desktop": "^0.6.0",
-    "meteor-desktop-system-notifications": "^0.0.2",
     "minimist": "^1.2.0",
     "typings": "^1.3.3"
   },
@@ -37,7 +35,7 @@
     "angular2-meteor-polyfills": "^0.1.1",
     "angular2-meteor-tests-polyfills": "0.0.2",
     "babel-runtime": "^6.18.0",
-    "bcrypt": "^0.8.7",
+    "bcryptjs": "^2.4.3",
     "hammerjs": "^2.0.8",
     "meteor-node-stubs": "0.2.3",
     "meteor-rxjs": "0.3.0",

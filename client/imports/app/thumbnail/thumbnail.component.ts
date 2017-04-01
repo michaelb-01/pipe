@@ -91,7 +91,7 @@ export class ThumbnailComponent {
 
   handleImageLoad(event): void {
     this.imgWidth = event.target.width;
-    this.numTiles = this.imgWidth / this.tileWidth;
+    this.numTiles = (this.imgWidth / this.tileWidth) - 1;
 
     // initialise the thumbnail randomly between 30% and 70% of the timeline
     let rand = 0.3 + Math.floor(Math.random() * 0.7);

@@ -14,7 +14,7 @@ const users = ['Mike Battcock', 'Mike Skrgatic', 'Ben Cantor', 'Sam Osbourne'];
 const types = ['asset','shot'];
 const jobImages = ['audi','bmw','kittiwakes','liquid','nike','vw'];
 const images = ['bmw','clothes','interior','wallSmash','warAndPeace','willYoung'];
-const thumbs = ['audi','audi_breakdown','bmw','dust_01','flip','kittiwakes','liquid','nike','test','vw'];
+const thumbs = ['audi','audi_breakdown','bmw','dust_01','flip','frames','kittiwakes','liquid','nike','test','vw'];
 const videos = ['/video/dust_01.mov','/video/test.mov'];
 
 function numberGen()
@@ -239,8 +239,8 @@ export function createJobs() {
 
       this.jobId = Jobs.insert(jobs[i]);
 
-      // random integer between 1 and 10
-      numEntities = Math.floor((Math.random() * 10) + 1);
+      // random integer between 10 and 20
+      numEntities = Math.floor((Math.random() * 10) + 10);
 
       // create entities in job
       for (var j = 0; j < numEntities; j++) {

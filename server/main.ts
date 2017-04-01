@@ -15,14 +15,18 @@ import './imports/publications/versions';
 import './imports/publications/users';  
 import './imports/publications/activity';  
 
-import jobGlobals = require('../typings/site');
+//import jobGlobals = require('../typings/site');
+let jobGlobals = {
+  'jobStructure':'',
+  'shotStructure':''
+}
 
 //import * as fs from "fs";
 import fs = require('fs');
 
 import mkdirp = require('mkdirp');
 
-import Desktop = require('meteor-desktop/dist/desktop.js');
+//import Desktop = require('meteor-desktop/dist/desktop.js');
 
 function pad(num, size) {
     var s = "000000000" + num;

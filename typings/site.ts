@@ -3,7 +3,8 @@
 //
 'use strict';
 
-export const jobRoots=['/Users/michaelbattcock/Documents/VFX/site_pipe/jobs'];
+// mac: /Users/michaelbattcock/Documents/VFX/site_pipe/jobs
+export const jobRoots=['S:/HOUSE/PEOPLE/MIKE_B/site_pipe/jobs'];
 
 export const jobStructure={
   'mediashuttle':{

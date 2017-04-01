@@ -1,0 +1,135 @@
+#! C:/Program Files/Nuke10.0v3/nuke-10.0.3.dll -nx
+#write_info Write1 file:"C:/Users/threedee/Documents/dev/pipe/public/video/frames.mov" format:"1280 720 1" chans:":rgba.red:rgba.green:rgba.blue:" framerange:"1 134" fps:"0" colorspace:"sRGB" datatype:"unknown" transfer:"unknown" views:"main" colorManagement:"Nuke"
+version 10.0 v3
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="0" y="0" w="1920" h="1156" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1183" stretch="1"/>
+            <splitter orientation="2">
+                <split size="647"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="455"/>
+                <dock id="" activePageId="DAG.1">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="681"/>
+            <dock id="" activePageId="uk.co.thefoundry.scripteditor.1" focus="true">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.scripteditor.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name C:/Users/threedee/Documents/dev/pipe/scripts/python/spriteGen_v001.nk
+ frame 7
+ last_frame 134
+ lock_range true
+ fps 25
+ format "1920 1080 0 0 1920 1080 1 HD_1080"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement Nuke
+ logLut sRGB
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {{random(frame)}}
+ color_panelDropped true
+ name Constant1
+ xpos 263
+ ypos -133
+}
+Viewer {
+ inputs 0
+ frame 7
+ frame_range 1-134
+ fps 25
+ name Viewer1
+ xpos -8
+ ypos 6
+}
+Read {
+ inputs 0
+ file C:/Users/threedee/Documents/dev/pipe/public/video/frames.mov
+ format "1280 720 0 0 1280 720 1 HD_720"
+ last 134
+ origlast 134
+ origset true
+ mov32_codec {{0} "H.264 Decoder (appl - avc1)"}
+ mov32_pixel_format {{0} "default (YCbCr  8-bit 422 (2vuy))" "RGBA  8-bit" "YCbCr  8-bit 422 (2vuy)"}
+ name Read1
+ xpos 348
+ ypos 69
+}
+Constant {
+ inputs 0
+ channels rgb
+ color {{random(frame+234)} {random(frame+123)} {random(frame)} 0}
+ color_panelDropped true
+ format "1280 720 0 0 1280 720 1 HD_720"
+ name Constant2
+ xpos 513
+ ypos -158
+}
+Text2 {
+ font_size_toolbar 100
+ font_width_toolbar 100
+ font_height_toolbar 100
+ message "Frame: \[frame]"
+ old_message {{70 114 97 109 101 58 32 49}
+   }
+ old_expression_markers {{7 7}
+   }
+ box {84.5 250.5 1199.5 501.5}
+ transforms {{0 2}
+   }
+ cursor_position 7
+ global_font_scale 2.5
+ scale {1 1}
+ center {960 540}
+ cursor_initialised true
+ initial_cursor_position {{84.5 501.5}
+   }
+ group_animations {{0} imported: 0 selected: 0 items: "root transform/"}
+ animation_layers {{1 11 960 540 0 0 1 1 0 0 0 0}
+   }
+ name Text1
+ xpos 513
+ ypos -68
+}
+Write {
+ file C:/Users/threedee/Documents/dev/pipe/public/video/frames.mov
+ colorspace sRGB
+ file_type mov
+ meta_codec avc1
+ meta_encoder mov32
+ mov32_codec avc1
+ mov32_pixel_format {{0} "default (YCbCr  8-bit 422 (2vuy))" "RGBA  8-bit" "YCbCr  8-bit 422 (2vuy)"}
+ mov64_codec ap4h
+ mov64_bitrate 20000
+ mov64_bitrate_tolerance 40000000
+ mov64_quality_min 2
+ mov64_quality_max 31
+ mov64_gop_size 12
+ mov64_b_frames 0
+ checkHashOnRead false
+ version 1
+ name Write1
+ selected true
+ xpos 513
+ ypos -11
+}

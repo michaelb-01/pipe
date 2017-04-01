@@ -1,0 +1,44 @@
+// Variables
+@import "variables";
+
+$header-height: 50px;
+$header-padding: 5px;
+$avatar: $header-height - ($header-padding*2);
+
+version-item {
+	width: 320px;
+	background-color: #ccc;
+	margin: 10px;
+}
+
+.version-header {
+	position: relative;
+	background-color: grey;
+	height: $header-height;
+	padding: $header-padding;
+	.avatar {
+		position: absolute;
+		width: $avatar;
+		height: $avatar;
+		line-height: $avatar;
+		text-align: center;
+		background-color:$accent;
+		border-radius: 50%;
+	}
+	.titleGroup {
+		position:absolute;
+		left: $header-height;
+		.title, .subtitle {
+			line-height: $avatar / 2;
+		}
+	}
+}
+
+.version-content {
+	background-color: green;
+}
+
+.version-footer {
+	background-color: blue;
+	height: 30px;
+}

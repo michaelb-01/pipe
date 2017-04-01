@@ -15,15 +15,12 @@
             "src": "https://raw.githubusercontent.com/typed-typings/npm-assertion-error/105841317bd2bdd5d110bfb763e49e482a77230d/typings.json",
             "raw": "github:typed-typings/npm-assertion-error#105841317bd2bdd5d110bfb763e49e482a77230d",
             "main": "main.d.ts",
-            "name": "assertion-error",
-            "type": "typings"
+            "name": "assertion-error"
           }
         },
-        "name": "chai",
-        "type": "typings"
+        "name": "chai"
       }
     },
-    "name": "chai-spies",
-    "type": "typings"
+    "name": "chai-spies"
   }
 }
