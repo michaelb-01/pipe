@@ -12,8 +12,9 @@ import template from './thumbnail.component.html';
       height:100%;
     }
     .thumbnailContainer {
+      display:block;
       width:100%;
-      height:100%;
+      height:0;
       overflow:hidden;
       position:relative;
       background-color:black;
@@ -76,6 +77,8 @@ export class ThumbnailComponent {
 
   numTiles = 30;
 
+  heightRatio = 56;
+
   hovering = false;
 
   offset = 0;
@@ -91,10 +94,18 @@ export class ThumbnailComponent {
 
   handleImageLoad(event): void {
     this.imgWidth = event.target.width;
-    this.numTiles = (this.imgWidth / this.tileWidth) - 1;
+    let numTiles = this.imgWidth / this.tileWidth
+    this.numTiles = numTiles -1;
 
     // initialise the thumbnail randomly between 30% and 70% of the timeline
     let rand = 0.3 + Math.floor(Math.random() * 0.7);
+
+    this.heightRatio = event.target.height / (this.imgWidth / numTiles) * 100;
+
+    console.log('image width: ' + this.imgWidth);
+    console.log('num tiles: ' + numTiles);
+    console.log('tileWidth: ' + this.imgWidth / numTiles);
+    console.log('image height: ' + event.target.height);
 
     this.xTile = Math.floor(this.numTiles * rand) * this.tileWidth * -1;
   }

@@ -43,6 +43,7 @@
 
 <div id="versionsContainer">
   <version-item *ngFor="let version of versions | async | typeFilter:types;"
+              [version]="version"
               [ngClass]="{selected: version.selected}">
  
   </version-item>

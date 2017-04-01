@@ -21,7 +21,7 @@
 </span> -->
 
 <div class="cards assets">
-  <div *ngFor="let entity of entities | filter:term; let id = index; trackBy:trackByIndex;" class="card card-mid">
+  <div *ngFor="let entity of entities | filter:term; let id = index;" class="card card-mid">
     <entity-item (click)="selectEntity(entity)" [entity]="entity" [showDetails]="showDetails" (taskSelected)="selectTask($event)"></entity-item>
   </div>
 

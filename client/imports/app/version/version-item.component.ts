@@ -7,12 +7,12 @@ import template from './version-item.component.html';
 @Component({
   selector: 'version-item',
   styles: [styles],
-  encapsulation: ViewEncapsulation.Native,
+  encapsulation: ViewEncapsulation.None,
   template
 })
 
 export class VersionItemComponent {
-	constructor() {
+  @Input() version;
 
-	}
+	constructor() {}
 }

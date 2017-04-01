@@ -2,25 +2,34 @@
 //@import "variables";
 
 $header-height: 40px;
-$header-padding: 5px;
-$avatar: $header-height - ($header-padding*2);
+$padding: 5px;
+$avatar: $header-height - ($padding*2);
 
 version-item {
-	width: 320px;
-	background-color: #ccc;
-	margin: 10px;
+	width: 25%;
+	background-color: white;
+}
+
+.version-container {
+  padding: 5px;
+}
+
+.version-wrapper {
+  box-shadow: -1px 1px 10px 0px rgba(0,0,0,0.2);
+  & > * {
+    padding: $padding;
+  }
 }
 
 .version-header {
 	position: relative;
 	background-color: grey;
 	height: $header-height;
-	padding: $header-padding;
 	.avatar {
 		position: absolute;
-		width: $header-height;
-		height: $header-height;
-		line-height: $header-height;
+		width: $avatar;
+		height: $avatar;
+		line-height: $avatar;
 		text-align: center;
 		background-color:pink;
 		border-radius: 50%;
@@ -34,11 +43,11 @@ version-item {
 	}
 }
 
-.version-content {
+.version-image {
 	background-color: green;
+  padding: 0px !important;
 }
 
 .version-footer {
-	background-color: blue;
-	height: 30px;
+  width: 100%;
 }

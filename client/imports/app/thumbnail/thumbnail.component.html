@@ -1,15 +1,18 @@
 <div class="thumbnailContainer"
   (mouseenter)="mouseenter($event)"
   (mousemove)="mousemove($event)"
-  (mouseleave)="hovering=false">
+  (mouseleave)="hovering=false"
+  [ngStyle]="{'padding-bottom': heightRatio + '%'}">
 
   <ng-content></ng-content>
 
-  <div class="fade hovering" [ngClass]="{fadeOut:hovering}"></div>
+  <div class="hovering" [ngClass]="{fadeOut:hovering}"></div>
   <div class="thumbnail"
-    [ngStyle]="{'background-image':'url(' + thumbUrl + ')', 
-                'background-position': xTile + 'px 0', 
-                'background-size': imgWidth + 'px 100%'}">
+    [ngStyle]="{'background-image':'url(' + thumbUrl + ')'}">
+
+<!-- , 
+      'background-position': xTile + 'px 0', 
+      'background-size': imgWidth + 'px 100%' -->
   </div>
 
   <!-- <div class="bar" *ngIf="hovering==true" [ngStyle]="{'left': xPerc + '%'}"></div> -->

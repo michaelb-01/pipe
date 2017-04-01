@@ -87,8 +87,6 @@ export class VersionsComponent implements OnInit, OnDestroy {
 
         this.versionsSub = MeteorObservable.subscribe('versions', this.entityId).zone().subscribe(() => {
           this.versions = this._versionService.getVersions(this.entityId);
-
-          console.log(this.versions);
         });
       });
   }

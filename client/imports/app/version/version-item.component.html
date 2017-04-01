@@ -1,17 +1,27 @@
-<div class='version-header'>
-	<div class='avatar initials'>
-		MB
-	</div>
-	<div class='titleGroup'>
-		<div class='title'>Title</div>
-		<div class='subtitle'>Subtitle</div>
-	</div>
-</div>
+<div class="version-container">
+  <div class="version-wrapper">
+    <div class='version-header'>
+    	<div class='avatar initials'>
+    		MB
+    	</div>
+    	<div class='titleGroup'>
+    		<div class='title'>{{version?.taskType?.type}}</div>
+    		<div class='subtitle'>v{{version?.version}}</div>
+    	</div>
+    </div>
 
-<div class='version-content'>
-content
-</div>
+    <div class='version-image'>
+      <thumbnail [thumbUrl]="version.thumbUrl">
+      </thumbnail>
+    </div>
 
-<div class='version-footer'>
-footer
+    <table class='version-footer'>
+      <tr>
+        <td class="date">{{version?.date | date: 'dd/MM/yyyy'}}</td>
+        <td align="right" class="notes_num" (click)="toggleNotes(version)">
+          {{version?.notes?.length}} notes
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
