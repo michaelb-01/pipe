@@ -8,12 +8,12 @@
 
   <div class="hovering" [ngClass]="{fadeOut:hovering}"></div>
   <div class="thumbnail"
-    [ngStyle]="{'background-image':'url(' + thumbUrl + ')'}">
-
-<!-- , 
-      'background-position': xTile + 'px 0', 
-      'background-size': imgWidth + 'px 100%' -->
+    [ngStyle]="{'background-image':'url(' + thumbUrl + ')',
+                'background-size': '3000% 100%',
+                'background-position': xpos + '% 0'}">
   </div>
+
+  <!-- 'background-image':'url(' + thumbUrl + ')' -->
 
   <!-- <div class="bar" *ngIf="hovering==true" [ngStyle]="{'left': xPerc + '%'}"></div> -->
 </div>

@@ -66,22 +66,16 @@ import template from './thumbnail.component.html';
 
 export class ThumbnailComponent {
   @Input() thumbUrl;
-
-  xTile = 0;
-  xPerc = 0;
-
   tileWidth = 320;
-  tileHeight = 180;
 
-  imgWidth = 9600;
+  xpos = 0;
+  xratio = 0;
 
   numTiles = 30;
 
   heightRatio = 56;
 
   hovering = false;
-
-  offset = 0;
 
   constructor(){}
 
@@ -93,35 +87,24 @@ export class ThumbnailComponent {
   }
 
   handleImageLoad(event): void {
-    this.imgWidth = event.target.width;
-    let numTiles = this.imgWidth / this.tileWidth
-    this.numTiles = numTiles -1;
+    let imgWidth = event.target.width;
+    let numTiles = imgWidth / this.tileWidth;
 
-    // initialise the thumbnail randomly between 30% and 70% of the timeline
-    let rand = 0.3 + Math.floor(Math.random() * 0.7);
+    this.numTiles = numTiles - 1;
 
-    this.heightRatio = event.target.height / (this.imgWidth / numTiles) * 100;
+    this.heightRatio = event.target.height / (imgWidth / numTiles) * 100;
 
-    console.log('image width: ' + this.imgWidth);
-    console.log('num tiles: ' + numTiles);
-    console.log('tileWidth: ' + this.imgWidth / numTiles);
-    console.log('image height: ' + event.target.height);
-
-    this.xTile = Math.floor(this.numTiles * rand) * this.tileWidth * -1;
+    this.xratio = 100.0 / this.numTiles;
   }
 
   mouseenter(e) {
     this.hovering = true;
-
-    // calculate difference between target 320px and actual width of element
-    this.offset = (this.tileWidth - e.target.offsetWidth) / 2;
   }
 
   mousemove(e) {
     let xPerc = e.offsetX / e.target.offsetWidth;
-    let offsetNum = Math.floor((xPerc * this.numTiles) + 0.5) * this.tileWidth * -1;
 
-    this.xTile = offsetNum - this.offset;
+    this.xpos = Math.round(xPerc * this.numTiles) * this.xratio; 
     //this.xPerc = xPerc * 100;
 
     e.stopPropagation();
