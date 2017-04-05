@@ -1,0 +1,12 @@
+.mediaContainer {
+  display: flex;
+}
+
+.mediaWrapper {
+  position: relative;
+}
+
+.mediaComments {
+  flex: 0 0 250px;
+  background-color: red;
+}

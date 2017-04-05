@@ -7,7 +7,7 @@
   <div *ngFor="let job of jobs | async; let idx=index" class="card card-big" (click)="editJob(job)">
 
     <thumbnail [thumbUrl]="job.thumbUrl">
-      <div class="banner">
+      <div class="banner fade">
         <a [routerLink]="['/job', job._id._str]">
           <h2 class="cardTitle">{{job.client}}</h2>
           <h5 class="cardTag">{{job.name}}</h5>

@@ -5,18 +5,17 @@
     (mouseleave)="containerMouseLeave($event)"
     (mouseup)="containerMouseUp($event)">
 
-    <div #myAnnotation *ngFor="let annotation of annotations; let i = index" 
+    <div #myAnnotation *ngFor="let annotation of version?.notes; let i = index" 
       class="annotation"
       [ngStyle]="{'top': annotation.y + '%', 'left': annotation.x + '%'}"
       (mousedown)="annotationMouseDown(annotation,$event,i)"
-      (mouseup)="dragging=false">
+      (mouseup)="updateAnnotation($event)">
 
       <div class="line" [ngStyle]="{'width': annotation.lineLen + 'px',
                                     'transform': 'rotate(' + annotation.lineRot + 'deg)'}"></div>
 
       <div class="annotationText" 
           (mousedown)="textContainerMouseDown($event)"
-          (mouseup)="textContainerMouseUp($event)"
           [ngStyle]="{'margin-top': (annotation.offsetY) + 'px',
                       'margin-left': (annotation.offsetX) + 'px'}">
 
@@ -24,9 +23,10 @@
           {{ annotation.author | firstLetter }}
         </div>
 
-        <span>{{annotation.frame}}</span>
+        <span>Frame: {{annotation.frame}}</span>
 
-        <i (click)="deleteAnnotation(i)" class="material-icons annotationDelete">delete</i>
+        <i  (mousedown)="deleting=true"
+            (mouseup)="deleteAnnotation(annotation)" class="material-icons annotationDelete">delete</i>
 
         <md-input-container class="edit-input">
           <textarea mdInput
@@ -41,7 +41,7 @@
   </div>
 </div>
 
-Dragging: {{dragging}}
+<!-- Dragging: {{dragging}}
 <br>
 Annotation Dimensions: {{selectedTextBoxEl?.offsetWidth}}, {{selectedTextBoxEl?.offsetHeight}}
 <br>
@@ -55,5 +55,5 @@ Container Dimensions: {{width}}, {{height}}
 <br>
 Selected Annotation Offset: {{selectedAnnotation?.offsetX}}, {{selectedAnnotation?.offsetY}}
 <br>
-Collision bounce: {{colBounce}}
+Collision bounce: {{colBounce}} -->
 

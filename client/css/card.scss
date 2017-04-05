@@ -14,7 +14,6 @@
   width:23%;
   max-width: 320px;
   max-height:400px;
-  height: 200px;
   overflow-y: scroll;
   margin: 1%;
   box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.12);
@@ -205,7 +204,6 @@
 }
 
 .card-big {
-  height:200px;
   .card-image {
     height: 100%;
   }
@@ -305,11 +303,12 @@
   }
 }
 
-.fadeOut {
+.fade {
   -moz-transition-duration: 0.5s;
   -webkit-transition-duration: 0.5s;
   -o-transition-duration: 0.5s;
   transition-duration: 0.5s;
+  background-color: rgba(0,0,0,0.5); 
   &:hover {
     background-color: rgba(0,0,0,0);  // 0% opacity black
   }

@@ -7,6 +7,8 @@ import { AccountsModule } from 'angular2-meteor-accounts-ui';
 import { AppComponent } from './app.component';
 import { routes, ROUTES_PROVIDERS } from './app.routes';
 
+import { ReviewService } from './review/review.service';
+
 import { SHARED_DECLARATIONS } from './shared';
 import { JOBS_DECLARATIONS } from './job';
 import { ENTITIES_DECLARATIONS } from './entity';
@@ -42,6 +44,7 @@ import 'hammerjs';
   ],
   providers: [
     ...ROUTES_PROVIDERS,
+    ReviewService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [

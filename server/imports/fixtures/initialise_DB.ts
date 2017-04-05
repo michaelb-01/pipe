@@ -1,4 +1,5 @@
 import { IJob, Job } from "../../../both/models/job.model";
+import { IAnnotation, Annotation } from '../../../both/models/annotation.model';
 
 import { Jobs } from '../../../both/collections/jobs.collection';
 import { Entities } from '../../../both/collections/entities.collection';
@@ -52,18 +53,16 @@ export function createUsers() {
 }
 
 function createVersion(jobId, jobName, entityId, entityName) {
-  var maxNotes = 10;
+  var maxNotes = 0;
 
   var notes = [];
   for (var i=0;i<Math.floor(Math.random() * maxNotes);i++) {
-    notes.push({
-      "author":{
-        "id":'',
-        "name":'Mike Battcock'
-      },
-      "body": Fake.sentence(Math.floor(Math.random() * 8)),
-      "date": new Date()
-    });
+    let note = new Annotation();
+
+    note.author = 'Mike Battcock';
+    note.text = Fake.sentence(Math.floor(Math.random() * 8));
+
+    notes.push(note);
   }
 
   var contentType = 'still';

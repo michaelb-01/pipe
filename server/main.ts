@@ -224,6 +224,14 @@ Meteor.startup(() => {
         { "_id": entityId },
         { $pull: { "todos": { "_id": todo._id } } }
       );
+    },
+
+    updateNote(versionId,note) {
+      console.log('server: update note');
+      Versions.update(
+        { "_id": versionId, "notes.date":note.date },
+        { $set: { "notes.$" : note } }
+      );
     }
   });
 

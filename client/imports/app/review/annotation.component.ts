@@ -1,22 +1,26 @@
-import { Component, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { IAnnotation, Annotation } from './annotation.model';
+import { Version } from "../../../../both/models/version.model";
+
+import { ReviewService } from './review.service';
 
 import template from './annotation.component.html';
 
 @Component({
+  selector: 'annotation',
   providers: [],
   styles: [
   `
-    :host {
-      width:100%;
-      position: relative;
+    .annotationWrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
     }
     .annotationContainer {
       position: relative;
-      width:80%; 
-      height:400px; 
-      background-color:#fde;
-      z-index:0;
+      width:100%; 
+      height:100%; 
+      z-index: 1;
     }
     .annotation {
       position: absolute;
@@ -30,7 +34,7 @@ import template from './annotation.component.html';
       border-radius: 50%;
       background-color: white;
       cursor: pointer;
-      z-index: 1;
+      z-index: 2;
     }
     .annotationText {
       position: relative;
@@ -64,6 +68,10 @@ import template from './annotation.component.html';
 })
 
 export class AnnotationComponent {
+  @Input() version: Version;
+
+  @Output() updateNote: EventEmitter<any> = new EventEmitter();
+
   @ViewChild('annotationContainer') annotationContainer; 
   @ViewChildren("myAnnotation") private myAnnotations: QueryList<ElementRef>;
 
@@ -98,9 +106,15 @@ export class AnnotationComponent {
 
   frame:number = 0;
 
-  constructor(){}
+  deleting = false;
+
+  constructor(private _reviewService: ReviewService){}
+
+  ngOnInit() {}
 
   containerMouseDown(event) {
+    console.log('container mouse down');
+
     if (event.shiftKey == false) return;
 
     let x = event.offsetX;
@@ -109,13 +123,7 @@ export class AnnotationComponent {
     let width = event.target.clientWidth;
     let height = event.target.clientHeight;
 
-    let bound = this.annotationContainer.nativeElement.getBoundingClientRect();
-
-    this.width = width;
-    this.height = height;
-
-    this.offsetLeft = bound.left;
-    this.offsetTop = bound.top;
+    this.updateContainerDimensions();
 
     let xPerc = (x / width) * 100;
     let yPerc = (y / height) * 100;
@@ -127,6 +135,9 @@ export class AnnotationComponent {
     annotation.x = xPerc;
     annotation.y = yPerc;
     annotation.author = 'Mike Battcock';
+
+    annotation.date = new Date();
+    annotation.frame = this._reviewService.frame;
 
     this.annotations.push(annotation);
 
@@ -142,7 +153,8 @@ export class AnnotationComponent {
 
     this.dragging = true;
 
-    console.log('container mouse down');
+    let obj = [annotation,1];
+    this.updateNote.emit(obj);
   }
 
   containerMouseMove(event) {
@@ -173,7 +185,9 @@ export class AnnotationComponent {
     this.selectedAnnotation.x = xPerc;
     this.selectedAnnotation.y = yPerc;
 
-    let col = this.calcCollision(x,y);
+    let col = [0,0];
+
+    col = this.calcCollision(x,y);
 
     this.selectedAnnotation.offsetX = this.oldOffsetX + col[0];
     this.selectedAnnotation.offsetY = this.oldOffsetY + col[1];
@@ -254,7 +268,6 @@ export class AnnotationComponent {
   }
 
   containerMouseLeave(event) {
-    console.log('container mouse leave');
     this.dragging=false; 
     this.containerDragging=false;  
   }
@@ -285,10 +298,23 @@ export class AnnotationComponent {
       'bottom':bottom
     }
   }
+
+  updateContainerDimensions() {
+    this.width = this.annotationContainer.nativeElement.offsetWidth;
+    this.height = this.annotationContainer.nativeElement.offsetHeight;
+
+    let bound = this.annotationContainer.nativeElement.getBoundingClientRect();
+
+    this.offsetLeft = bound.left;
+    this.offsetTop = bound.top;
+  }
   
   annotationMouseDown(annotation, event,i) {
     event.stopPropagation();
-    console.log('annotation mouse down');
+
+    console.log(annotation);
+
+    this.updateContainerDimensions();
 
     // update selected annotation
     this.selectedAnnotation = annotation;
@@ -300,6 +326,8 @@ export class AnnotationComponent {
 
     this.oldOffsetX = this.selectedAnnotation.offsetX;
     this.oldOffsetY = this.selectedAnnotation.offsetY;
+
+
 
     if (event.which>1 || event.target.className != 'annotation') {
       console.log('annotationMouseDown: return');
@@ -315,6 +343,8 @@ export class AnnotationComponent {
 
   textContainerMouseDown(event) {
     console.log('textContainerMouseDown');
+    this.updateContainerDimensions();
+
     this.pos1X = event.pageX - this.offsetLeft;
     this.pos1Y = event.pageY - this.offsetTop;
 
@@ -328,10 +358,35 @@ export class AnnotationComponent {
     console.log('text container mouse up');
 
     this.containerDragging = false;
+
+    if (this.deleting == true) {
+      this.deleting = false;
+      return;
+    }
+
+    let obj = [this.selectedAnnotation,2];
+    this.updateNote.emit(obj);
   }
 
-  deleteAnnotation(i) {
-    this.annotations.splice(i,1);
+  updateAnnotation(event) {
+    this.containerDragging = false;
+    this.dragging = false;
+    console.log('update annotation');
+
+    if (this.deleting == true) {
+      this.deleting = false;
+      return;
+    }
+
+    let obj = [this.selectedAnnotation,2];
+    this.updateNote.emit(obj);
+  }
+
+  deleteAnnotation(annotation) {
+    this.deleting = true;
+
+    let obj = [annotation,0];
+    this.updateNote.emit(obj);
   }
 
   annotationKeyPress(e,annotation,input) {

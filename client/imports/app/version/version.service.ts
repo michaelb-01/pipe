@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from "rxjs";
 
+import { Meteor } from 'meteor/meteor';
 import { MeteorObservable } from 'meteor-rxjs';
 
 import { Version } from "../../../../both/models/version.model";
@@ -95,6 +96,10 @@ export class VersionService {
     }
   }
 
+  public updateNote(versionId, note) {
+    Meteor.call('updateNote', new Mongo.ObjectID(versionId), note);
+  }
+
   public deleteReview(versionId, date) {
     Versions.update(
       { "_id": new Mongo.ObjectID(versionId) },
@@ -102,7 +107,10 @@ export class VersionService {
     );
   }
 
-  public deleteNote(versionId, date) {
+  public deleteNoteByDate(versionId, date) {
+    console.log('version.service: ');
+    console.log(versionId);
+
     Versions.update(
       { "_id": new Mongo.ObjectID(versionId) },
       { $pull: { 'notes': { date: new Date(date) } } }

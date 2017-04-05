@@ -1,0 +1,197 @@
+<div id="detailsPanel">
+  <ul id="breadcrumbs" class="light">
+    <!--<li [routerLink]="['Job', {jobId:id}]">{{entity?.job.jobName}}</li>-->
+    <li [routerLink]="['/job', version?.job.jobId]">{{version?.job.jobName}}</li>
+    <i class="material-icons">navigate_next</i>
+    <li [routerLink]="['/entity', version?.entity.entityId]">{{version?.entity.entityName}}</li>
+    <i class="material-icons">navigate_next</i>
+    <li [routerLink]="['/version', version?._id]">v{{version?.version | zeroPad:3}}</li>
+  </ul>
+</div>
+
+<div id="mediaContainer">
+  <div id="tools">
+    <div class="bold toolTitle">Tool Palette</div>
+    <div class="toolType">
+      <div class="tool" (click)="tool = 1">
+        <i class="material-icons brushTool">brush</i>
+      </div>
+      <div class="tool" (click)="tool = 2">
+        <span class="lineTool"></span>
+      </div>
+      <div class="tool" (click)="tool = 3">
+        <span class="rectTool"></span>
+      </div>
+      <div class="tool" (click)="tool = 4">
+        <span class="circleTool"></span>
+      </div>
+    </div>
+
+    <button (click)="checkTool()">Check Tool</button>
+
+    <div>Colour</div>
+    <label class="colourPicker" [style.background-color]="strokeColour">
+      <input class="colourPickerInput" type="color" [(ngModel)]="strokeColour" value="rgba(255,0,0,0.5)" style="width:85%;">
+    </label>
+    {{strokeColour}}
+    <div> Brush Size </div>
+    <input type="range" [(ngModel)]="strokeWidth" value="2" min="1" max="30">
+    <span class="light">{{strokeWidth}}</span>
+    <div> Opacity </div>
+    <input type="range" [(ngModel)]="strokeOpacity" value="1" min="0" max="1" step="0.01">
+    <span class="light">{{strokeOpacity}}</span>
+  </div>
+
+  <div id="mediaWrapper">
+      <div class="versionInfo">
+        <div>
+          <div *ngIf="prevVersion" class="prevVersion" (click)="goToVersion(prevVersion)">
+            <span class="chevron">
+              <i class="material-icons">navigate_before</i>
+              <i class="material-icons">navigate_before</i>
+            </span>
+            v{{prevVersion?.version | zeroPad:3}}
+          </div>
+        </div>
+
+        <div class="currentVersion">
+          <div class="reviewTitle">
+            {{version?.entity.entityName}}
+          </div>
+          <span class="light">
+            {{version?.taskType.type}}
+          </span>
+          <span class="reviewVersion">
+            v{{version?.version | zeroPad:3}}
+          </span>
+        </div>
+
+        <div>
+          <div *ngIf="nextVersion" class="nextVersion" (click)="goToVersion(nextVersion)">
+            v{{nextVersion?.version | zeroPad:3}}
+            <span class="chevron">
+              <i class="material-icons">navigate_next</i>
+              <i class="material-icons">navigate_next</i>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <canvas #canvasEl id="paint" 
+              (mousedown)="canvasMouseDown($event)"
+              (mouseup)="endPaint($event)"
+              (mouseout)="mouseOffCanvas($event)"></canvas>
+
+      <div *ngIf="version?.contentType == 'video'">
+        <video #media id="vid" 
+                (onplay)="test()" 
+                width="100%" 
+                height="100%" 
+                src="{{version?.content}}" 
+                type="video/mp4" 
+                controls
+                loop>
+        </video>
+
+        <div id="brush">
+          <i class="fa fa-circle"></i>
+        </div>
+
+        <div id="markers">
+          <ul id="annotations">
+            <li class="marker" *ngFor="let review of version?.review" 
+                          [style.left]="review.frame/frames*100+'%'"
+                          (click)="goToReview(review)">
+              <div class="markerBg" [style.background-color]="review.paint.col"
+                                    [style.border-color]="review.paint.col"></div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="frame">  
+          <br>
+          <span id="currentFrame">{{frame}}</span>
+        </div>
+      </div>
+
+      <div *ngIf="version?.contentType == 'still'">
+        <img #media src="{{version?.content}}">
+      </div>
+
+    <div class="mediaInfo">
+      <div class="mediaDescription">
+        {{version?.description}}
+      </div>
+      <div class="mediaFooter light">
+        <div>{{version?.author}}</div>
+        <div class="mediaDate">Published: {{version?.date | timeAgo}}</div>
+      </div>
+    </div>
+
+    <ul class="reviewNotes">
+      <form (submit)="submitNote()" autocomplete="off">
+        <input id="commentInput" [(ngModel)]="note" name="note" autocomplete="off"/>
+      </form>
+      <li class="note" *ngFor="let note of version?.notes | sort : 'date' ">
+        <span class="noteAuthor highlight">
+          {{note.author.name}}
+        </span>
+          {{note.body}}
+        <i class="material-icons commentClose" (click)="deleteNote($event,note)">close</i>
+        <div class="noteFooter light">
+          {{note.date | timeAgo}}
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+  <div id="commentWindow">
+    <div id="title">
+      Comments
+    </div>
+
+    <form (submit)="submitReview(0)" autocomplete="off">
+      <input id="commentInput" [(ngModel)]="comment" name="comment" autocomplete="off"/>
+    </form>
+
+    <i class="material-icons" (click)="goToPreviousNote()" 
+        style="color: #595f67">skip_previous</i>
+
+    <i class="material-icons" (click)="goToNextNote()" 
+        style="color: #595f67">skip_next</i>
+
+    <ul id="commentList">
+      <li *ngFor="let review of version?.review | sort : 'date' " class="commentWrapper" (click)="goToReview(review)">
+        <i class="material-icons commentClose" (click)="deleteReview($event,review)">close</i>
+
+        <div class="" [ngClass]="{flash: review.flash}"></div>
+
+        <div class="comment">
+          <span class="frameNumber">{{review.frame}}</span>
+
+          <div class="commentChip chips-small">
+            <div class="chip">
+              {{review.user | firstLetter}}
+            </div>
+          </div>
+
+          <div class="commentContent">
+            <span *ngIf="review.type == 0">
+              {{review.comment}}
+            </span>
+            <span *ngIf="review.type == 1">
+              <i class="material-icons brush" [style.color]="review.paint.col" >brush</i>
+            </span>
+          </div>
+          <footer>
+            <span class="date">{{review.date | timeAgo}}</span>
+          </footer>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+
+</div>
+

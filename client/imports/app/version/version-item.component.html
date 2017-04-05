@@ -5,8 +5,10 @@
     		MB
     	</div>
     	<div class='titleGroup'>
-    		<div class='title'>{{version?.taskType?.type}}</div>
-    		<div class='subtitle'>v{{version?.version}}</div>
+    		<div class='title bold'>{{version?.taskType?.type}}</div>
+        <a [routerLink]="['/review', version._id._str]">
+    		  <div class='subtitle'>v{{version?.version}}</div>
+        </a>
     	</div>
     </div>
 

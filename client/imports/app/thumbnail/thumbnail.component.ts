@@ -17,7 +17,6 @@ import template from './thumbnail.component.html';
       height:0;
       overflow:hidden;
       position:relative;
-      background-color:black;
     }
     .thumbnailWrapper {
       position:absolute;
