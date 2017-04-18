@@ -226,11 +226,11 @@ Meteor.startup(() => {
       );
     },
 
-    updateNote(versionId,note) {
-      console.log('server: update note');
+    updateComment(versionId,comment) {
+      console.log('server: update comment');
       Versions.update(
-        { "_id": versionId, "notes.date":note.date },
-        { $set: { "notes.$" : note } }
+        { "_id": versionId, "comments.date":comment.date },
+        { $set: { "comments.$" : comment } }
       );
     }
   });

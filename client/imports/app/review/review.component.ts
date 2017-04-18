@@ -70,20 +70,23 @@ export class ReviewComponent {
     
   }
 
-  updateNote(obj) {
+  updateComment(obj) {
     let annotation = obj[0];
+
+    console.log('update comment');
+    console.log(obj);
 
     if (obj[1] == 0) {
       console.log('review.component: delete annotation');
-      this._versionService.deleteNoteByDate(this.versionId, annotation.date);
+      this._versionService.deleteCommentByDate(this.versionId, annotation.date);
     }
     else if (obj[1] == 1) {
       console.log('review.component: add annotation');
-      this._versionService.addNote(this.versionId, annotation);
+      this._versionService.addComment(this.versionId, annotation);
     }
     else if (obj[1] == 2) {
       console.log('review.component: update annotation');
-      this._versionService.updateNote(this.versionId, annotation);
+      this._versionService.updateComment(this.versionId, annotation);
     }
     
     console.log(annotation);

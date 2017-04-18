@@ -1,0 +1,124 @@
+$controlsHeight: 30px;
+$size: 20px;
+
+$margin: 5px;
+$bar-ratio: 0.2; /* percentage of width that is taken up by the middle bar */
+$color: #aaa;
+$animation-time: 0.3s;
+
+.controls {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  height: $controlsHeight;
+  width: 100%;
+  background-color:white;
+  outline: 1px solid #f7f7f7;
+  z-index: 2000;
+}
+
+.playButtonWrapper {
+  width: $controlsHeight;
+  background-color:red;
+  border-right: 1px solid #aaa;
+}
+
+.playButton {
+  position: absolute;
+  width: $size; 
+  height: $size;
+  margin: $margin;
+  z-index:1000;
+  border: 1px solid #f7f7f7;
+  
+  &::before, &::after { /* Play state */
+    content: "";
+    position: absolute;
+    left: 0; top: 50%; transform: translateY(-50%);
+    height: 100%;
+    border: 0px solid transparent;
+    border-width: $size*0.25 0 $size*0.25 $size*0.5;
+    border-left-color: $color;
+    
+    transition: all $animation-time ease;
+  }
+  &::after {
+    left: auto; right: 0;
+    height: 0%;
+  }
+  
+  &.pause { /* Pause state */
+    &::before, &::after {
+      border-left-width: $size*0.5;
+      height: 100%;
+      border-width: 0 0 0 ($size - $size*$bar-ratio)/2;
+    }
+  }
+}
+
+.time {
+  background-color:green;
+  padding: 0 5px;
+  line-height: 30px;
+  width:30px;
+  text-align: center;
+}
+
+.seekBarWrapper {
+  flex: 1;
+  position: relative;
+}
+
+.seekBar {
+  height: $controlsHeight;
+  margin: 0;
+  padding: 0;
+  background-color:blue;
+}
+
+.thumbViewer {
+  position: absolute;
+  left: 0;
+  bottom: $controlsHeight;
+  width:128px;
+  height:72px;
+  margin-left:-59px;
+  background-color:orange;
+  opacity:0;
+  &.hovering {
+    opacity:1;
+  }
+}
+
+.volumeControl {
+  width:50px;
+  background-color:pink;
+}
+
+// THUMBNAIL //
+
+.thumbnailContainer {
+  display:block;
+  width:100%;
+  height:0;
+  overflow:hidden;
+  position:relative;
+}
+.thumbnailWrapper {
+  position:absolute;
+  pointer-events:none;
+  height:100%;
+}
+.thumbnail {
+  background-repeat: no-repeat;
+  width:100%;
+  height:100%;
+  position:absolute;
+  top:0;
+  left:0;
+}
+img {
+  pointer-events:none;
+  width:auto;
+  max-width:100000px;
+}

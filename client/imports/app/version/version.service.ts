@@ -47,14 +47,28 @@ export class VersionService {
     }, {sort: {"version":-1}});
   }
 
+  public addComment(versionId, comment) {
+    Versions.update({"_id":new Mongo.ObjectID(versionId) },{$push : {"comments":comment}});
+  }
+
+  public updateComment(versionId, comment) {
+    Meteor.call('updateComment', new Mongo.ObjectID(versionId), comment);
+  }
+
+  public deleteCommentByDate(versionId, date) {
+    console.log('version.service: ');
+    console.log(versionId);
+
+    Versions.update(
+      { "_id": new Mongo.ObjectID(versionId) },
+      { $pull: { 'comments': { date: new Date(date) } } }
+    );
+  }
+
   public addReview(versionId, review) {
     Versions.update({"_id":new Mongo.ObjectID(versionId) },{$push : {"review":review}});
   }
-
-  public addNote(versionId, note) {
-    Versions.update({"_id":new Mongo.ObjectID(versionId) },{$push : {"notes":note}});
-  }
-
+  
   public addStroke(versionId, frame, stroke, idx) {
     console.log('add stroke');
 
@@ -77,43 +91,10 @@ export class VersionService {
     }
   }
 
-  public addComment(versionId, frame, comment, idx) {
-    if (idx > -1) {
-      //Versions.update({"_id" :versionId },{$push : {"review":note}});
-
-      var modifier = { $push: {} };
-      modifier.$push['review.' + idx + '.comments'] = comment;
-
-      Versions.update( { "_id": new Mongo.ObjectID(versionId)}, modifier );
-    }
-    else {
-      var note = {
-        "frame": frame,
-        "comments": [comment],
-        "strokes": []
-      }
-      Versions.update({"_id" : new Mongo.ObjectID(versionId) },{$push : {"review":note}});
-    }
-  }
-
-  public updateNote(versionId, note) {
-    Meteor.call('updateNote', new Mongo.ObjectID(versionId), note);
-  }
-
   public deleteReview(versionId, date) {
     Versions.update(
       { "_id": new Mongo.ObjectID(versionId) },
       { $pull: { 'review': { date: new Date(date) } } }
-    );
-  }
-
-  public deleteNoteByDate(versionId, date) {
-    console.log('version.service: ');
-    console.log(versionId);
-
-    Versions.update(
-      { "_id": new Mongo.ObjectID(versionId) },
-      { $pull: { 'notes': { date: new Date(date) } } }
     );
   }
 }

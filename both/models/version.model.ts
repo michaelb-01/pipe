@@ -11,7 +11,7 @@ export interface Version extends CollectionObject {
   };
   author: string;
   version: number;
-  notes?: any[];
+  comments?: any[];
   review: any[];
   contentType: string;
   taskType: {

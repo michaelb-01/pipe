@@ -98,7 +98,7 @@ function createVersion(jobId, jobName, entityId, entityName) {
     },
     'author': 'Mike Battcock',
     'version': versionNum,
-    'notes': notes,
+    'comments': notes,
     'review': [],
     'contentType': contentType,
     'taskType': {

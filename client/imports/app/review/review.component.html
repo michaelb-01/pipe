@@ -2,13 +2,11 @@
 
   <div class="mediaWrapper">
     <annotation [version]="version" 
-                (updateNote)="updateNote($event)"></annotation>
+                (updateComment)="updateComment($event)"></annotation>
     <div *ngIf="version?.contentType == 'video'">
-      <pipe-video [src]="version.content"></pipe-video>
+      <pipe-video [src]="version.content" [thumbUrl]="version.thumbUrl"></pipe-video>
     </div>
   </div>
 
-  <div class="mediaComments">
-
-  </div>
+  <comment-list [version]="version"></comment-list>
 </div>

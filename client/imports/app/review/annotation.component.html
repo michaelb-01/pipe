@@ -5,11 +5,12 @@
     (mouseleave)="containerMouseLeave($event)"
     (mouseup)="containerMouseUp($event)">
 
-    <div #myAnnotation *ngFor="let annotation of version?.notes; let i = index" 
+    <div #myAnnotation *ngFor="let annotation of version?.comments; let i = index" 
       class="annotation"
       [ngStyle]="{'top': annotation.y + '%', 'left': annotation.x + '%'}"
       (mousedown)="annotationMouseDown(annotation,$event,i)"
-      (mouseup)="updateAnnotation($event)">
+      (mouseup)="updateAnnotation($event)"
+      [hidden]="annotation.frame != _reviewService.frame">
 
       <div class="line" [ngStyle]="{'width': annotation.lineLen + 'px',
                                     'transform': 'rotate(' + annotation.lineRot + 'deg)'}"></div>
@@ -23,7 +24,7 @@
           {{ annotation.author | firstLetter }}
         </div>
 
-        <span>Frame: {{annotation.frame}}</span>
+        <!-- <span>Frame: {{annotation.frame}}</span> -->
 
         <i  (mousedown)="deleting=true"
             (mouseup)="deleteAnnotation(annotation)" class="material-icons annotationDelete">delete</i>
@@ -33,7 +34,9 @@
             mdTextareaAutosize
             minRows=1
             [(ngModel)]="annotation.text" placeholder="Comment"
-            (keypress)="annotationKeyPress($event,annotation,test)">
+            (mousedown)="inputMouseDown($event)"
+            (mouseup)="clearEvents($event)"
+            (keydown)="annotationKeyPress($event,annotation,test)">
           </textarea>
         </md-input-container>
       </div>

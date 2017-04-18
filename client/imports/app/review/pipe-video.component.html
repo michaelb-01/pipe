@@ -1,10 +1,53 @@
 <video #pipeVideo id="vid" 
+        (timeupdate)="updateSeekbar($event)"
         width="100%" 
         height="100%" 
         src="{{src}}" 
         type="video/mp4" 
-        controls
         loop>
 </video>
 
-{{_reviewService.frame}}
+<div class="controls">
+  <div class="playButtonWrapper">
+    <div class="playButton" 
+      [ngClass]="{pause:playing}"
+      (click)="togglePlay()">
+    </div>
+  </div>
+
+  <div class="time">
+    {{_reviewService.frame}}
+  </div>
+
+  <div class="seekBarWrapper"
+        (mousemove)="seekBarMouseMove($event)">
+    <div class="thumbViewer"
+        [ngClass]="{hovering:hovering}"
+        [ngStyle]="{'left': seekPosition + '%'}">
+
+        <div class="thumbnailContainer"
+          [ngStyle]="{'padding-bottom': heightRatio + '%'}">
+
+          <div class="thumbnail"
+            [ngStyle]="{'background-image':'url(' + thumbUrl + ')',
+                        'background-size': '3000% 100%',
+                        'background-position': xpos + '% 0'}">
+          </div>
+        </div>
+
+    </div>
+    <input #seekBar type="range" 
+                    class="seekBar" 
+                    value="1" 
+                    step="1"
+                    min="1"
+                    max="85"
+      (mouseenter)="hovering=true"
+      (mouseleave)="hovering=false"
+      (change)="updateTime($event)">
+  </div>
+
+  <div class="volumeControl">
+  </div>
+</div>
+

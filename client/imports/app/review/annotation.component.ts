@@ -70,7 +70,7 @@ import template from './annotation.component.html';
 export class AnnotationComponent {
   @Input() version: Version;
 
-  @Output() updateNote: EventEmitter<any> = new EventEmitter();
+  @Output() updateComment: EventEmitter<any> = new EventEmitter();
 
   @ViewChild('annotationContainer') annotationContainer; 
   @ViewChildren("myAnnotation") private myAnnotations: QueryList<ElementRef>;
@@ -104,6 +104,8 @@ export class AnnotationComponent {
   oldOffsetY:number = 0;
   containerDragging:boolean = false;
 
+  storedText:string = '';
+
   frame:number = 0;
 
   deleting = false;
@@ -116,6 +118,8 @@ export class AnnotationComponent {
     console.log('container mouse down');
 
     if (event.shiftKey == false) return;
+
+    console.log('add annotation');
 
     let x = event.offsetX;
     let y = event.offsetY;
@@ -154,7 +158,7 @@ export class AnnotationComponent {
     this.dragging = true;
 
     let obj = [annotation,1];
-    this.updateNote.emit(obj);
+    this.updateComment.emit(obj);
   }
 
   containerMouseMove(event) {
@@ -343,6 +347,15 @@ export class AnnotationComponent {
 
   textContainerMouseDown(event) {
     console.log('textContainerMouseDown');
+    console.log(event);
+    // if clicked element is
+    if (event.target.placeholder == "Comment") {
+      console.log('comment clicked');
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    }
+
     this.updateContainerDimensions();
 
     this.pos1X = event.pageX - this.offsetLeft;
@@ -365,13 +378,28 @@ export class AnnotationComponent {
     }
 
     let obj = [this.selectedAnnotation,2];
-    this.updateNote.emit(obj);
+    this.updateComment.emit(obj);
+  }
+
+
+
+  inputMouseDown(e) {
+    console.log(e);
+    this.storedText = e.target.value;
+    this.clearEvents(e);
+  }
+
+  clearEvents(e) {
+    console.log('clear events');
+    event.stopPropagation();
+    event.preventDefault();
+    return false;
   }
 
   updateAnnotation(event) {
     this.containerDragging = false;
     this.dragging = false;
-    console.log('update annotation');
+    console.log('annotation.component: update annotation');
 
     if (this.deleting == true) {
       this.deleting = false;
@@ -379,14 +407,14 @@ export class AnnotationComponent {
     }
 
     let obj = [this.selectedAnnotation,2];
-    this.updateNote.emit(obj);
+    this.updateComment.emit(obj);
   }
 
   deleteAnnotation(annotation) {
     this.deleting = true;
 
     let obj = [annotation,0];
-    this.updateNote.emit(obj);
+    this.updateComment.emit(obj);
   }
 
   annotationKeyPress(e,annotation,input) {
@@ -399,9 +427,14 @@ export class AnnotationComponent {
       }
       else {
         console.log('remove focus');
-        input.focused = 0;
+        //input.focused = 0;
+        let obj = [annotation,2];
+        this.updateComment.emit(obj);
         e.preventDefault();
       }
+    }
+    else if (e.keyCode === 27) {
+      annotation.text = this.storedText;
     }
   }
 
