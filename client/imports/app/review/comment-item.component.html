@@ -3,5 +3,10 @@
 </div>
 
 <div class="comment">
-  {{comment?.text}}
+  {{ comment?.text }}
+</div>
+
+<i class="material-icons commentClose" (click)="deleteComment()">close</i>
+<div class="noteFooter light">
+  {{comment?.date | timeAgo}}
 </div>

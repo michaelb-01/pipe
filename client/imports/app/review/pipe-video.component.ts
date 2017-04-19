@@ -2,6 +2,8 @@ import { Component, Input, ViewChild } from '@angular/core';
 
 import { ReviewService } from './review.service';
 
+//import {Observable} from 'rxjs/Observable';
+
 import template from './pipe-video.component.html';
 
 import styles from './pipe-video.component.scss';
@@ -16,6 +18,7 @@ import styles from './pipe-video.component.scss';
 })
 
 export class PipeVideoComponent {
+  @Input() version: any;
   @Input() src: string;
   @Input() thumbUrl: string;
 
@@ -26,6 +29,11 @@ export class PipeVideoComponent {
   frameListener:any;
 
   playing:boolean = false;
+
+  numFrames:number = 25;
+
+  volumeBarInset:number = 0;
+  selectedBar:number = 0;
 
   // Thumbnail //
   seekPosition: number = 0;
@@ -39,12 +47,6 @@ export class PipeVideoComponent {
   constructor(private _reviewService: ReviewService){}
 
   ngOnInit() {
-    console.log('source:');
-    console.log(this.src);
-
-    console.log('review service: ');
-    console.log(this._reviewService.frame);
-
     this.videoInit();
 
     this.thumbUrl = '/img/frames_sprites.jpg';
@@ -54,20 +56,35 @@ export class PipeVideoComponent {
   ngAfterViewInit() {
     // once image is loaded, we need to find the image width
     let image = new Image();
-    image.addEventListener('load', (e) => this.handleImageLoad(e));
+    image.addEventListener('load', (e) => this.imageLoad(e));
     image.src = this.thumbUrl;
+
+    //let onLoad = Observable.fromEvent(this.pipeVideo.nativeElement, 'loadedmetadata');
+    //onLoad.subscribe(this.onLoad.bind(this));
+
+    //let video = new HTMLVideoElement();
+    //video.addEventListener('loadedmetadata', (e) => this.videoLoad(e));
+    //video.src = this.src;
+
+    
+    console.log(this.numFrames);
   }
 
-  handleImageLoad(event): void {
-    let imgWidth = event.target.width;
+  videoLoaded(event) {
+    this.numFrames = event.target.duration * this.fps;
+  }
+
+  imageLoad(e): void {
+    let imgWidth = e.target.width;
     let numTiles = imgWidth / this.tileWidth;
 
     this.numTiles = numTiles - 1;
-    this.heightRatio = event.target.height / (imgWidth / numTiles) * 100;
+    this.heightRatio = e.target.height / (imgWidth / numTiles) * 100;
     this.xratio = 100.0 / this.numTiles;
   }
 
   videoInit() {
+
     this.updateFrame();
   }
 
@@ -76,7 +93,7 @@ export class PipeVideoComponent {
     this._reviewService.frame = Math.round(this._reviewService.time * this.fps) + 1;  // frame rate of 25 fps
 
     if (this.playing == true) {
-      this.seekBar.nativeElement.value = (100 / this.pipeVideo.nativeElement.duration) * this.pipeVideo.nativeElement.currentTime;
+      this.seekBar.nativeElement.value = Math.round((this.pipeVideo.nativeElement.currentTime / this.pipeVideo.nativeElement.duration) * this.numFrames);
     }
 
     requestAnimationFrame(()=> {
@@ -100,7 +117,7 @@ export class PipeVideoComponent {
 
     let xRatio = e.offsetX / e.target.offsetWidth;
 
-    this.seekPosition = xRatio* 100;
+    this.seekPosition = xRatio * 100;
    
     this.xpos = Math.round(xRatio * this.numTiles) * this.xratio; 
   }
@@ -124,5 +141,13 @@ export class PipeVideoComponent {
     this.pipeVideo.nativeElement.currentTime = (e.target.value-1) / this.fps;
 
     console.log('update time');
+    console.log(e.target.value);
+  }
+
+  volumeBarInsetFunc(e,i) {
+    let offset = e.target.offsetWidth - e.offsetX;
+    this.volumeBarInset = offset;
+    this.selectedBar = i;
+    console.log(i);
   }
 }

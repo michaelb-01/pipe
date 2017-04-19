@@ -1,5 +1,6 @@
 <video #pipeVideo id="vid" 
         (timeupdate)="updateSeekbar($event)"
+        (loadedmetadata)="videoLoaded($event, pipeVideo)"
         width="100%" 
         height="100%" 
         src="{{src}}" 
@@ -36,19 +37,36 @@
         </div>
 
     </div>
+
+    <div *ngFor="let comment of version?.comments"
+        class="commentMarker"
+        [ngStyle]="{'left': 100*(comment.frame / (this.numFrames+1)) + '%'}">
+
+    </div>
+
     <input #seekBar type="range" 
                     class="seekBar" 
                     value="1" 
                     step="1"
                     min="1"
-                    max="85"
+                    max="{{numFrames}}"
       (mouseenter)="hovering=true"
       (mouseleave)="hovering=false"
       (change)="updateTime($event)">
   </div>
 
   <div class="volumeControl">
-    <div class="volumeBar" *ngFor="let number of [0,1,2,3,4]"></div>
+    <div class="volumeBar" *ngFor="let number of [0,1,2,3,4]; let i = index"
+          [ngClass]="{'full': i < selectedBar}"
+          [ngClass]="{'fill': selectedBar == i}"
+          [ngStyle]="{'box-shadow':'inset ' + volumeBarInset * (i==selectedBar) + 'px 0 #F00'}"
+          (click)="volumeBarInsetFunc($event,i)"
+    ></div>
+  </div>
+
+  <div class="fullscreen">
+    <i class="material-icons">fullscreen</i>
   </div>
 </div>
+
 

@@ -4,7 +4,8 @@
     <annotation [version]="version" 
                 (updateComment)="updateComment($event)"></annotation>
     <div *ngIf="version?.contentType == 'video'">
-      <pipe-video [src]="version.content" [thumbUrl]="version.thumbUrl"></pipe-video>
+      <pipe-video [version]="version" [src]="version.content" [thumbUrl]="version.thumbUrl"
+                (updateComment)="updateComment($event)"></pipe-video>
     </div>
   </div>
 

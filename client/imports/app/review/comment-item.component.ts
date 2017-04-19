@@ -12,6 +12,8 @@ import styles from './comment-item.component.scss';
   selector: 'comment-item',
   styles: [  
     `:host {
+      position:relative;
+      background-color: white;
       display: block;
       width: 100%;
       padding: 5px;
