@@ -19,7 +19,6 @@ $animation-time: 0.3s;
 
 .playButtonWrapper {
   width: $controlsHeight;
-  background-color:red;
   border-right: 1px solid #aaa;
 }
 
@@ -29,7 +28,6 @@ $animation-time: 0.3s;
   height: $size;
   margin: $margin;
   z-index:1000;
-  border: 1px solid #f7f7f7;
   
   &::before, &::after { /* Play state */
     content: "";
@@ -73,7 +71,6 @@ $animation-time: 0.3s;
   height: $controlsHeight;
   margin: 0;
   padding: 0;
-  background-color:blue;
 }
 
 .thumbViewer {
@@ -91,8 +88,26 @@ $animation-time: 0.3s;
 }
 
 .volumeControl {
-  width:50px;
-  background-color:pink;
+  width: 35px;
+  padding: 10px 2px 5px 2px;
+  display: flex;
+  align-items: flex-end;
+  .volumeBar {
+    width: 4px;
+    background-color: blue;
+    margin: 0 1px;
+  }
+
+  @for $i from 1 through 5 {
+    .volumeBar:nth-last-child(#{$i}) {
+      //height: 80% / 5 * (6-$i);
+      $height: 80% / 5 * (6-$i);
+      height: $height;
+      &:hover {
+        height: height + 20;
+      }
+    }
+  }
 }
 
 // THUMBNAIL //

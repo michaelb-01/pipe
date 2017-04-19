@@ -75,6 +75,10 @@ export class PipeVideoComponent {
     this._reviewService.time = this.pipeVideo.nativeElement.currentTime;
     this._reviewService.frame = Math.round(this._reviewService.time * this.fps) + 1;  // frame rate of 25 fps
 
+    if (this.playing == true) {
+      this.seekBar.nativeElement.value = (100 / this.pipeVideo.nativeElement.duration) * this.pipeVideo.nativeElement.currentTime;
+    }
+
     requestAnimationFrame(()=> {
       this.updateFrame();
     });
@@ -112,11 +116,12 @@ export class PipeVideoComponent {
 
   updateSeekbar(e) {
     console.log('update seekbar');
-    this.seekBar.nativeElement.value = (100 / this.pipeVideo.nativeElement.duration) * this.pipeVideo.nativeElement.currentTime;
+    //if (this.playing == false) return;
+    //this.seekBar.nativeElement.value = (100 / this.pipeVideo.nativeElement.duration) * this.pipeVideo.nativeElement.currentTime;
   }
 
   updateTime(e) {
-    this.pipeVideo.nativeElement.currentTime = e.target.value / this.fps;
+    this.pipeVideo.nativeElement.currentTime = (e.target.value-1) / this.fps;
 
     console.log('update time');
   }
