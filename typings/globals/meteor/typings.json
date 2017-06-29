@@ -9,6 +9,7 @@
     "files": [
       "header.d.ts"
     ],
-    "name": "meteor"
+    "name": "meteor",
+    "type": "typings"
   }
 }

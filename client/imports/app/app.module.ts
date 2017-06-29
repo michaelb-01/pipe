@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MdInputModule, MdCardModule, MdProgressBarModule, MdCheckboxModule, MdSelectModule, MdSnackBarModule } from '@angular/material';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AccountsModule } from 'angular2-meteor-accounts-ui';
@@ -19,18 +23,22 @@ import { THUMBNAIL_DECLARATIONS } from './thumbnail';
 
 import { APP_BASE_HREF } from '@angular/common';
 
-import { MaterialModule } from '@angular/material';
-
 import 'hammerjs';
 
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     AccountsModule,
-    MaterialModule
+    MdInputModule,
+    MdCardModule,
+    MdProgressBarModule,
+    MdCheckboxModule,
+    MdSelectModule,
+    MdSnackBarModule
   ],
   declarations: [
     AppComponent,

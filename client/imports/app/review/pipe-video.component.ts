@@ -46,6 +46,8 @@ export class PipeVideoComponent {
 
   constructor(private _reviewService: ReviewService){}
 
+  ///// INITIALISE /////
+
   ngOnInit() {
     this.videoInit();
 
@@ -65,9 +67,6 @@ export class PipeVideoComponent {
     //let video = new HTMLVideoElement();
     //video.addEventListener('loadedmetadata', (e) => this.videoLoad(e));
     //video.src = this.src;
-
-    
-    console.log(this.numFrames);
   }
 
   videoLoaded(event) {
@@ -84,7 +83,6 @@ export class PipeVideoComponent {
   }
 
   videoInit() {
-
     this.updateFrame();
   }
 
@@ -101,16 +99,7 @@ export class PipeVideoComponent {
     });
   }
 
-  togglePlay() {
-    if (this.pipeVideo.nativeElement.paused) {
-      this.pipeVideo.nativeElement.play();
-      this.playing = true;
-    }
-    else {
-      this.pipeVideo.nativeElement.pause();
-      this.playing = false;
-    }
-  }
+  ///// PLAYBAR CONTROLS /////
 
   seekBarMouseMove(e) {
     if (e.target.className != "seekBar") return;
@@ -129,6 +118,49 @@ export class PipeVideoComponent {
     if(e.keyCode == 32){
       this.togglePlay();
     }
+    else if (e.keyCode == 37){
+      this.frameBack();
+    }
+    else if (e.keyCode == 38){
+      this.goToNextComment();
+    }
+    else if (e.keyCode == 39){
+      this.frameForward();
+    }
+    else if (e.keyCode == 40){
+      this.goToPreviousComment();
+    }
+  }
+
+  togglePlay() {
+    if (this.pipeVideo.nativeElement.paused) {
+      this.pipeVideo.nativeElement.play();
+      this.playing = true;
+    }
+    else {
+      this.pipeVideo.nativeElement.pause();
+      this.playing = false;
+    }
+  }
+
+  frameBack () {
+    if (this.playing == false) {
+      console.log(this.seekBar.nativeElement.value);
+      this.seekBar.nativeElement.value = parseInt(this.seekBar.nativeElement.value) - 1;
+      this.pipeVideo.nativeElement.currentTime = (this._reviewService.frame - 2) / this.fps;
+    }
+  }
+
+  frameForward () {
+    if (this.playing == false) {
+      console.log(parseInt(this.seekBar.nativeElement.value) + 1);
+      this.seekBar.nativeElement.value = parseInt(this.seekBar.nativeElement.value) + 1;
+      this.pipeVideo.nativeElement.currentTime = (this._reviewService.frame) / this.fps;
+    }
+  }
+
+  goToFrame(frame) {
+
   }
 
   updateSeekbar(e) {
@@ -139,15 +171,63 @@ export class PipeVideoComponent {
 
   updateTime(e) {
     this.pipeVideo.nativeElement.currentTime = (e.target.value-1) / this.fps;
-
-    console.log('update time');
-    console.log(e.target.value);
   }
 
   volumeBarInsetFunc(e,i) {
     let offset = e.target.offsetWidth - e.offsetX;
     this.volumeBarInset = offset;
     this.selectedBar = i;
-    console.log(i);
+  }
+
+  ///// COMMENTS /////
+
+  goToNextComment() {
+    this.pipeVideo.nativeElement.pause();
+
+    var lowest = 99999;
+    var seekFrame = -1;
+
+    var idx = -1;
+
+    for (var i = 0; i < this.version.comments.length; i++) {
+      var diff = this.version.comments[i].frame - this._reviewService.frame;
+      if (diff <= lowest && diff > 0) {
+        lowest = diff;
+        seekFrame = this.version.comments[i].frame;
+        idx = i;
+      } 
+      this.version.comments[i].flash = false;
+      console.log(this.version.comments[i]);
+    }
+
+    if (seekFrame > -1) {
+      this.pipeVideo.nativeElement.currentTime = (seekFrame-1) / this.fps;
+      this.seekBar.nativeElement.value = seekFrame;
+      //this.flashFrame(seekFrame);
+    }
+  }
+
+  goToPreviousComment() {
+    this.pipeVideo.nativeElement.pause();
+
+    var highest = -99999;
+    var seekFrame = -1;
+
+    var idx = -1;
+
+    for (var i = 0; i < this.version.comments.length; i++) {
+      var diff = this.version.comments[i].frame - this._reviewService.frame;
+      if (diff > highest && diff < 0) {
+        highest = diff;
+        seekFrame = this.version.comments[i].frame;
+        idx = i;
+      } 
+      this.version.comments[i].flash = false;
+    }
+
+    if (seekFrame > -1) {
+      this.pipeVideo.nativeElement.currentTime = (seekFrame-1) / this.fps;
+      this.seekBar.nativeElement.value = seekFrame;
+    }
   }
 }

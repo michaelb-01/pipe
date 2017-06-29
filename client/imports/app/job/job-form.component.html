@@ -6,9 +6,9 @@
     <div>
       <md-tab-group>
         <md-tab>
-          <template md-tab-label>
+          <ng-template md-tab-label>
             <i class="material-icons">list</i>
-          </template>
+          </ng-template>
           <md-input-container>
             <input mdInput placeholder="Client" 
                     name="client" 
@@ -45,11 +45,11 @@
         </md-tab>
 
         <md-tab>
-          <template md-tab-label>
+          <ng-template md-tab-label>
             <i class="material-icons">photo_camera</i>
-          </template>
+          </ng-template>
 
-          <md-input-container>
+<!--           <md-input-container>
              <input type="text" name="camera" placeholder="Camera" mdInput [ngModel]="job?.camera.body" (ngModelChange)="filterCameraList($event)" [mdAutocomplete]="autoCamera">
           </md-input-container>
 
@@ -65,6 +65,8 @@
           <md-menu #formats="mdMenu">
             <button (click)="selectFormat(format)" md-menu-item *ngFor="let format of selectedCamera.formats">{{format.width}} x {{format.height}}</button>
           </md-menu>
+
+          -->
 
           <p>Resolution</p>
 
@@ -108,9 +110,9 @@
         </md-tab>
 
        <md-tab>
-          <template md-tab-label>
+          <ng-template md-tab-label>
             <i class="material-icons">exit_to_app</i>
-          </template>
+          </ng-template>
 
           <md-input-container>
             <input mdInput placeholder="Frame Rate" 
